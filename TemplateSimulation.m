@@ -10,8 +10,8 @@
 clear all; clc
 
 %% Simulation grid parameter
-Nx = 124;               % number of grid points in the x (row) direction
-Ny = 60;               % number of grid points in the y (column) direction
+Nx = 40;               % number of grid points in the x (row) direction
+Ny = 40;               % number of grid points in the y (column) direction
 dx = 5e-3;            % grid points spacing in the x direction [m]
 dy = 5e-3;            % grid points spacing in the y direction [m]
 
@@ -79,14 +79,14 @@ end
     
 % Ou similairement, des coupes.
 
-for i = 1:Nx
-    for j = 1:Ny
-        if i > 70 && i < 80 && j >= (Ny/4-8) && j <= (Ny/4+8)
-            medium.sound_speed(i,j) = airSpeed;
-            medium.density(i,j) = airDensity;
-        end
-    end
-end
+% for i = 1:Nx
+%     for j = 1:Ny
+%         if i > 70 && i < 80 && j >= (Ny/4-8) && j <= (Ny/4+8)
+%             medium.sound_speed(i,j) = airSpeed;
+%             medium.density(i,j) = airDensity;
+%         end
+%     end
+% end
 
 %% Define sensor
 % On définit les capteurs de l'onde acoustique. On peut en definir
@@ -95,8 +95,8 @@ end
 
 clear sensor
 
-sensorXGrid = [48];     % [gridPoint]
-sensorYGrid = [48];     % [gridPoint]
+sensorXGrid = [30];     % [gridPoint]
+sensorYGrid = [30];     % [gridPoint]
 
 % On transforme les points de la grille de simulation en position
 % cartésienne.
@@ -110,7 +110,7 @@ sensor.mask = [kgrid.x_vec(sensorXGrid)'; kgrid.y_vec(sensorYGrid)'];
 % Dans le cas présent, la source ne doit pas être dans un périmètre de 4dx
 % du bord.
 
-sourceGrid = [91, 12];
+sourceGrid = [32, 12];
 source_radius = floor(0.01/dx);         % [grid points] (Taille d'un doigt)
 source_magnitude = 10;                  % [Pa]
 source_1 = source_magnitude*makeDisc(Nx, Ny, sourceGrid(1), sourceGrid(2), source_radius);
@@ -157,5 +157,3 @@ title("Amplitude de l'onde mesuree au capteur")
 % exporter vers python. Pour load dans python, utiliser scipy.io.loadmat()
 
 save('Sim1.mat', 'sensor_data')
-
-
