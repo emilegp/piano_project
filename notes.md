@@ -19,3 +19,8 @@
 - flip les axes x et y pour les labels (ou pour le data, à voir)
 - figure out comment avoir résolution et contraste
 - Bien définir matériau avec distances et propriétés
+
+## Tips
+
+- Faire seulement 2-3 rangées pour sauver du temps de simulation
+- Prendre résolution et contraste à l'oeil
