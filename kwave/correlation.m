@@ -1,17 +1,14 @@
-%% Installation
-% Afin d'installer k-wave, référez-vous  au site http://www.k-wave.org/installation.php
-% Vous aurez besoin de vous créer un compte afin d'y accéder.
-% Assurez-vous que que la toolbox k-wave se situe AU DESSUS de la liste des
-% path de votre matlab puisqu'elle écrase des fonctions natives de Matlab.
-% Pour cette même raison, il serait judicieux de la remettre au bas de
-% cette liste à la fin du mandat. 
-
 %% Clear
 clear all; clc
 
 %% Simulation grid parameter
-Nx = 40;               % number of grid points in the x (row) direction
-Ny = 40;               % number of grid points in the y (column) direction
+% Dimensions du medium
+Mx = 12;
+My = 12;
+
+% Taille réelle de la simulation
+Nx = Mx + 7;               % number of grid points in the x (row) direction
+Ny = My + 7;               % number of grid points in the y (column) direction
 dx = 5e-3;            % grid points spacing in the x direction [m]
 dy = 5e-3;            % grid points spacing in the y direction [m]
 
@@ -62,31 +59,17 @@ for i = 1:Nx
     end
 end
 
-% Pour modifier la geometrie on peut ajouter des conditions comme ici
-% creer un trou dans la surface.
+% Trous aux coordonnées suivantes (dans le medium)
+holes = [
+    10,11; 10,12
+];
 
-for i = 1:Nx
-    for j = 1:Ny
-        if i > 70 && i < 80 && j >= (Ny/4-8) && j <= (Ny/4+8)
-            medium.sound_speed(i,j) = airSpeed;
-            medium.density(i,j) = airDensity;
-        elseif  j >= 25 && j <= 18 && i >= 45 && i <= 50 ||  j <= (24-i/2)
-            medium.sound_speed(i,j) = airSpeed;
-            medium.density(i,j) = airDensity;
-        end
-    end
+for k = 1:size(holes, 1)
+    i = holes(k, 1) + 3;
+    j = holes(k, 2) + 3;
+    medium.sound_speed(i,j) = airSpeed;
+    medium.density(i,j) = airDensity;
 end
-    
-% Ou similairement, des coupes.
-
-% for i = 1:Nx
-%     for j = 1:Ny
-%         if i > 70 && i < 80 && j >= (Ny/4-8) && j <= (Ny/4+8)
-%             medium.sound_speed(i,j) = airSpeed;
-%             medium.density(i,j) = airDensity;
-%         end
-%     end
-% end
 
 %% Define sensor
 % On définit les capteurs de l'onde acoustique. On peut en definir
@@ -95,8 +78,12 @@ end
 
 clear sensor
 
-sensorXGrid = [30];     % [gridPoint]
-sensorYGrid = [30];     % [gridPoint]
+%position du sensor dans le medium
+sensorPosx = 5;
+sensorPosy = 4;
+
+sensorXGrid = [sensorPosx+3];     % [gridPoint]
+sensorYGrid = [sensorPosy+3];     % [gridPoint]
 
 % On transforme les points de la grille de simulation en position
 % cartésienne.
@@ -110,12 +97,11 @@ sensor.mask = [kgrid.x_vec(sensorXGrid)'; kgrid.y_vec(sensorYGrid)'];
 % Dans le cas présent, la source ne doit pas être dans un périmètre de 4dx
 % du bord.
 
-sourceGrid = [32, 12];
-source_radius = floor(0.01/dx);         % [grid points] (Taille d'un doigt)
-source_magnitude = 10;                  % [Pa]
-source_1 = source_magnitude*makeDisc(Nx, Ny, sourceGrid(1), sourceGrid(2), source_radius);
+% position de la source à trouver dans le medium
+sourcePosx = 6;
+sourcePosy = 6;
 
-source.p0 = source_1;
+sourceGrid = [sourcePosx + 3, sourcePosy + 3];
 
 % Pour l'affichage, on transforme les points de la grille de simulation en
 % position cartésienne. 
@@ -138,19 +124,66 @@ plot(source_y_pos*1e3, source_x_pos*1e3, 'b+')
 legend('Sensor', 'Source')
 
 %% Simulation
-% Pour accélérer la simulation, on réduit la taille du Perfectly Matching
-% Layer (https://en.wikipedia.org/wiki/Perfectly_matched_layer).
+filename = sprintf('cube_with_slit_%dx%d.mat', Mx, My);
 
-sensor_data = kspaceFirstOrder2D(kgrid, medium, source, sensor,...
-    'PMLSize', 2, 'PMLInside', false, 'DataCast', 'single');
+training_data = cell(Mx, My);
 
-%% Carte de corrélation
-% figure;
-% plot(kgrid.t_array*10^3, sensor_data/norm(sensor_data))
-% xlabel('Temps [ms]')
-% ylabel('Amplitude')
-% title("Amplitude de l'onde mesuree au capteur")
+% Check if file exists
+if isfile(filename)
+    % Load existing data
+    load(filename, 'training_data');
+else
+    % Run training and save data
+    for i = 1:Mx
+        for j = 1:My
+            sourceGrid = [i + 3, j + 3];
+            if medium.sound_speed(sourceGrid(1), sourceGrid(2)) == airSpeed
+                training_data{i, j} = NaN;
+            else
+                source_radius = floor(0.01/dx);         % [grid points] (Taille d'un doigt)
+                source_magnitude = 10;                  % [Pa]
+                source_1 = source_magnitude * makeDisc(Nx, Ny, sourceGrid(1), sourceGrid(2), source_radius);
+    
+                source.p0 = source_1;
+                sensor_data = kspaceFirstOrder2D(kgrid, medium, source, sensor,...
+                    'PMLSize', 2, 'PMLInside', false, 'DataCast', 'single');
+    
+                training_data{i, j} = sensor_data / max(sensor_data);
+            end
+        end
+    end
 
+    % Save data
+    save(filename, 'training_data');
+end
+
+source_response = training_data{sourcePosx, sourcePosy};
+
+correlation_map = zeros(Mx, My);
+
+for i = 1:Mx
+    for j = 1:My
+        sourceGrid = [i + 3, j + 3];
+        if medium.sound_speed(sourceGrid(1), sourceGrid(2)) ~= airSpeed  
+            corr = xcorr(training_data{i,j}, source_response);
+            correlation_map(i,j) = max(corr);
+        end
+    end
+end
+
+max_value = max(correlation_map(:));
+correlation_map_norm = correlation_map / max_value;
+%% Plot heatmap
+
+% TODO : flip axis
+figure;
+imagesc(correlation_map_norm);   % Create heatmap of normalized correlation values
+colormap('gray');                % Use grayscale colormap
+colorbar;                        % Add colorbar to visualize the intensity
+xlabel('Y grid points');
+ylabel('X grid points');
+title('Greyscale Heatmap of Normalized Correlation Coefficients');
+axis image; 
 
 %% Sauvegarde des données
 % Sauvegarder les données pour les réutiliser plus tard, où pour les
