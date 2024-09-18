@@ -3,8 +3,8 @@ clear all; clc
 
 %% Simulation grid parameter
 % Dimensions du medium
-Mx = 12;
-My = 12;
+Mx = 12;        % minimum approx 10
+My = 12;        % minimum approx 10
 
 % Taille réelle de la simulation
 Nx = Mx + 7;               % number of grid points in the x (row) direction
@@ -61,7 +61,7 @@ end
 
 % Trous aux coordonnées suivantes (dans le medium)
 holes = [
-    10,11; 10,12
+    3,10; 3,11; 4,10; 4,11
 ];
 
 for k = 1:size(holes, 1)
@@ -98,8 +98,8 @@ sensor.mask = [kgrid.x_vec(sensorXGrid)'; kgrid.y_vec(sensorYGrid)'];
 % du bord.
 
 % position de la source à trouver dans le medium
-sourcePosx = 8;
-sourcePosy = 9;
+sourcePosx = 6;         % min 4, max Mx-4
+sourcePosy = 6;         % min 4, max Mx-4
 
 sourceGrid = [sourcePosx + 3, sourcePosy + 3];
 
@@ -124,7 +124,8 @@ plot(source_y_pos*1e3, source_x_pos*1e3, 'b+')
 legend('Sensor', 'Source')
 
 %% Simulation
-filename = sprintf('cube_with_slit_%dx%d.mat', Mx, My);
+% preparation du stockage du data d'entrainement
+filename = sprintf('ncube_with_slit_%dx%d.mat', Mx, My);
 
 training_data = cell(Mx, My);
 
@@ -148,7 +149,7 @@ else
                 sensor_data = kspaceFirstOrder2D(kgrid, medium, source, sensor,...
                     'PMLSize', 2, 'PMLInside', false, 'DataCast', 'single');
     
-                training_data{i, j} = sensor_data / max(sensor_data);
+                training_data{i, j} = sensor_data / norm(sensor_data);
             end
         end
     end
@@ -164,7 +165,9 @@ correlation_map = zeros(Mx, My);
 for i = 1:Mx
     for j = 1:My
         sourceGrid = [i + 3, j + 3];
-        if medium.sound_speed(sourceGrid(1), sourceGrid(2)) ~= airSpeed  
+        if medium.sound_speed(sourceGrid(1), sourceGrid(2)) == airSpeed  
+            continue
+        else
             corr = xcorr(training_data{i,j}, source_response);
             correlation_map(i,j) = max(corr);
         end
@@ -174,6 +177,8 @@ end
 max_value = max(correlation_map(:));
 correlation_map_norm = correlation_map / max_value;
 %% Plot heatmap
+
+% TODO : flip axis
 figure;
 imagesc(correlation_map_norm);   % Create heatmap of normalized correlation values
 colormap('gray');                % Use grayscale colormap
@@ -183,9 +188,4 @@ ylabel('X grid points');
 title('Greyscale Heatmap of Normalized Correlation Coefficients');
 axis image; 
 
-%% Sauvegarde des données
-% Sauvegarder les données pour les réutiliser plus tard, où pour les
-% exporter vers python. Pour load dans python, utiliser scipy.io.loadmat()
-
-% save('Sim1.mat', 'sensor_data')
-
+%% Plot co
