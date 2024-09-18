@@ -181,7 +181,6 @@ max_value = max(correlation_map(:));
 correlation_map_norm = correlation_map / max_value;
 %% Plot heatmap
 
-% TODO : flip axis
 figure;
 imagesc(correlation_map_norm);   % Create heatmap of normalized correlation values
 colormap('gray');                % Use grayscale colormap
