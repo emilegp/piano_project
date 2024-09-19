@@ -3,10 +3,11 @@ clear all; clc
 
 %% Simulation grid parameter
 % Dimensions du medium
-Mx = 12;
-My = 12;
+Mx = 19;        % minimum approx 10
+My = 19;        % minimum approx 10
 
 % Taille réelle de la simulation
+
 Nx = Mx + 7;               % number of grid points in the x (row) direction
 Ny = My + 7;               % number of grid points in the y (column) direction
 dx = 5e-3;            % grid points spacing in the x direction [m]
@@ -61,7 +62,9 @@ end
 
 % Trous aux coordonnées suivantes (dans le medium)
 holes = [
-    10,11; 10,12
+    3,12; 3,13; 3,14
+    4,12; 4,13; 4,14;
+    5,12; 5,13; 5,14
 ];
 
 for k = 1:size(holes, 1)
@@ -98,8 +101,8 @@ sensor.mask = [kgrid.x_vec(sensorXGrid)'; kgrid.y_vec(sensorYGrid)'];
 % du bord.
 
 % position de la source à trouver dans le medium
-sourcePosx = 6;
-sourcePosy = 6;
+sourcePosx = 6;         % min 4, max Mx-4
+sourcePosy = 6;         % min 4, max Mx-4
 
 sourceGrid = [sourcePosx + 3, sourcePosy + 3];
 
@@ -124,7 +127,8 @@ plot(source_y_pos*1e3, source_x_pos*1e3, 'b+')
 legend('Sensor', 'Source')
 
 %% Simulation
-filename = sprintf('cube_with_slit_%dx%d.mat', Mx, My);
+% preparation du stockage du data d'entrainement
+filename = sprintf('ncube_with_slit_%dx%d.mat', Mx, My);
 
 training_data = cell(Mx, My);
 
@@ -164,7 +168,9 @@ correlation_map = zeros(Mx, My);
 for i = 1:Mx
     for j = 1:My
         sourceGrid = [i + 3, j + 3];
-        if medium.sound_speed(sourceGrid(1), sourceGrid(2)) ~= airSpeed  
+        if medium.sound_speed(sourceGrid(1), sourceGrid(2)) == airSpeed  
+            continue
+        else
             corr = xcorr(training_data{i,j}, source_response);
             correlation_map(i,j) = max(corr);
         end
@@ -175,19 +181,63 @@ max_value = max(correlation_map(:));
 correlation_map_norm = correlation_map / max_value;
 %% Plot heatmap
 
-% TODO : flip axis
 figure;
 imagesc(correlation_map_norm);   % Create heatmap of normalized correlation values
 colormap('gray');                % Use grayscale colormap
 colorbar;                        % Add colorbar to visualize the intensity
-xlabel('Y grid points');
-ylabel('X grid points');
+xlabel('X grid points');
+ylabel('Y grid points');
 title('Greyscale Heatmap of Normalized Correlation Coefficients');
 axis image; 
 
-%% Sauvegarde des données
-% Sauvegarder les données pour les réutiliser plus tard, où pour les
-% exporter vers python. Pour load dans python, utiliser scipy.io.loadmat()
+%% Plot correlation
 
-% save('Sim1.mat', 'sensor_data')
+% Find the x-coordinate of the peak value (maximum correlation) in the map
+[~, x_peak] = max(max(correlation_map_norm, [], 1));
 
+% Extract the correlation data along the y-axis at this x-coordinate
+y_correlation_profile = correlation_map_norm(:, x_peak);
+
+%% Perform Gaussian curve fitting
+
+% Define the y grid points for the correlation profile
+y_grid_points = (1:My)';
+
+% Perform Gaussian fit to the y_correlation_profile data
+gaussFit = fit(y_grid_points, y_correlation_profile, 'gauss1');
+
+%% Plot correlation profile with Gaussian fit
+
+% Find the x-coordinate of the peak value (maximum correlation) in the map
+[~, x_peak] = max(max(correlation_map_norm, [], 1));
+
+% Extract the correlation data along the y-axis at this x-coordinate
+y_correlation_profile = correlation_map_norm(:, x_peak);
+
+%% Perform Gaussian curve fitting
+
+% Define the y grid points for the correlation profile
+y_grid_points = (1:My)';
+
+% Perform Gaussian fit to the y_correlation_profile data
+gaussFit = fit(y_grid_points, y_correlation_profile, 'gauss1');
+
+%% Plot correlation profile with Gaussian fit
+
+% Create a new figure for the profile and Gaussian fit
+figure;
+
+% Plot the original correlation profile data
+plot(y_grid_points, y_correlation_profile, 'b-', 'LineWidth', 2);  % Original data
+hold on;
+
+% Plot the Gaussian fit by evaluating it manually at each y_grid_point
+y_fit_values = gaussFit(y_grid_points);
+plot(y_grid_points, y_fit_values, 'r--', 'LineWidth', 2);  % Gaussian fit
+
+% Add labels, title, and legend
+xlabel('Y grid points');
+ylabel('Normalized correlation coefficient');
+title(sprintf('Correlation profile at X = %d with Gaussian Fit', x_peak));
+legend('Data', 'Gaussian Fit');
+grid on;
