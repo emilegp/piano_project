@@ -140,7 +140,7 @@ else
     % Run training and save data
     for i = 1:Mx
         for j = 1:My
-            sourceGrid = [i + 3, j + 3];
+            sourceGrid = [i, j];
             if medium.sound_speed(sourceGrid(1), sourceGrid(2)) == airSpeed
                 training_data{i, j} = NaN;
             else

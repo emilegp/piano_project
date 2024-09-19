@@ -14,13 +14,11 @@
 
 ## TODO
 
-- voir si il faut que les hits de l'entrainement soient séparés de 4 cells du bord
-- rendu à step 9
-- flip les axes x et y pour les labels (ou pour le data, à voir)
-- figure out comment avoir résolution et contraste
-- Bien définir matériau avec distances et propriétés
+- figure out l'histoire des axes flippés
+- rendre les graphiques beaux avec les labels de mm
+- redéfinir les géométries
+- définir la batterie de tests (attention aux points hors matière)
+- tweak le nom du fichier pour encompass toutes les variables
+- save les graphs
 
-## Tips
 
-- Faire seulement 2-3 rangées pour sauver du temps de simulation
-- Prendre résolution et contraste à l'oeil
