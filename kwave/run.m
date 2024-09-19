@@ -31,19 +31,19 @@ end
 if shape == 1
     for i = 1:Nx
         for j = 1:Ny
-            if i > 20 && i < 30 && j >= (Ny/5) && j <= (Ny/3)
+            if i > 10 && i < 15 && j >= (Ny/5) && j <= (Ny/4.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 70 && i < 80 && j >= (Ny - (Ny/4)) && j <= (Ny - (Ny/6))
+       elseif i > 18 && i < 20 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.2))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 0 && i < 70 && j >= (Ny - (Ny/3)) && j <= (Ny - (Ny/100))
+       elseif i > 0 && i < 20 && j >= (Ny - (Ny/3)) && j <= (Ny - (Ny/100))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j >= (64 + i/1.2)
+       elseif  j >= (15+i/1.2)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j <= (1 + i/10)
+      elseif  j <= (1+i/8)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
             end
@@ -52,16 +52,16 @@ if shape == 1
 elseif shape == 2
     for i = 1:Nx
         for j = 1:Ny
-            if i > 60 && i < 70 && j >= (Ny/5) && j <= (Ny/3)
+            if i > 12 && i < 15 && j >= (Ny/3) && j <= (Ny/2.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 40 && i < 45 && j >= (Ny - (Ny/2.2)) && j <= (Ny - (Ny/2.4))
+       elseif i > 10 && i < 14 && j >= (Ny - (Ny/3.2)) && j <= (Ny - (Ny/3.4))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j <= (60 - i/1.5)
+        elseif  j <= (15-i/1.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j >= (64 + i/1.5)
+       elseif  j >= (17+i/1.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
             end
@@ -70,18 +70,19 @@ elseif shape == 2
 elseif shape == 3
     for i = 1:Nx
         for j = 1:Ny
-            if i > 20 && i < 30 && j >= (Ny/5) && j <= (Ny/3)
+            if i > 10 && i < 14 && j >= (Ny/5) && j <= (Ny/3)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 70 && i < 80 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/3))
+       elseif i > 10 && i < 15 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/3))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 50 && i < 55 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.5))
+       elseif i > 6 && i < 8 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.5))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j >= (80 + i/1.5)
+       elseif  j >= (20+i/1.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
+          
             end
         end
     end
@@ -89,9 +90,31 @@ elseif shape == 3
 elseif shape == 5
     for i = 1:Nx
         for j = 1:Ny 
-            if (i - (Nx - 8))^2 + (j - (Ny - 8))^2 > 8^2 
+         if (i - (Nx - 14.5))^2 + (j - (Ny - 14.5))^2 > 14.5^2 
                 medium.sound_speed(i,j) = airSpeed; 
                 medium.density(i,j) = airDensity;    
+            end
+        end
+    end
+elseif shape == 6
+    for i = 1:Nx
+        for j = 1:Ny
+            if i > 0 && i < 18 && j >= 0 && j <= (Ny/2)
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 0 && i < 18 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/100))
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 20 && i < 22 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.2))
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 20 && i < 22 && j >= (Ny - (Ny/4)) && j <= (Ny - (Ny/4.5))
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 20 && i < 22 && j >= (Ny/5) && j <= (Ny/4.5)
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+     
             end
         end
     end
@@ -119,20 +142,21 @@ source_y_pos = kgrid.y_vec(sourceGrid(2));         % [grid points]
 % On peut s'assurer que tous nos paramètres sont correctement définis à
 % l'aide d'un graphique.
 
-figure;
-imagesc(kgrid.y_vec * 1e3, kgrid.x_vec * 1e3, medium.sound_speed); axis image
-ylabel('y - position [mm]')
-xlabel('x - position [mm]')
-c = colorbar;
-c.Label.String = 'Speed of sound';
-hold on;
-plot(sensor.mask(2, :) * 1e3, sensor.mask(1, :) * 1e3, 'r.')
-plot(source_y_pos * 1e3, source_x_pos * 1e3, 'b+')
-legend('Sensor', 'Source')
+% figure;
+% imagesc(kgrid.y_vec * 1e3, kgrid.x_vec * 1e3, medium.sound_speed); axis image
+% ylabel('y - position [mm]')
+% xlabel('x - position [mm]')
+% c = colorbar;
+% c.Label.String = 'Speed of sound';
+% hold on;
+% plot(sensor.mask(2, :) * 1e3, sensor.mask(1, :) * 1e3, 'r.')
+% plot(source_y_pos * 1e3, source_x_pos * 1e3, 'b+')
+% legend('Sensor', 'Source')
 
 %% Training
 material_name = inputname(5);
-filename = sprintf('train_%dx%d_%s_shape%d_sensor%d.mat', Nx, Ny, material_name, shape, sensorid);
+filename = sprintf('train_%dx%d_%s_shape%d_sensor%d_source%d.mat', Nx, Ny, ...
+    material_name, shape, sensorid, sourceid);
 disp(filename)
 training_data = cell(Nx, Ny);
 
@@ -182,37 +206,60 @@ correlation_map_norm = corr_in_medium / max_value;
 
 %% Correlation map
 
-figure;
+% Create a figure with a specified size
+fig1 = figure('Position', [100, 100, 1000, 500]);  % [left, bottom, width, height]
+
+% First subplot for the sound speed visualization
+subplot(1, 2, 1);  % 1 row, 2 columns, first subplot
+imagesc(kgrid.y_vec * 1e3, kgrid.x_vec * 1e3, medium.sound_speed); 
+axis image;
+ylabel('y - position [mm]');
+xlabel('x - position [mm]');
+c = colorbar;
+c.Label.String = 'Vitesse du son';
+hold on;
+plot(sensor.mask(2, :) * 1e3, sensor.mask(1, :) * 1e3, 'r.');
+plot(source_y_pos * 1e3, source_x_pos * 1e3, 'b+');
+legend('Sensor', 'Source');
+title('Visualisation de la simulation');
+
+% Second subplot for the correlation map
+subplot(1, 2, 2);  % 1 row, 2 columns, second subplot
 imagesc(correlation_map_norm);   % Create heatmap of normalized correlation values
 colormap('gray');                % Use grayscale colormap
 colorbar;                        % Add colorbar to visualize the intensity
-xlabel('X grid points');
-ylabel('Y grid points');
-title('Greyscale Heatmap of Normalized Correlation Coefficients');
-axis image; 
+xlabel('Points en X');
+ylabel('Points en Y');
+title("Carte de la corrélation");
+axis image;
 
+% Add a super title for the entire figure
+sgtitle('Paramètres et résultats de la simulation');
+
+fig1name  = sprintf('maps_%dx%d_%s_shape%d_sensor%d_source%d.png', Nx, Ny, ...
+    material_name, shape, sensorid, sourceid);
+
+saveas(fig1, fig1name)
 %% Correlation plot
 % Extract the row of interest from the correlation map
 source_x_row = source_loc(1);  % The x-coordinate where the source is located
 
 correlation_row = correlation_map_norm(source_x_row-3, :);  % Extract the row along the x-axis
 
-% Define the y-axis for plotting in mm
-y_mm = kgrid.y_vec(1:size(correlation_row, 2)) * 1e3;  % Convert y grid vector to mm and match size with correlation_row
-
-% Ensure both vectors are the same size
-if length(y_mm) ~= length(correlation_row)
-    error('Length of y_mm (%d) and correlation_row (%d) must be the same for plotting.', length(y_mm), length(correlation_row));
-end
 
 % Plot the extracted correlation row
-figure;
-plot(y_mm, correlation_row, '-o');  % Plot the row data with markers
-xlabel('y-position [mm]');
-ylabel('Normalized Correlation');
-title(sprintf('Correlation Map at x = %d [grid points]', source_x_row-3));
+fig2 = figure;
+plot(correlation_row, '-o');  % Plot the row data with markers
+xlabel('Points en X');            % Label x-axis in mm
+ylabel('Coefficient de corrélation normalisé');      % Label y-axis
+title('Corrélation de la rangée avec le plus grand coefficient');
 grid on;  % Add grid to the plot
+axis tight; % Adjust axes to fit the data
 
+fig2name  = sprintf('plot_%dx%d_%s_shape%d_sensor%d_source%d.png', Nx, Ny, ...
+    material_name, shape, sensorid, sourceid);
+
+saveas(fig2, fig2name)
 %% Return
 %% Clear all local variables
 

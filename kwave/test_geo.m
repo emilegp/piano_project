@@ -31,19 +31,19 @@ end
 if shape == 1
     for i = 1:Nx
         for j = 1:Ny
-            if i > 20 && i < 30 && j >= (Ny/5) && j <= (Ny/3)
+            if i > 10 && i < 15 && j >= (Ny/5) && j <= (Ny/4.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 70 && i < 80 && j >= (Ny - (Ny/4)) && j <= (Ny - (Ny/6))
+       elseif i > 18 && i < 20 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.2))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 0 && i < 70 && j >= (Ny - (Ny/3)) && j <= (Ny - (Ny/100))
+       elseif i > 0 && i < 20 && j >= (Ny - (Ny/3)) && j <= (Ny - (Ny/100))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j >= (64 + i/1.2)
+       elseif  j >= (15+i/1.2)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j <= (1 + i/10)
+      elseif  j <= (1+i/8)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
             end
@@ -52,16 +52,16 @@ if shape == 1
 elseif shape == 2
     for i = 1:Nx
         for j = 1:Ny
-            if i > 60 && i < 70 && j >= (Ny/5) && j <= (Ny/3)
+            if i > 12 && i < 15 && j >= (Ny/3) && j <= (Ny/2.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 40 && i < 45 && j >= (Ny - (Ny/2.2)) && j <= (Ny - (Ny/2.4))
+       elseif i > 10 && i < 14 && j >= (Ny - (Ny/3.2)) && j <= (Ny - (Ny/3.4))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j <= (60 - i/1.5)
+        elseif  j <= (15-i/1.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j >= (64 + i/1.5)
+       elseif  j >= (17+i/1.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
             end
@@ -70,18 +70,19 @@ elseif shape == 2
 elseif shape == 3
     for i = 1:Nx
         for j = 1:Ny
-            if i > 20 && i < 30 && j >= (Ny/5) && j <= (Ny/3)
+            if i > 10 && i < 14 && j >= (Ny/5) && j <= (Ny/3)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 70 && i < 80 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/3))
+       elseif i > 10 && i < 15 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/3))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif i > 50 && i < 55 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.5))
+       elseif i > 6 && i < 8 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.5))
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
-            elseif j >= (80 + i/1.5)
+       elseif  j >= (20+i/1.5)
                 medium.sound_speed(i,j) = airSpeed;
                 medium.density(i,j) = airDensity;
+          
             end
         end
     end
@@ -89,9 +90,31 @@ elseif shape == 3
 elseif shape == 5
     for i = 1:Nx
         for j = 1:Ny 
-            if (i - (Nx - 8))^2 + (j - (Ny - 8))^2 > 8^2 
+         if (i - (Nx - 14.5))^2 + (j - (Ny - 14.5))^2 > 14.5^2 
                 medium.sound_speed(i,j) = airSpeed; 
                 medium.density(i,j) = airDensity;    
+            end
+        end
+    end
+elseif shape == 6
+    for i = 1:Nx
+        for j = 1:Ny
+            if i > 0 && i < 18 && j >= 0 && j <= (Ny/2)
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 0 && i < 18 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/100))
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 20 && i < 22 && j >= (Ny - (Ny/2)) && j <= (Ny - (Ny/2.2))
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 20 && i < 22 && j >= (Ny - (Ny/4)) && j <= (Ny - (Ny/4.5))
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+       elseif i > 20 && i < 22 && j >= (Ny/5) && j <= (Ny/4.5)
+                medium.sound_speed(i,j) = airSpeed;
+                medium.density(i,j) = airDensity;
+     
             end
         end
     end
