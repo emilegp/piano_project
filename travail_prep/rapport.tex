@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper]{article}
+\documentclass[conference]{IEEEtran}
 \usepackage[top=3cm, bottom=2cm, left=2cm, right=2cm, columnsep=20pt]{geometry}
 \usepackage{pdfpages}
 \usepackage{graphicx}
@@ -27,12 +27,12 @@
 \usepackage{multirow}
 \usepackage[hidelinks]{hyperref}
 \usepackage{abstract}
-\renewcommand{\abstractnamefont}{\normalfont\bfseries}
-\renewcommand{\abstracttextfont}{\normalfont\itshape}
+% \renewcommand{\abstractnamefont}{\normalfont\bfseries}
+% \renewcommand{\abstracttextfont}{\normalfont\itshape}
 \usepackage{titlesec}
-\titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
-\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
-\titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
+% \titleformat{\section}{\large\bfseries}{\thesection}{1em}{}
+% \titleformat{\subsection}{\normalsize\bfseries}{\thesubsection}{1em}{}
+% \titleformat{\subsubsection}{\normalsize\bfseries}{\thesubsubsection}{1em}{}
 
 \usepackage{xcolor}
 \definecolor{codegreen}{rgb}{0,0.6,0}
@@ -85,61 +85,28 @@
 \setlist[itemize]{label=\textbullet}
 
 \begin{document}
-\begin{titlepage}
-\center
-
-\begin{figure}
-    \ThisULCornerWallPaper{.4}{Polytechnique_signature-RGB-gauche_FR.png}
-\end{figure}
-\vspace*{2 cm}
-
-\textsc{\Large \textbf{PHS3910 --} Techniques expérimentales et instrumentation}\\[0.5cm]
-\large{\textbf{Équipe : L3}}\\[1.5cm]
-
-\rule{\linewidth}{0.5mm} \\[0.5cm]
-\Large{\textbf{Écran tactile acoustique}} \\[0.2cm]
-\text{Travail préparatoire}\\
-\rule{\linewidth}{0.2mm} \\[2.3cm]
-
-\large{\textbf{Présenté à}\\
-  Jean Provost\\
-  Lucien Weiss\\[2.5cm]
-  \textbf{Par :}\\
-  Émile \textbf{Guertin-Picard} (2208363)\\
-  Philippine \textbf{Beaubois} (2211153)\\
-  Marie-Lou \textbf{Dessureault}(2211129)\\
-  Maxime \textbf{Rouillon} (2213291)\\[3cm]}
-
-\large{\today\\
-Département de Génie Physique\\
-Polytechnique Montréal\\}
-
-\end{titlepage}
 
 %----------------------------------------------------
+\title{Écran tactile acoustique\\
+\large Travail préparatoire \\
+PHS3910 -- Techniques expérimentales et instrumentation\\ 
+Équipe L3}
 
-\tableofcontents
-\pagenumbering{roman}
-\newpage
+\author{\IEEEauthorblockN{Émile Guertin-Picard}
+\IEEEauthorblockA{2208363}
+\and
+\IEEEauthorblockN{Maxime Rouillon}
+\IEEEauthorblockA{2213291}
+\and
+\IEEEauthorblockN{Marie-Lou Dessureault}
+\IEEEauthorblockA{2211129}
+\and
+\IEEEauthorblockN{Philippine Beaubois}
+\IEEEauthorblockA{2211153}
+}
 
-\pagestyle{fancy}
-\setlength{\headheight}{14pt}
-\renewcommand{\headrulewidth}{0pt}
-\fancyfoot[R]{\thepage}
+\maketitle
 
-\pagestyle{fancy}
-\fancyhf{}
-\renewcommand{\headrulewidth}{1pt}
-\fancyhead[L]{\textbf{PHS3910}}
-\fancyhead[C]{Écran tactile acoustique}
-\fancyhead[R]{\today}
-\fancyfoot[R]{\thepage}
-
-\pagenumbering{arabic}
-\setcounter{page}{1}
-
-%----------------------------------------------------
-\twocolumn
 \section{Introduction}
 Dans le cadre du cours PHS3910, l'équipe est mandatée de conceptualiser
 un piano tactile à l'aide du principe de retournement temporel. Avant
@@ -174,6 +141,9 @@ dans la conception. Une présentation des prochaines étapes nécessaires à la 
 du mandat sera aussi détaillée.
 
 \section{Méthodes}
+Étant donné que le problème à considérer est de trouver les paramètres 
+optimaux à l'aide d'une simulation, les méthodes de simulations seront décrites
+en fonction des étapes importantes du programme MatLab.
 
 
 \section{Résultats}
