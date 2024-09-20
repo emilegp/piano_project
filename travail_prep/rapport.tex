@@ -79,6 +79,7 @@
 \captionsetup[figure]{labelsep=colon}
 \captionsetup{labelformat=mycaptionlabel}
 \captionsetup[figure]{name={Figure }}
+\captionsetup[table]{name=Tableau}
 \newcommand{\inlinecode}{\normalfont\texttt}
 \usepackage{enumitem}
 \setlist[itemize]{label=\textbullet}
@@ -140,8 +141,37 @@ Polytechnique Montréal\\}
 %----------------------------------------------------
 \twocolumn
 \section{Introduction}
+Dans le cadre du cours PHS3910, l'équipe est mandatée de conceptualiser
+un piano tactile à l'aide du principe de retournement temporel. Avant
+de développer le produit final, il faut premièrement simuler le fonctionnement 
+du piano à l'aide de l'outil k-Wave, afin de déterminer les caractéristiques qui 
+optimiseront sa performance. En variant la forme, le matériau de 
+la plaque ainsi que la position du capteur directement dans la simulation,
+une solution complète préliminaire peut être établie. Le choix de la solution finale est
+principalement basé sur les concepts de résolution et de contraste.
 
-j'ai pas rien setup pour le format imrad à deux lignes
+Les choix retenus suite aux tests de simulation sont présentés dans le tableau
+\ref{tableau:1}.
+\begin{table}[h!]
+\centering
+  \begin{tabular}{|c|c|} 
+   \hline
+   Forme & \\ 
+   \hline
+   Matériau & \\ 
+   \hline
+   Position du capteur & \\ 
+   \hline
+  \end{tabular}
+  \caption{Choix préliminaires pour la conception du piano tactile}
+  \label{tableau:1}
+\end{table}
+Le rapport ci-présent détaillera la méthodologie utilisée afin d'obtenir 
+une étude statistique de la résolution et du contraste en fonction des
+caractéristiques du piano, présentera les valeurs résultantes et leurs incertitudes 
+respectives, et discutera des éléments pouvant être déduis de ceux-ci et implémentés 
+dans la conception. Une présentation des prochaines étapes nécessaires à la complétion
+du mandat sera aussi détaillée.
 
 \section{Méthodes}
 
