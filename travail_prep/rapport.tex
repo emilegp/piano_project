@@ -157,16 +157,16 @@ Pour réduire le temps de simulation, les retards accumulés sur chaque signal o
 retirés en gardant seulement une fenêtre de la réponse impulsionnelle. Les signaux inversés et 
 recadrés ont été stockés et enregistrés pour pouvoir s'y référer lors du calcul de la corrélation.
 
-%Pour tester de nombreuses configurations rapidement et facilement, 
-%un gabarit de code MatLab a été utilisé pour simuler la propagation 
-%de l'onde sonore dans le matériau du piano tactile. 
-%Pour se faire, une fonction a été développée pour simuler un piano 
-%d'un matériau homogène et d'un géométrie définie, avec un émetteur 
-%et un récepteur à une position déterminée. La fonction permet de 
-%varier le matériau, la géométrie et les positions de l'émetteur et 
-%du récepteur. 
-%Pour chaque matériau et tests de différentes positions dans ces 
-%configurations...
+%Étapes AU PASSÉÉÉ
+%1 Créer les configurations (Matériau + Géométrie)
+%2 Simuler un impact à un endroit avec K-wave
+%3 Évaluer le signal pour des récepteurs positionnés partout sur le matériau
+%4 Faire un retournement temporel sur tous les signaux. Ce processus fiat des récepteurs les émeteurs, et de l'émetteur le récepteur de chaque émission
+%5 Éliminer les retards à l'aide d'une fonction fenêtre/rectangle pour accélérer la comparaison des signaux
+%6 Pour gagner du temps, on choisi une bande d'intérêt de la plaque où on sélectionne les émissions une à la fois. 
+%7 Pour chaque émission, on la compare à toutes les émissions enregistrées de la bande, formant un graphique 2D de la corrélation en fonction de la position
+%8 Une fois chaque émission de la bande d'intérêt testée, on a effectué une étude statistique de la résolution et du constraste en ''fittant'' une gaussienne sur le graphique 2D. 
+
 
 %Observer les résultats sur une seule ligne pour ne pas saturer les 
 %capacités de calcul. 
