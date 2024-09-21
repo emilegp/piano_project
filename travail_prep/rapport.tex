@@ -135,51 +135,73 @@ du mandat sera aussi détaillée.
 
 %Méthodes : Transformer cette question dans un langage mathématique, 
 %décrire les méthodes de simulations
-Les géométries des plaques considérées ont été choisies pour avoir un éventail de 
-symétries (carré, cercle, forme asymétrique). Des simulations ont aussi été effectuées 
-sur des plaques avec et sans trous. Du bois, du plexiglas et des métaux 
-ont été testés pour voir l'impact de la vitesse du son dans le milieu sur
-le contraste et la résolution. Plus d'attention a été portée sur les métaux,
-sachant déjà que les matériaux plus denses et moins élastiques sont favorables à 
-la transmission d'ondes acoustiques \textcolor{red}{ajouter reference}.
-
 Étant donné que le problème à considérer est de trouver les paramètres 
-optimaux à l'aide d'une simulation, les méthodes de simulations seront décrites
-en fonction des étapes importantes du programme MatLab. Au lieu de simuler une source
-pour un grand nombre de positions sur chaque plaque et pour chaque matériau, il a plutôt
-été convenu d'effectuer la simulation d'un seul emplacement, et de faire usage de l'utilité
-du principe de retournement temporel. Effectivement, seulement un impact a eu besoin
-d'être simulé à un endroit arbitraire sur chaque plaque, mais ce, en évaluant le signal reçu
-à une multitude de récepteurs distribués sur la plaque. Les récepteurs agissent alors en tant
-que sources et le signal reçu au récepteur par chacune d'entre elles devient:
-\[e(t)=h_{P_jS}(-t).\]
+optimaux à l'aide d'une simulation, les méthodes de simulations sont décrites
+en fonction des étapes importantes du programme MatLab.
+Les formes des plaques considérées ont été choisies pour avoir un éventail de 
+géométries (carré, cercle, forme asymétrique, avec et sans trous). 
+Cela permet de voir l'impact de la symétrie et l'avantage attendu des asymétries. 
+Du bois, du plexiglas et des métaux ont été testés pour voir l'impact de la 
+vitesse du son dans le milieu sur le contraste et la résolution. 
+Plus d'attention a été portée sur les métaux, sachant déjà que les matériaux plus 
+denses et moins élastiques sont favorables à  la transmission d'ondes acoustiques 
+\textcolor{red}{ajouter reference}.
+
+Le signal obtenu à un récepteur à un endroit \textit{i} est modélisé comme la réponse 
+impulsionnelle de la configuration (géométrie et matériau) à une impulsion d'une source
+à un endroit \textit{j}. 
+Pour chaque configuration, au lieu de simuler un émetteur pour un grand nombre de 
+positions, il a plutôt été convenu d'effectuer la simulation d'un seul emplacement 
+et d'utiliser le principe du retournement temporel. 
+Ce principe permet d'interchanger les rôles de récepteur et d'émetteur. 
+Ainsi, un seul impact a eu besoin d'être simulé à un endroit arbitraire en évaluant 
+le signal reçu à une multitude de récepteurs distribués sur la plaque. 
+À la suite du retournement temporel, les positions \textit{i} et \textit{j} 
+sont intervertis. 
+Pour chaque source, le signal reçu \textit{$S_j$} devient:
+\[S_j(t)=h_{P_jS}(-t).\]
+Une fois qu'on a eu la réponse impulsionnelle pour tout emplacement sur la plaque, il a 
+fallu en calculer la corrélation pour déterminer la résolution et le constraste de la
+configuration. 
 Pour réduire le temps de simulation, les retards accumulés sur chaque signal ont été 
-retirés en gardant seulement une fenêtre de la réponse impulsionnelle. Les signaux inversés et 
-recadrés ont été stockés et enregistrés pour pouvoir s'y référer lors du calcul de la corrélation.
+retirés en gardant seulement une fenêtre de la réponse impulsionnelle. 
+Les signaux inversés et recadrés ont été stockés et enregistrés pour pouvoir s'y référer 
+lors du calcul de la corrélation. 
+Une bande d'intérêt sur la plaque a également été choisie pour réduire le temps de 
+calcul. 
+Pour chaque émission de la bande, la corrélation entre le signal de cette émission et
+de celui des autres émisisons de la bande a été calculée. 
+On a alors obtenu un graphique 2D de la corrélation en fonction de la position pour 
+chaque émission de la bande. 
 
-%Étapes AU PASSÉÉÉ
-%1 Créer les configurations (Matériau + Géométrie)
-%2 Simuler un impact à un endroit avec K-wave
-%3 Évaluer le signal pour des récepteurs positionnés partout sur le matériau
-%4 Faire un retournement temporel sur tous les signaux. Ce processus fiat des récepteurs les émeteurs, et de l'émetteur le récepteur de chaque émission
-%5 Éliminer les retards à l'aide d'une fonction fenêtre/rectangle pour accélérer la comparaison des signaux
-%6 Pour gagner du temps, on choisi une bande d'intérêt de la plaque où on sélectionne les émissions une à la fois. 
-%7 Pour chaque émission, on la compare à toutes les émissions enregistrées de la bande, formant un graphique 2D de la corrélation en fonction de la position
-%8 Une fois chaque émission de la bande d'intérêt testée, on a effectué une étude statistique de la résolution et du constraste en ''fittant'' une gaussienne sur le graphique 2D. 
+Pour effectuer une analyse statistique de la résolution et du contraste, il a fallu 
+faire correspondre une courbe gaussienne sur chaque graphique 2D obtenu précédement. 
+La largeur à mi-hauteur de la gaussienne a déterminé la résolution alors que la 
+différence entre le maximum de courbe et le niveau du bruit a donné le contraste.
 
 
-%Observer les résultats sur une seule ligne pour ne pas saturer les 
-%capacités de calcul. 
+%Étapes (AU PASSÉÉÉ!!)
+%1- Créer les configurations (Matériau + Géométrie)
+%2- Simuler un impact à un endroit avec K-wave
+%3- Évaluer le signal pour des récepteurs positionnés partout sur le matériau
+%4- Faire un retournement temporel sur tous les signaux. Ce processus fait des récepteurs les émetteurs, et de l'émetteur le récepteur de chaque émission
+%5- Éliminer les retards à l'aide d'une fonction fenêtre/rectangle pour accélérer la comparaison des signaux
+%6- Pour gagner du temps, on choisi une bande d'intérêt de la plaque où on sélectionne les émissions une à la fois. 
+%7- Pour chaque émission, on la compare à toutes les émissions enregistrées de la bande, formant un graphique 2D de la corrélation en fonction de la position
+%8- Une fois chaque émission de la bande d'intérêt testée, on a effectué une étude statistique de la résolution et du constraste en ''fittant'' une gaussienne sur le graphique 2D. 
 
-%Analyse du signal au récepteur, ce qui correspond à la réponse 
-%impulsionnel de la configuration testée à une impulsion à 
-%l'emplacement de la source. 
-%+ de description mathématique
 
 
 
 
 \section{Résultats}
+
+Les résultats de la résolution et du contraste sont montrés dans le graphique 
+\cite{rés-con} dans lequel les configurations préférables sont situées vers le 
+coin supérieur droit. 
+%Graphique de la résolution vs le contraste, avec le type de matériau donné par
+%la couleur, la géométrie donnée par la forme du point et les infos de résolution
+%et contraste données par la position sur la graph
 
 
 \section{Discussion}
