@@ -21,4 +21,8 @@
 - tweak le nom du fichier pour encompass toutes les variables
 - save les graphs
 
+## Rencontre Jean
 
+- Réduire la taille des signaux / de leurs dictionnaires pour réduire les retards
+- Faire des graphiques de résolution et/ou contraste p/r à nos paramètres tweakés pour pouvoir dire les sweet spots
+- Présenter des graphs condensés avec énormément d'info, on a juste 3 pages
