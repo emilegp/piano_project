@@ -117,22 +117,8 @@ la plaque ainsi que la position du capteur directement dans la simulation,
 une solution complète préliminaire peut être établie. Le choix de la solution finale est
 principalement basé sur les concepts de résolution et de contraste.
 
-Les choix retenus suite aux tests de simulation sont présentés dans le tableau
-\ref{tableau:1}.
-\begin{table}[h!]
-\centering
-  \begin{tabular}{|c|c|} 
-   \hline
-   Forme & Asymétrique avec trous\\ 
-   \hline
-   Matériau & \\ 
-   \hline
-   Position du capteur & \\ 
-   \hline
-  \end{tabular}
-  \caption{Choix préliminaires pour la conception du piano tactile}
-  \label{tableau:1}
-\end{table}
+Les choix retenus suite aux tests de simulation sont les suivants: une plaque
+asymétrique avec trous, en aluminium, avec un capteur situé \textcolor{red}{??}.
 Le rapport ci-présent détaillera la méthodologie utilisée afin d'obtenir 
 une étude statistique de la résolution et du contraste en fonction des
 caractéristiques du piano, présentera les valeurs résultantes et leurs incertitudes 
@@ -150,20 +136,26 @@ du mandat sera aussi détaillée.
 %Méthodes : Transformer cette question dans un langage mathématique, 
 %décrire les méthodes de simulations
 Les géométries des plaques considérées ont été choisies pour avoir un éventail de 
-symétries (carré, forme asymétrique). Des simulations ont aussi été effectuées 
+symétries (carré, cercle, forme asymétrique). Des simulations ont aussi été effectuées 
 sur des plaques avec et sans trous. Du bois, du plexiglas et des métaux 
-ont été testés pour voir l'impact de la vitesse du son dans le milieu sur les
+ont été testés pour voir l'impact de la vitesse du son dans le milieu sur
 le contraste et la résolution. Plus d'attention a été portée sur les métaux,
 sachant déjà que les matériaux plus denses et moins élastiques sont favorables à 
-la transmission d'ondes acoustiques.
+la transmission d'ondes acoustiques \textcolor{red}{ajouter reference}.
 
 Étant donné que le problème à considérer est de trouver les paramètres 
 optimaux à l'aide d'une simulation, les méthodes de simulations seront décrites
 en fonction des étapes importantes du programme MatLab. Au lieu de simuler une source
 pour un grand nombre de positions sur chaque plaque et pour chaque matériau, il a plutôt
-été convenu d'effectuer la simulation
-
-
+été convenu d'effectuer la simulation d'un seul emplacement, et de faire usage de l'utilité
+du principe de retournement temporel. Effectivement, seulement un impact a eu besoin
+d'être simulé à un endroit arbitraire sur chaque plaque, mais ce, en évaluant le signal reçu
+à une multitude de récepteurs distribués sur la plaque. Les récepteurs agissent alors en tant
+que sources et le signal reçu au récepteur par chacune d'entre elles devient:
+\[e(t)=h_{P_jS}(-t).\]
+Pour réduire le temps de simulation, les retards accumulés sur chaque signal ont été 
+retirés en gardant seulement une fenêtre de la réponse impulsionnelle. Les signaux inversés et 
+recadrés ont été stockés et enregistrés pour pouvoir s'y référer lors du calcul de la corrélation.
 
 %Pour tester de nombreuses configurations rapidement et facilement, 
 %un gabarit de code MatLab a été utilisé pour simuler la propagation 
