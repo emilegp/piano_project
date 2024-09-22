@@ -118,7 +118,7 @@ une solution complète préliminaire peut être établie. Le choix de la solutio
 principalement basé sur les concepts de résolution et de contraste.
 
 Les choix retenus suite aux tests de simulation sont les suivants: une plaque
-asymétrique avec trous, en aluminium, avec un capteur situé \textcolor{red}{??}.
+asymétrique avec trous, en \textcolor{red}{(À déterminer)}, avec un capteur situé \textcolor{red}{(À déterminer)}.
 Le rapport ci-présent détaillera la méthodologie utilisée afin d'obtenir 
 une étude statistique de la résolution et du contraste en fonction des
 caractéristiques du piano, présentera les valeurs résultantes et leurs incertitudes 
@@ -126,7 +126,7 @@ respectives, et discutera des éléments pouvant être déduis de ceux-ci et imp
 dans la conception. Une présentation des prochaines étapes nécessaires à la complétion
 du mandat sera aussi détaillée.
 
-\section{Méthodes}
+\section{Méthodes \label{methodes}}
 %Garder en tête qu'on veut ''On vous demande de déterminer et de 
 %faire une étude systémique et rigoureuse des paramètres
 %principaux à optimiser. ''
@@ -160,7 +160,7 @@ le signal reçu à une multitude de récepteurs distribués sur la plaque.
 sont intervertis. 
 Pour chaque source, le signal reçu \textit{$S_j$} devient:
 \[S_j(t)=h_{P_jS}(-t).\]
-Une fois que la réponse impulsionnelle a été obtenue pour tout emplacement sur la plaque, il a 
+Une fois que la réponse impulsionnelle a été obtenue pour tout emplacement désiré sur la plaque, il a 
 fallu en calculer la corrélation pour déterminer la résolution et le constraste de la
 configuration. 
 Pour réduire le temps de simulation, les retards accumulés sur chaque signal ont été 
@@ -171,13 +171,17 @@ Une bande d'intérêt sur la plaque a également été choisie pour réduire le 
 calcul. 
 Pour chaque émission de la bande, la corrélation entre le signal de cette émission et
 de celui des autres émissions de la bande a été calculée. 
-Ceci a permis de contruire un graphique 2D de la corrélation en fonction de la position pour 
-chaque émission de la bande. 
+Ceci a permis de contruire un graphique 2D de la corrélation en fonction de la position pour un
+nombre d'impulsions de la bande. 
 
 Pour effectuer une analyse statistique de la résolution et du contraste, il a fallu 
 faire correspondre une courbe gaussienne sur chaque graphique 2D obtenu précédement. 
 La largeur à mi-hauteur de la gaussienne a pu déterminer la résolution alors que la 
 différence entre le maximum de la courbe et le niveau du bruit a pu déterminer le contraste.
+Les valeurs finales et leur incertitude respective découlent des impulsions choisies pour 
+les graphiques; la moyenne et l'écart-type pour chaque variable sont calculées.
+
+
 
 
 %Étapes (AU PASSÉÉÉ!!)
@@ -205,6 +209,31 @@ coin supérieur droit.
 
 
 \section{Discussion}
+Ayant obtenu un fit 2D gaussien, il est possible d'analyser et de comparer les variables pertinentes, 
+le contraste et la résolution, selon différents paramètres physiques qui ont été élaborés dans la section \ref{methodes}.
+Le graphique \ref{} offre un échantillon des résultats obtenus pour une plaque carrée, sans trous et 
+en bois. En ayant utilisé le retournement temporel, la durée de simulation a pu être réduite, ce qui a 
+permis d'obtenir des réponses temporelles pour un nombre d'échantillons considérablement plus grand. 
+Cette décision a permis d'améliorer la définition des fits gaussiens. Six échantillons ont été choisis au
+hasard parmi les deux bandes considérées, offrant un poids statistique aux résultats assez important.
+
+En observant le graphique \ref{}, on peut noter que l'emplacement de la source du signal
+correspond à une corrélation de 1. Ceci s'explique facilement par le fait que le signal choisi au
+hasard comme source et le signal de référence sont les mêmes (le choix de réutiliser le signal a été fait encore
+une fois pour réduire le temps de compilation). La courbe gaussienne a une correspondance quasi parfaite pour les données
+proches du maximum du pic, mais réduit en terme d'exactitude pour les données au niveau de la base
+de la gaussienne.
+
+Les résultats obtenus avec cette simulation permettent d'avoir un aperçu quant-aux
+résultats possibles des simulations de d'autres paramètres. Le cas le plus favorable suite à 
+un plus grand nombre de simulations serait d'avoir une résolution faible
+et un contraste important. En évaluant l'allure de la courbe pour le cas ci-présent, on peut estimer
+qu'il serait souhaitable de trouver des paramètres offrant un contraste plus grand que ceux évalués ici.
+La résolution, quant-à-elle, semble déjà suffisament bonne. Évidemment, il est difficile d'arriver à une 
+conclusion pertinente sans d'autres éléments de comparaison.
+
+
+
 \clearpage
 
 % \bibliographystyle{unsrtnat}
