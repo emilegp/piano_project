@@ -209,13 +209,15 @@ les graphiques; la moyenne et l'écart-type pour chaque variable sont calculées
 %Plus d’attention devra être portée aux variables qui ont un effet (positif ou négatif) 
 %et moins d’attention sera portée aux variables n’ayant pas ou peu d’effet.
 
-Les géométries d'un carré, d'un cercle et d'un rectangle avec des trous sont à être 
-testées. 
-La première géométrie testée est celle d'un carré de 32 pixels de côté fait de bois. 
+ 
+La première géométrie testée est celle d'une plaque carrée de 32 pixels de côté faite de bois. Le graphique \ref{fig:graph1}a)
+illustre les emplacements des impacts pertinents à l'analyse. Seulement deux bandes ont été considérées
+pour le calcul de la corrélation. L'emplacement de la source du signal correspond aux pixels jaunes du
+graphique \ref{fig:graph1}b).
 
-Le contraste obtenu est de ($0,7115 \pm 0,0170$) pixels
-%Quelle est l'unité ici?
-La résolution obtenu pour cette géométrie est de ($2,8047 \pm 0,1660$) pixels
+Le contraste obtenu et la résolution obtenue pour cette géométrie sont
+respectivement de ($0,7115 \pm 0,0170$) pixels de ($2,8047 \pm 0,1660$) pixels. Ces valeurs ont 
+été acquéries à partir du graphique \ref{fig:graph2}.
 %Mentionner l'incertitude relative pour le contraste et la résolution
 
 %Décrire le graphique de corrélation en fcontionde la positon, avec 
@@ -224,14 +226,29 @@ La résolution obtenu pour cette géométrie est de ($2,8047 \pm 0,1660$) pixels
 %des sources
 %Décrire le graphique de gaussienne rapidement
 
-Les résultats de la résolution et du contraste sont montrés dans le graphique 
-\cite{rés-con} dans lequel les configurations préférables sont situées vers le 
-coin supérieur droit. 
+% Les résultats de la résolution et du contraste sont montrés dans le graphique 
+% \cite{rés-con} dans lequel les configurations préférables sont situées vers le 
+% coin supérieur droit. 
 %Graphique de la résolution vs le contraste, avec le type de matériau donné par
 %la couleur, la géométrie donnée par la forme du point et les infos de résolution
 %et contraste données par la position sur la graph
 
 %Parler de quels paramètres affectent plus le contraste et la résolution!!
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{resultats1.png}
+  \caption{a) Position des capteurs (sources après le retournement temporel)
+  sur la plaque,  b) Résultats du calcul de la corrélation pour une impulsion arbitraire}
+  \label{fig:graph1}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[scale=0.2]{resultats2.png}
+  \caption{Courbe gaussienne obtenue à partir des coefficients, utilisée pour trouver
+  le contraste et la résolution}
+  \label{fig:graph2}
+\end{figure}
 
 \section{Discussion}
 Ayant obtenu un fit 2D gaussien, il est possible d'analyser et de comparer les variables pertinentes, 
