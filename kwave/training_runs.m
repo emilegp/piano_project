@@ -6,7 +6,7 @@ clear all; clc
 
 % Dimensions qui résultent en 64cm x 64cm
 Nx = 32;
-% Ny = 32;
+Ny = 32;
 dx = 2e-2;
 dy = 2e-2;
 
