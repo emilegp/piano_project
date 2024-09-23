@@ -211,18 +211,36 @@ les graphiques; la moyenne et l'écart-type pour chaque variable sont calculées
 
 Les géométries d'un carré, d'un cercle et d'un rectangle avec des trous sont à être 
 testées. 
-La première géométrie testée est celle d'un carré de 32 pixels de côté fait de bois. 
+La première géométrie testée est celle d'un carré de 32 pixels de côté fait de bois 
+qui est illustré à la figure \cite{fig:GéoCarré32}
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth]{Géométire carrée et double bande.png}
+  \caption{Illustration de la plaque 32X32 avec les positions du récepteur marqué 
+  d'une croix et des sources marquées d'un point ainsi que la corrélation obtenue
+  entre le signal provenant du point jaune et celui de chaque autre point}
+  \label{fig:GéoCarré32}
+\end{figure}
 
-Le contraste obtenu est de ($0,7115 \pm 0,0170$) pixels
-%Quelle est l'unité ici?
-La résolution obtenu pour cette géométrie est de ($2,8047 \pm 0,1660$) pixels
-%Mentionner l'incertitude relative pour le contraste et la résolution
-
-%Décrire le graphique de corrélation en fcontionde la positon, avec 
+%Décrire le graphique de corrélation en fonction de la positon, avec 
 %L'endroit où c'est plus corrélé et comment proche c'est un peu corrélé aussi
 %Décrire la graphique où on voit la géométrie avec l'emplcement du capteur et
 %des sources
 %Décrire le graphique de gaussienne rapidement
+
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.4\linewidth]{Gaussienne fit 1 point.png}
+  \caption{Graphique du fit gaussien}
+  \label{fig:GaussCarré32}
+\end{figure}
+
+Le contraste obtenu est de ($0,7023 \pm 0,0121$) pixels, ce qui correspond à une 
+incertitude relative d'environ 2\%.
+%Quelle est l'unité ici?
+La résolution obtenu pour cette géométrie est de ($2,6921 \pm 0,1353$) pixels. 
+L'incertitude relative de la résolution est d'environ 5\%. 
 
 Les résultats de la résolution et du contraste sont montrés dans le graphique 
 \cite{rés-con} dans lequel les configurations préférables sont situées vers le 
