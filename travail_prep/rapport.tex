@@ -107,6 +107,9 @@ PHS3910 -- Techniques expérimentales et instrumentation\\
 
 \maketitle
 
+\textit{\textbf{abstract}--BALABLABLA}
+
+
 \section{Introduction}
 Dans le cadre du cours PHS3910, l'équipe est mandatée de conceptualiser
 un piano tactile à l'aide du principe de retournement temporel. Avant
@@ -123,8 +126,7 @@ Le rapport ci-présent détaillera la méthodologie utilisée afin d'obtenir
 une étude statistique de la résolution et du contraste en fonction des
 caractéristiques du piano, présentera les valeurs résultantes et leurs incertitudes 
 respectives, et discutera des éléments pouvant être déduis de ceux-ci et implémentés 
-dans la conception. Une présentation des prochaines étapes nécessaires à la complétion
-du mandat sera aussi détaillée.
+dans la conception.
 
 \section{Méthodes \label{methodes}}
 %Garder en tête qu'on veut ''On vous demande de déterminer et de 
@@ -137,19 +139,22 @@ du mandat sera aussi détaillée.
 %décrire les méthodes de simulations
 Étant donné que le problème à considérer est de trouver les paramètres 
 optimaux à l'aide d'une simulation, les méthodes de simulations sont décrites
-en fonction des étapes importantes du programme MatLab.
+en fonction des étapes importantes du programme MatLab utilisant le module K-Wave.
 Les formes des plaques considérées ont été choisies pour avoir un éventail de 
 géométries (carré, cercle, forme asymétrique, avec et sans trous). 
-Cela permet de voir l'impact de la symétrie et l'avantage attendu des asymétries. 
-Du bois, du plexiglas et des métaux ont été testés pour voir l'impact de la 
-vitesse du son dans le milieu sur le contraste et la résolution. 
-Plus d'attention a été portée sur les métaux, sachant déjà que les matériaux plus 
-denses et moins élastiques sont favorables à  la transmission d'ondes acoustiques 
-\textcolor{red}{ajouter reference}.
+Du bois, du plexiglas et des métaux \textcolor{red}{(À revoir)} ont été testés pour 
+voir l'impact de la vitesse du son dans le milieu sur le contraste et la résolution. 
+Les simulations se limitent à ces matériaux car ce sont ceux à disposition 
+pour le piano.
+
+Pour étudier l'impact du matériau, de la géométrie et de la position du capteur
+individuellement, deux paramètres ont été fixés avant de faire varier le troisième. 
+L'interdépendance entre les paramètres a été considérée comme négligeable dans 
+les modèles.
 
 Le signal obtenu à un récepteur à un endroit \textit{i} est modélisé comme la réponse 
 impulsionnelle de la configuration (géométrie et matériau) à une impulsion d'une source
-à un endroit \textit{j}. 
+à un endroit \textit{j}. %Plus d'explications ici
 Pour chaque configuration, au lieu de simuler un émetteur pour un grand nombre de 
 positions, il a plutôt été convenu d'effectuer la simulation d'un seul emplacement 
 et d'utiliser le principe du retournement temporel. 
@@ -160,19 +165,19 @@ le signal reçu à une multitude de récepteurs distribués sur la plaque.
 sont intervertis. 
 Pour chaque source, le signal reçu \textit{$S_j$} devient:
 \[S_j(t)=h_{P_jS}(-t).\]
-Une fois que la réponse impulsionnelle a été obtenue pour tout emplacement désiré sur la plaque, il a 
-fallu en calculer la corrélation pour déterminer la résolution et le constraste de la
-configuration. 
+Une fois que la réponse impulsionnelle a été obtenue pour tout emplacement désiré 
+sur la plaque, il a fallu en calculer la corrélation pour déterminer la résolution 
+et le constraste de la configuration. 
 Pour réduire le temps de simulation, les retards accumulés sur chaque signal ont été 
 retirés en gardant seulement une fenêtre de la réponse impulsionnelle. 
-Les signaux inversés et recadrés ont été stockés et enregistrés pour pouvoir s'y référer 
-lors du calcul de la corrélation. 
+Les signaux inversés et recadrés ont été stockés et enregistrés pour pouvoir s'y 
+référer lors du calcul de la corrélation. 
 Une bande d'intérêt sur la plaque a également été choisie pour réduire le temps de 
 calcul. 
 Pour chaque émission de la bande, la corrélation entre le signal de cette émission et
 de celui des autres émissions de la bande a été calculée. 
-Ceci a permis de contruire un graphique 2D de la corrélation en fonction de la position pour un
-nombre d'impulsions de la bande. 
+Ceci a permis de contruire un graphique 2D de la corrélation en fonction de la 
+position pour un nombre d'impulsions de la bande. 
 
 Pour effectuer une analyse statistique de la résolution et du contraste, il a fallu 
 faire correspondre une courbe gaussienne sur chaque graphique 2D obtenu précédement. 
@@ -185,7 +190,7 @@ les graphiques; la moyenne et l'écart-type pour chaque variable sont calculées
 
 
 %Étapes (AU PASSÉÉÉ!!)
-%1- Créer les configurations (Matériau + Géométrie)
+%1- Créer les configurations (Matériau + Géométrie + Position du capteur)
 %2- Simuler un impact à un endroit avec K-wave
 %3- Évaluer le signal pour des récepteurs positionnés partout sur le matériau
 %4- Faire un retournement temporel sur tous les signaux. Ce processus fait des récepteurs les émetteurs, et de l'émetteur le récepteur de chaque émission
@@ -193,8 +198,8 @@ les graphiques; la moyenne et l'écart-type pour chaque variable sont calculées
 %6- Pour gagner du temps, on choisi une bande d'intérêt de la plaque où on sélectionne les émissions une à la fois. 
 %7- Pour chaque émission, on la compare à toutes les émissions enregistrées de la bande, formant un graphique 2D de la corrélation en fonction de la position
 %8- Une fois chaque émission de la bande d'intérêt testée, on a effectué une étude statistique de la résolution et du constraste en ''fittant'' une gaussienne sur le graphique 2D. 
-
-%9 Faire la moyenne de plusieurs résolution et contraste pour obtenir l'incertitude statistique
+%9- Faire la moyenne de plusieurs résolution et contraste pour obtenir l'incertitude statistique
+%1.5- Varier un paramètre à la fois en fixant les 2 autres
 
 
 
