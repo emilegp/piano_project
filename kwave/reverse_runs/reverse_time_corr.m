@@ -1,30 +1,20 @@
-function sensor_data_reversed_full = reverse_time_corr(Nx, Ny, dx, dy, med_id, shapeid, ...
-    sensorid, sourceid)
+function result = reverse_time_corr(Nx, Ny, dx, dy, med_id, shapeid, ...
+    sensorid)
 
-geo_data = geometry(Nx, Ny, dx, dy, shapeid, sensorid, sourceid, med_id);
+geo_data = geometry(Nx, Ny, dx, dy, shapeid, sensorid, med_id);
 
 kgrid = kWaveGrid(Nx, dx, Ny, dy);
 
 medium = gen_medium(geo_data);
 airSpeed = 330;  
-%% Placement du sensor conventionnel
-
-% sensor_pt = sensor_loc(geo_data);
-% 
-% sensorXGrid = [sensor_pt(1)];     % [gridPoint]
-% sensorYGrid = [sensor_pt(2)];     % [gridPoint]
-% 
-% sensor.mask = [kgrid.x_vec(sensorXGrid)'; kgrid.y_vec(sensorYGrid)'];
-
 %% Placement des sensors pour retournement temporel
 % les données de ces sensors deviennent des données de sources post flip
 
 sensor_positions = [];
 sensor_line_1 = round(Nx - (Nx / 5));  % Ligne de capteur 1
-sensor_line_2 = round(Nx - (Nx / 3));  % Ligne de capteur 2
 
 % Placer les sensors seulement sur les lignes spécifiées
-for i = [sensor_line_1, sensor_line_2]
+for i = [sensor_line_1]
     for j = 1:Ny
         if medium.sound_speed(i, j) ~= airSpeed
             % Ajouter les positions de grille (i, j) aux capteurs
@@ -43,10 +33,8 @@ sensor.mask = [kgrid.x_vec(sensorXGrid)'; kgrid.y_vec(sensorYGrid)'];
 
 %% Placement de la source
 
-source_pts_list = source_locs(geo_data);
-
 %un pt pour tester pour l'instant
-source_loc = source_pts_list(sourceid, :);
+source_loc = sensor_loc(geo_data);
 
 sourceGrid = [source_loc(1), source_loc(2)];
 source_radius = floor(0.01/dx);         % [grid points] (Taille d'un doigt)
@@ -59,24 +47,6 @@ source.p0 = source_1;
 % position cartésienne. 
 source_x_pos = kgrid.x_vec(sourceGrid(1));         % [grid points]
 source_y_pos = kgrid.y_vec(sourceGrid(2));         % [grid points]
-
-%% Visualisation de la grille de simulation
-% On peut s'assurer que tous nos paramètres sont correctement définis à
-% l'aide d'un graphique.
-
-% figure;
-% imagesc(kgrid.y_vec * 1e3, kgrid.x_vec * 1e3, medium.sound_speed); axis image
-% ylabel('y - position [mm]')
-% xlabel('x - position [mm]')
-% c = colorbar;
-% c.Label.String = 'Speed of sound';
-% hold on;
-% plot(sensor.mask(2, :) * 1e3, sensor.mask(1, :) * 1e3, 'r.')
-% plot(source_y_pos * 1e3, source_x_pos * 1e3, 'b+')
-% legend('Sensor', ['' ...
-%     '' ...
-%     'Source'])
-
 
 %% Simulation
 % Pour accélérer la simulation, on réduit la taille du Perfectly Matching
@@ -188,7 +158,8 @@ end
 
 %% For loop pour plusieurs points tests pour etude stats
 
-sources = [sensor_line_2,150; sensor_line_2,200; sensor_line_2,250; sensor_line_2,300; sensor_line_2,320];
+sources = [sensor_line_1,60; sensor_line_1,75; sensor_line_1,90; 
+    sensor_line_1,100; sensor_line_1,110; sensor_line_1,125; sensor_line_1,140];
 num_sources = size(sources, 1); % Number of source points
 
 contrast_list = [];
@@ -303,7 +274,7 @@ for src_idx = 1:num_sources
         
         xlabel("Position selon l'axe des X")
         ylabel('Coefficient de corrélation')
-        title(sprintf(["Gaussienne ajustée aux coefficients de corrélation entre\n une source en (%d, %d) et les données d'entrainement"], (sourcey-3)*dx*10^3, (sourcex-3)*dx*10^3))
+        title(sprintf(["Gaussienne ajustée aux coefficients de corrélation entre\n une source et les données d'entrainement"]))
         legend('Coefficients', 'Gaussienne ajustée');
         grid on;
         hold off;
@@ -352,6 +323,7 @@ std_res = std(resolution_list);
 % Display result as x ± delta x
 fprintf('Resolution = %.4f ± %.4f\n', mean_res, std_res);
 
-
+sim = sprintf("mat%d_geo%d_sensor%d", med_id, shapeid, sensorid);
+result = [sim, mean_contrast, std_contrast, mean_res, std_res];
 
 end

@@ -2,13 +2,32 @@
 clear all; clc
 
 %% Paramétrisation
-% pose de toutes les variables pour les différentes simulations
+% Pose de toutes les variables pour les différentes simulations
 
 % Dimensions qui résultent en 64cm x 64cm
-Nx = 401;    % 401
-Ny = 401;    % 401
-dx = 16e-4;  % 16e-4
-dy = 16e-4;  % 16e-4
+Nx = 196;    % 401
+Ny = 196;    % 401
+dx = 32e-4;  % 16e-4
+dy = 32e-4;  % 16e-4
 
-% Nx, Ny, dx, dy, med_id, shapeid, sensorid, sourceid
-x = reverse_time_corr(Nx,Ny, dx, dy, 2, 1, 1, 2); 
+% Initialize an empty cell array to store results
+results = {};
+
+% Nx, Ny, dx, dy, med_id, shapeid, sensorid
+for i = 1:4
+    for j = 1:6
+        for k = 1:3
+            % Run the function and store the result in 'x'
+            x = reverse_time_corr(Nx, Ny, dx, dy, i, j, k); 
+            
+            % Flatten and append the result to the 'results' cell array
+            results(end+1, :) = x;  % Store as a new row (non-nested)
+        end
+    end
+end
+
+% Export the results array to a file (e.g., CSV)
+filename = 'simulation_results.csv';
+writecell(results, filename);
+
+fprintf('Results have been saved to %s\n', filename);
