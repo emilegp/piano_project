@@ -152,33 +152,40 @@ individuellement, deux paramètres ont été fixés avant de faire varier le tro
 L'interdépendance entre les paramètres a été considérée comme négligeable dans 
 les modèles.
 
-Le signal obtenu à un récepteur à un endroit \textit{i} est modélisé comme la réponse 
-impulsionnelle de la configuration (géométrie et matériau) à une impulsion d'une source
-à un endroit \textit{j}. 
-
+Le signal \textit{$S_{ij}$(t)} obtenu à un récepteur à un point \textit{$P_i$} a été
+modélisé comme la réponse impulsionnelle de la configuration (géométrie et matériau) 
+à une impulsion d'une source à un endroit \textit{$S_j$}. 
+L'impulsion a été modélisée par un delta de dirac \textit{$\delta$} qui est 
+l'identité du produit de convultion. On a donc
+%
+\[S_{ij}(t)=(h_{P_iS_j} * \delta)(t)=h_{P_iS_j}(t).\]
+%
+Le signal obtenu était de la forme d'une onde se propageant dans le matériau. Or, 
+cette équation admettait également comme solution $h_{P_jS_i}(-t)$. Ce retournement
+temporel revenait à parcourir le temps de façon opposée ce qui impliquait également 
+d'intervertir les rôles de récepteur et d'émetteur. 
+%
 %Plus d'explications de MATHS ici (Voir cahier rouge)
-
-
-
-Pour chaque configuration, au lieu de simuler un émetteur pour un grand nombre de 
-positions, il a plutôt été convenu d'effectuer la simulation d'un seul emplacement 
-et d'utiliser le principe du retournement temporel. 
-Ce principe permet d'interchanger les rôles de récepteur et d'émetteur. 
-Ainsi, un seul impact a eu besoin d'être simulé à un endroit arbitraire en évaluant 
-le signal reçu à une multitude de récepteurs distribués sur la plaque. 
-À la suite du retournement temporel, les positions \textit{i} et \textit{j} 
-sont intervertis. 
-Pour chaque source, le signal reçu \textit{$S_j$} devient:
-\[S_j(t)=h_{P_jS}(-t).\]
-Une fois que la réponse impulsionnelle a été obtenue pour tout emplacement désiré 
-sur la plaque, il a fallu en calculer la corrélation pour déterminer la résolution 
-et le constraste de la configuration. 
-Pour réduire le temps de simulation, les retards accumulés sur chaque signal ont été 
-retirés en gardant seulement une fenêtre de la réponse impulsionnelle. 
+% Pour chaque configuration, au lieu de simuler un émetteur pour un grand nombre de 
+% positions, il a plutôt été convenu d'effectuer la simulation d'un seul emplacement 
+% et d'utiliser le principe du retournement temporel.  
+% Ainsi, un seul impact a eu besoin d'être simulé à un endroit arbitraire en évaluant 
+% le signal reçu à une multitude de récepteurs distribués sur la plaque. 
+% À la suite du retournement temporel, les positions \textit{i} et \textit{j} 
+% sont intervertis. 
+Pour chaque source, le signal reçu \textit{$S_ij$} est devenu:
+\[S_{ij}(t)=h_{P_jS_i}(-t).\]
+Une fois la réponse impulsionnelle obtenue pour tout les emplacements désirés 
+sur la plaque, les décalages entre les signaux ont été retirés en gardant seulement 
+la fenêtre de la réponse impulsionnelle.
 Les signaux inversés et recadrés ont été stockés et enregistrés pour pouvoir s'y 
-référer lors du calcul de la corrélation. 
-Une bande d'intérêt sur la plaque a également été choisie pour réduire le temps de 
-calcul. 
+référer lors du calcul de la corrélation \textit{$C_{ij}$} entre les réponses impulsionnelles de la 
+source et de l'émetteur. 
+Cette corrélation a été donnée par:
+\[C_{ij}(t)=h_{P_iS_j}(t)*h_{P_jS_i}(-t).\]
+
+%Corrélation
+Une bande d'intérêt sur la plaque a été choisie pour réduire le temps de calcul. 
 Pour chaque émission de la bande, la corrélation entre le signal de cette émission et
 de celui des autres émissions de la bande a été calculée. 
 Ceci a permis de contruire un graphique 2D de la corrélation en fonction de la 
