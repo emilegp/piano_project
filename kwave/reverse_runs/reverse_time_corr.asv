@@ -311,30 +311,29 @@ for src_idx = 1:num_sources
     contrast = 1-C_fitted;
     fprintf('Contrast = %.4f\n', contrast);
 
-    % formule du full width half module pour une gaussienne
     FWHM = abs(2 * sqrt(2 * log(2)) * sigma_fitted);
+
+    % Optionally, print the FWHM
     fprintf('Full Width at Half Maximum (FWHM) = %.4f\n', FWHM);
     
-    % ajout à une liste pour chaque point testé
     contrast_list = [contrast_list, contrast];
     resolution_list = [resolution_list, FWHM];
 end
 
-% étude statistique du contraste
+
 mean_contrast = mean(contrast_list);
 std_contrast = std(contrast_list);
 
-% x ± delta x
+% Display result as x ± delta x
 fprintf('Contrast = %.4f ± %.4f\n', mean_contrast, std_contrast);
 
-% étude statistique de la résolution
 mean_res = mean(resolution_list);
 std_res = std(resolution_list);
 
-% x ± delta x
+% Display result as x ± delta x
 fprintf('Resolution = %.4f ± %.4f\n', mean_res, std_res);
 
-% valeur retournée par la fonction
+% sim = sprintf("mat%d_geo%d_sensor%d", med_id, shapeid, sensorid);
 result = [mean_contrast, std_contrast, mean_res, std_res];
 
 end

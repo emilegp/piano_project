@@ -171,7 +171,7 @@ classdef geometry
 
         end
 
-        % ne retourne qu'un point
+        % liste des sensors par geometrie
         function locs = sensor_loc(obj)
             if obj.shape_id == 1
                 sensor_list = [100,100; 50,100; 50,25];
