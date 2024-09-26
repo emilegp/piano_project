@@ -34,21 +34,14 @@ classdef geometry
             medium.alpha_power = 1.5;
             
             % materiau
-            if obj.material_id == 1 % steel
-                med.soundSpeed = 5000;
-                med.Density = 7850;
-
-            elseif obj.material_id== 2 % aluminium
+            if obj.material_id == 1 % alu
                 med.soundSpeed = 5100;
                 med.Density = 2700;
 
-            elseif obj.material_id == 3 % plexiglass
+            elseif obj.material_id== 2 % plexi
                 med.soundSpeed = 2750;
                 med.Density = 1180;
 
-            elseif obj.material_id == 4 % brass
-                med.soundSpeed = 4700;
-                med.Density = 8400;
             else
                 error('ID materiau invalide')
             end
@@ -129,7 +122,7 @@ classdef geometry
             % shape == 4 ou autre résulte en un carré plein, test de symétrie
 
             % shape == 5 semble redondante, pas de pts trouvés pour elle
-            elseif shape == 5
+            elseif obj.shape_id == 5
                 for i = 1:Nx
                     for j = 1:Ny 
                         if (i - (Nx - 50))^2 + (j - (Ny - 50))^2 > 150^2 
@@ -189,11 +182,11 @@ classdef geometry
                 locs = sensor_list(obj.sensor_id, :);
 
             elseif obj.shape_id == 3
-                sensor_list = [50,100; 200,370; 100,300];
+                sensor_list = [80,150; 20,100; 100,30];
                 locs = sensor_list(obj.sensor_id, :);
 
             elseif obj.shape_id == 4
-                sensor_list = [80,200; 200,200; 250,80];
+                sensor_list = [80,100; 100,100; 100,80];
                 locs = sensor_list(obj.sensor_id, :);
 
             elseif obj.shape_id == 5

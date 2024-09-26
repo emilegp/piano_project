@@ -158,8 +158,8 @@ end
 
 %% For loop pour plusieurs points tests pour etude stats
 
-sources = [sensor_line_1,60; sensor_line_1,75; sensor_line_1,90; 
-    sensor_line_1,100; sensor_line_1,110; sensor_line_1,125; sensor_line_1,140];
+sources = [sensor_line_1,80; sensor_line_1,90; sensor_line_1,95; 
+    sensor_line_1,100; sensor_line_1,105; sensor_line_1,110; sensor_line_1,120];
 num_sources = size(sources, 1); % Number of source points
 
 contrast_list = [];
@@ -195,20 +195,26 @@ for src_idx = 1:num_sources
     x_data = (4:Ny-4)';  % x data for fitting
     y_data = correlation_line';  % y data for fitting
     
+    % Filter out points where the correlation line is zero
+    non_zero_indices = y_data > 0;  % Logical array where y_data is non-zero
+    x_data_filtered = x_data(non_zero_indices);
+    y_data_filtered = y_data(non_zero_indices);
+    
     % Define the Gaussian model with an offset
     gaussian_model = fittype('A*exp(-((x-mu)^2)/(2*sigma^2)) + C', ...
                              'independent', 'x', ...
                              'coefficients', {'A', 'mu', 'sigma', 'C'});
     
     % Initial guesses for the fit parameters
-    initial_guess = [max(y_data), mean(x_data), std(x_data), min(y_data)]; % [A, mu, sigma, C]
+    initial_guess = [max(y_data_filtered), mean(x_data_filtered), std(x_data_filtered), min(y_data_filtered)]; % [A, mu, sigma, C]
     
     % Fit the model to the data
-    [fit_result, gof] = fit(x_data, y_data, gaussian_model, 'StartPoint', initial_guess);
+    [fit_result, gof] = fit(x_data_filtered, y_data_filtered, gaussian_model, 'StartPoint', initial_guess);
     
     % Generate fitted values for smooth curve
-    x_fit = linspace(min(x_data), max(x_data), 100);
+    x_fit = linspace(min(x_data_filtered), max(x_data_filtered), 100);
     y_fit = feval(fit_result, x_fit);
+
     
     if src_idx == 1
         %% Plotting the First Two Heatmaps Side by Side
@@ -220,7 +226,7 @@ for src_idx = 1:num_sources
         imagesc(kgrid.y_vec * 1e3, kgrid.x_vec * 1e3, medium.sound_speed); 
         axis image;
         xlabel('Position en x [mm]');
-        ylabel('Position en y [mm]');
+        ylabel('Position en y[mm]');
         c1 = colorbar;
         c1.Label.String = "Vitesse du son";
         hold on;
@@ -301,7 +307,7 @@ for src_idx = 1:num_sources
     contrast = 1-C_fitted;
     fprintf('Contrast = %.4f\n', contrast);
 
-    FWHM = 2 * sqrt(2 * log(2)) * sigma_fitted;
+    FWHM = abs(2 * sqrt(2 * log(2)) * sigma_fitted);
 
     % Optionally, print the FWHM
     fprintf('Full Width at Half Maximum (FWHM) = %.4f\n', FWHM);
@@ -323,7 +329,7 @@ std_res = std(resolution_list);
 % Display result as x ± delta x
 fprintf('Resolution = %.4f ± %.4f\n', mean_res, std_res);
 
-sim = sprintf("mat%d_geo%d_sensor%d", med_id, shapeid, sensorid);
-result = [sim, mean_contrast, std_contrast, mean_res, std_res];
+% sim = sprintf("mat%d_geo%d_sensor%d", med_id, shapeid, sensorid);
+result = [mean_contrast, std_contrast, mean_res, std_res];
 
 end

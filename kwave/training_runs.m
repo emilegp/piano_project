@@ -25,8 +25,6 @@ alu.Density = 2700;
 plexi.SoundSpeed = 2750;
 plexi.Density = 1180;
 
-label forme dans la signature de la fonction run
-
 % 3 derniers chiffres : id shape, pt sensor, pt source
 % run(Nx, Ny, dx, dy, wood, 4, 1, 2);
 
