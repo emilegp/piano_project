@@ -6,7 +6,7 @@ clear all; clc
 
 % Dimensions qui résultent en 64cm x 64cm
 Nx = 32;
-% Ny = 32;
+Ny = 32;
 dx = 2e-2;
 dy = 2e-2;
 
@@ -24,8 +24,6 @@ alu.Density = 2700;
 
 plexi.SoundSpeed = 2750;
 plexi.Density = 1180;
-
-label forme dans la signature de la fonction run
 
 % 3 derniers chiffres : id shape, pt sensor, pt source
 % run(Nx, Ny, dx, dy, wood, 4, 1, 2);
