@@ -27,6 +27,9 @@
 \usepackage{multirow}
 \usepackage[hidelinks]{hyperref}
 \usepackage{abstract}
+\usepackage{subcaption}
+\usepackage{tabularx}
+
 % \renewcommand{\abstractnamefont}{\normalfont\bfseries}
 % \renewcommand{\abstracttextfont}{\normalfont\itshape}
 \usepackage{titlesec}
@@ -80,6 +83,7 @@
 \captionsetup{labelformat=mycaptionlabel}
 \captionsetup[figure]{name={Figure }}
 \captionsetup[table]{name=Tableau}
+\newcolumntype{Y}[1]{>{\Centering\hspace{0pt}\hsize=#1\hsize}X}
 \newcommand{\inlinecode}{\normalfont\texttt}
 \usepackage{enumitem}
 \setlist[itemize]{label=\textbullet}
@@ -107,7 +111,7 @@ PHS3910 -- Techniques expérimentales et instrumentation\\
 
 \maketitle
 
-\textit{\textbf{abstract}--BALABLABLA}
+\textit{\textbf{Résumé}--BALABLABLA}
 
 
 \section{Introduction}
@@ -141,8 +145,8 @@ dans la conception.
 optimaux à l'aide d'une simulation, les méthodes de simulations sont décrites
 en fonction des étapes importantes du programme MatLab utilisant le module K-Wave.
 Les formes des plaques considérées ont été choisies pour avoir un éventail de 
-géométries (carré, cercle, forme asymétrique, avec et sans trous). 
-Du bois, du plexiglas et des métaux \textcolor{red}{(À revoir)} ont été testés pour 
+géométries (carré, forme asymétrique, avec et sans trous). 
+Du plexiglas et de l'aluminium ont été testés pour 
 voir l'impact de la vitesse du son dans le milieu sur le contraste et la résolution. 
 Les simulations se limitent à ces matériaux car ce sont ceux à disposition 
 pour le piano.
@@ -156,13 +160,13 @@ Le signal \textit{$S_{ij}$(t)} obtenu à un récepteur à un point \textit{$P_i$
 modélisé comme la réponse impulsionnelle de la configuration (géométrie et matériau) 
 à une impulsion d'une source à un endroit \textit{$S_j$}. 
 L'impulsion a été modélisée par un delta de dirac \textit{$\delta$} qui est 
-l'identité du produit de convultion. On a donc
+l'identité du produit de convolution. On a donc
 %
 \[S_{ij}(t)=(h_{P_iS_j} * \delta)(t)=h_{P_iS_j}(t).\]
 %
 Le signal obtenu était de la forme d'une onde se propageant dans le matériau. Or, 
 cette équation admettait également comme solution $h_{P_jS_i}(-t)$. Ce retournement
-temporel revenait à parcourir le temps de façon opposée ce qui impliquait également 
+temporel revenait à parcourir le temps de façon opposée, ce qui impliquait également 
 d'intervertir les rôles de récepteur et d'émetteur. 
 %
 %Plus d'explications de MATHS ici (Voir cahier rouge)
@@ -173,7 +177,7 @@ d'intervertir les rôles de récepteur et d'émetteur.
 % le signal reçu à une multitude de récepteurs distribués sur la plaque. 
 % À la suite du retournement temporel, les positions \textit{i} et \textit{j} 
 % sont intervertis. 
-Pour chaque source, le signal reçu \textit{$S_ij$} est devenu:
+Pour chaque source, le signal au récepteur \textit{$S_{ij}$} est devenu:
 \[S_{ij}(t)=h_{P_jS_i}(-t).\]
 Une fois la réponse impulsionnelle obtenue pour tout les emplacements désirés 
 sur la plaque, les décalages entre les signaux ont été retirés en gardant seulement 
@@ -186,7 +190,7 @@ Cette corrélation a été donnée par:
 %
 %Corrélation
 Une bande d'intérêt sur la plaque a été choisie pour réduire le temps de calcul. 
-Pour chaque point de la bande, la corrélation entre le signal de point et celui 
+Pour chaque point de la bande, la corrélation entre son signal et celui 
 des autres points a été calculée. 
 Un graphique 2D de la corrélation en fonction de la position sur la bande a été fait. 
 Pour effectuer une analyse statistique de la résolution et du contraste, il a fallu 
@@ -194,7 +198,7 @@ faire correspondre une courbe gaussienne sur chaque graphique 2D obtenu.
 La largeur à mi-hauteur de la gaussienne a pu déterminer la résolution alors que la 
 différence entre le maximum de la courbe et le niveau du bruit a pu déterminer le contraste.
 Les valeurs finales et leur incertitude respective découlent des impulsions choisies 
-pour les graphiques; la moyenne et l'écart-type pour chaque variable sont calculées.
+pour l'analyse statistique; la moyenne et l'écart-type pour chaque variable sont calculées.
 
 
 
@@ -224,20 +228,64 @@ pour les graphiques; la moyenne et l'écart-type pour chaque variable sont calcu
 %Plus d’attention devra être portée aux variables qui ont un effet (positif ou négatif) 
 %et moins d’attention sera portée aux variables n’ayant pas ou peu d’effet.
 
+\begin{figure}[H]
+  \begin{subfigure}{.155\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{forme1.png}
+    \caption{}
+    \label{fig:sfig1}
+  \end{subfigure}%
+  \begin{subfigure}{.155\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{forme2.png}
+    \caption{}
+    \label{fig:sfig2}
+  \end{subfigure}
+  \begin{subfigure}{.155\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{forme3.png}
+    \caption{}
+    \label{fig:sfig3}
+  \end{subfigure}
+  \begin{subfigure}{.155\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{forme4.png}
+    \caption{}
+    \label{fig:sfig4}
+  \end{subfigure}
+  \begin{subfigure}{.155\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{forme5.png}
+    \caption{}
+    \label{fig:sfig5}
+  \end{subfigure}
+  \begin{subfigure}{.155\textwidth}
+    \centering
+    \includegraphics[width=.95\linewidth]{forme6.png}
+    \caption{}
+    \label{fig:sfig6}
+  \end{subfigure}
+  \caption{Géométries considérées pour les simulations}
+  \label{fig:fig}
+\end{figure}
 
-La première géométrie testée est celle d'une plaque carrée de 32 pixels de côté faite de bois. Le graphique \ref{fig:graph1}a)
-illustre les emplacements des impacts pertinents à l'analyse. Seulement deux bandes ont été considérées
-pour le calcul de la corrélation. L'emplacement de la source du signal correspond aux pixels jaunes du
-graphique \ref{fig:graph1}b).
 
-%Illustration de la plaque 32X32 avec les positions du récepteur marqué 
-%d'une croix et des sources marquées d'un point ainsi que la corrélation obtenue
-%entre le signal provenant du point jaune et celui de chaque autre point
-
-Le contraste obtenu et la résolution obtenue pour cette géométrie sont
-respectivement de ($0,7115 \pm 0,0170$) pixels de ($2,8047 \pm 0,1660$) pixels. Cela correspond à une 
-incertitude relative d'environ 2\% pour le contraste et d'environ 5\% pour la résolution. Ces valeurs ont 
-été acquéries à partir du graphique \ref{fig:graph2}.
+\begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.65} Y{0.95} Y{1.45} Y{0.90} @{}}
+  \hline
+  Matériau & Géométrie & Position du récepteur & Contraste & Résolution \\
+  \hline
+  \multicolumn{5}{c}{Meilleurs résultats pour le contraste}\\
+  \hline
+  Plexiglas & (a) & 100, 100 & $0.83 \pm 0.01$ & $8 \pm 1$ \\
+  Plexiglas & (c) & 20, 100 & $0.825 \pm 0.008$ & $7.7 \pm 0.2$ \\
+  Plexiglas & (a) & 50, 100 & $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
+  \hline
+  \multicolumn{5}{c}{Meilleurs résultats pour la résolution}\\
+  \hline
+  Plexiglas & (e) & 30, 100 & $0.803 \pm 0.006$ & $8 \pm 1$ \\
+  Plexiglas & (c) & 20, 100 & $0.825 \pm 0.008$ & $7.7 \pm 0.2$ \\
+  Plexiglas & (a) & 50, 100 & $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
+\end{tabularx}
 
 %Décrire le graphique de corrélation en fonction de la position, avec 
 %L'endroit où c'est plus corrélé et comment proche c'est un peu corrélé aussi
@@ -246,40 +294,24 @@ incertitude relative d'environ 2\% pour le contraste et d'environ 5\% pour la r�
 %Décrire le graphique de gaussienne rapidement
 
 
-Les résultats de la résolution et du contraste sont montrés dans le graphique 
-\cite{fig:rés-con} dans lequel les configurations préférables sont situées vers le 
-coin supérieur droit. 
+
 %Graphique de la résolution vs le contraste, avec le type de matériau donné par
 %la couleur, la géométrie donnée par la forme du point et les infos de résolution
 %et contraste données par la position sur la graph
 
 %Parler de quels paramètres affectent plus le contraste et la résolution!!
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.25]{resultats1.png}
-  \caption{a) Position des capteurs (sources après le retournement temporel)
-  sur la plaque,  b) Résultats du calcul de la corrélation pour une impulsion arbitraire}
-  \label{fig:graph1}
-\end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includegraphics[scale=0.25]{resultats2.png}
-  \caption{Courbe gaussienne obtenue à partir des coefficients, utilisée pour trouver
-  le contraste et la résolution}
-  \label{fig:graph2}
-\end{figure}
 
 \section{Discussion}
 Ayant obtenu un fit 2D gaussien, il est possible d'analyser et de comparer les variables pertinentes, 
-le contraste et la résolution, selon différents paramètres physiques qui ont été élaborés dans la section \ref{methodes}.
-Le graphique \ref{fig:graph2} offre un échantillon des résultats obtenus pour une plaque carrée, sans trous et 
+le contraste et la résolution, selon différents paramètres physiques qui ont été élaborés dans la section \ref{}.
+Le graphique \ref{} offre un échantillon des résultats obtenus pour une plaque carrée, sans trous et 
 en bois. En ayant utilisé le retournement temporel, la durée de simulation a pu être réduite, ce qui a 
 permis d'obtenir des réponses temporelles pour un nombre d'échantillons considérablement plus grand. 
 Cette décision a permis d'améliorer la définition des fits gaussiens. Six échantillons ont été choisis au
 hasard parmi les deux bandes considérées, offrant un poids statistique aux résultats assez important.
 
-En observant le graphique \ref{fig:graph2}, on peut noter que l'emplacement de la source du signal
+En observant le graphique \ref{}, on peut noter que l'emplacement de la source du signal
 correspond à une corrélation de 1. Ceci s'explique facilement par le fait que le signal choisi au
 hasard comme source et le signal de référence sont les mêmes (le choix de réutiliser le signal a été fait encore
 une fois pour réduire le temps de compilation). La courbe gaussienne a une correspondance quasi parfaite pour les données
