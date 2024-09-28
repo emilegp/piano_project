@@ -1,15 +1,37 @@
+# Post simulations fonctionnelles
+
+## Décisions
+
+Géométrie choisie : #3, plexi, sensor (20,10)
+
 ## TODO
 
-- implémener code phili
-- réimplémenter les training rows
-- réatteindre le stade d'avoir un plot avec save/load
-- curve fit
-- faire la répétition auto pour tous les points
-- étude stat
-- voir pour d'autres graphes pertinents
+### Remises
 
-## Rencontre Jean
+- finir le rapport (Marie-Lou et Maxime)
+- investiguer ce qui est requis pour faire la fiche technique (Philou et Émile)
+    - il y a 3 critères à investiguer comme pour le rapport préliminaire
 
-- Réduire la taille des signaux / de leurs dictionnaires pour réduire les retards
-- Faire des graphiques de résolution et/ou contraste p/r à nos paramètres tweakés pour pouvoir dire les sweet spots
-- Présenter des graphs condensés avec énormément d'info, on a juste 3 pages
+### Organisation
+
+- faire le ménage du github (Émile)
+- faire un .zip des codes pour remettre
+
+### Tâches
+
+- regarder multithreading (Émile)
+- regarder comment obtenir les 3 critères (Marie-Lou)
+- regarder comment avoir le data des signaux pour le training (Marie-Lou)
+- faire un plan de la plaque avec les dimensions (Philou)
+- faire marcher le son en temps réel (a besoin du multithreading?)
+- préparer la batterie de tests pour la fiche technique (Philou et Émile)
+- commencer le rapport pour la fiche technique
+
+
+### Pour mardi
+
+- avoir fini rapport
+- avoir corrélation fonctionnelle en vrai
+- avoir python qui joue des notes
+- avoir 2 programmes simultanés
+- avoir tout remis
