@@ -111,7 +111,11 @@ PHS3910 -- Techniques expérimentales et instrumentation\\
 
 \maketitle
 
-\textit{\textbf{Résumé}--BALABLABLA}
+\textit{\textbf{Résumé} -- Dans l'optique de développer un piano tactile fonctionnel,
+des simulations ont été effectuées sur MatLab à l'aide du module k-Wave afin d'optimiser
+certains paramètres du prototype à conceptualiser. Il a été conclut qu'une plaque asymétrique en plexiglas, ayant
+un capteur placé proche d'un de ses côtés, serait idéale pour maximiser le contraste et minimiser la résolution 
+lors de la détection de signaux tactiles.}
 
 
 \section{Introduction}
@@ -122,10 +126,10 @@ du piano à l'aide de l'outil k-Wave, afin de déterminer les caractéristiques 
 optimiseront sa performance. En variant la forme, le matériau de 
 la plaque ainsi que la position du capteur directement dans la simulation,
 une solution complète préliminaire peut être établie. Le choix de la solution finale est
-principalement basé sur les concepts de résolution et de contraste.
+principalement basée sur les concepts de résolution et de contraste.
 
 Les choix retenus suite aux tests de simulation sont les suivants: une plaque
-asymétrique avec trous, en plexiglas, avec un capteur situé proche d'un de ses coins.
+asymétrique avec trous, en plexiglas, avec un capteur situé proche d'un de ses côtés.
 Le rapport ci-présent détaillera la méthodologie utilisée afin d'obtenir 
 une étude statistique de la résolution et du contraste en fonction des
 caractéristiques du piano, présentera les valeurs résultantes et leurs incertitudes 
@@ -145,11 +149,10 @@ dans la conception.
 optimaux à l'aide d'une simulation, les méthodes de simulations sont décrites
 en fonction des étapes importantes du programme MatLab utilisant le module K-Wave.
 Les formes des plaques considérées ont été choisies pour avoir un éventail de 
-géométries (carré, forme asymétrique, avec et sans trous). 
-Du plexiglas et de l'aluminium ont été testés pour 
-voir l'impact de la vitesse du son dans le milieu sur le contraste et la résolution. 
+géométries (carré, forme asymétrique, avec et sans trous). Du plexiglas et de 
+l'aluminium ont été testés pour déterminer l'impact du milieu sur le contraste et la résolution. 
 Les simulations se limitent à ces matériaux car ce sont ceux à disposition 
-pour le piano.
+pour la construction du piano.
 
 Pour étudier l'impact du matériau, de la géométrie et de la position du capteur
 individuellement, deux paramètres ont été fixés avant de faire varier le troisième. 
@@ -179,10 +182,10 @@ d'intervertir les rôles de récepteur et d'émetteur.
 % sont intervertis. 
 Pour chaque source, le signal au récepteur \textit{$S_{ij}$} est devenu:
 \[S_{ij}(t)=h_{P_jS_i}(-t).\]
-Une fois la réponse impulsionnelle obtenue pour tout les emplacements désirés 
+Une fois la réponse impulsionnelle obtenue pour tous les emplacements désirés 
 sur la plaque, les décalages entre les signaux ont été retirés en gardant seulement 
-la fenêtre de la réponse impulsionnelle.
-Les signaux inversés et recadrés ont été stockés et enregistrés pour pouvoir s'y 
+une fenêtre de la réponse impulsionnelle.
+Les signaux inversés et recadrés ont été stockés pour pouvoir s'y 
 référer lors du calcul de la corrélation \textit{$C_{ij}$} entre les réponses impulsionnelles de la 
 source et de l'émetteur. 
 Cette corrélation a été donnée par:
@@ -275,11 +278,6 @@ Pour chaque géométrie, trois positions arbitraires pour le capteur ont été c
 chacune étant associée à un ensemble de coordonnées. La position $(0,0)$ se situe 
 au centre des grilles des figures \ref{fig:sfig1} à \ref{fig:sfig6}. 
 
-En guise de résumé, seules les valeurs de contraste et de résolution les plus faibles et les plus élevées
-sont présentées dans le tableau \ref{tableau_resultats}. Les valeurs de contraste et de 
-résolution correspondent chacune à la moyenne de l'ensemble de données, et leur incertitude 
-correspond à l'écart-type.
-
 \begin{table}[H]
 \begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.75} Y{1.00} Y{1.35} Y{0.87} @{}}
   \hline
@@ -313,6 +311,10 @@ correspond à l'écart-type.
 \caption{Résumé des résultats des simulations}
 \label{tableau_resultats}
 \end{table}
+En guise de résumé, seules les valeurs de contraste et de résolution les plus faibles et les plus élevées
+sont présentées dans le tableau \ref{tableau_resultats}. Les valeurs de contraste et de 
+résolution correspondent chacune à la moyenne de l'ensemble de données, et leur incertitude 
+correspond à l'écart-type.
 
 %Décrire le graphique de corrélation en fonction de la position, avec 
 %L'endroit où c'est plus corrélé et comment proche c'est un peu corrélé aussi
