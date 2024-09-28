@@ -125,7 +125,7 @@ une solution complète préliminaire peut être établie. Le choix de la solutio
 principalement basé sur les concepts de résolution et de contraste.
 
 Les choix retenus suite aux tests de simulation sont les suivants: une plaque
-asymétrique avec trous, en \textcolor{red}{(À déterminer)}, avec un capteur situé \textcolor{red}{(À déterminer)}.
+asymétrique avec trous, en plexiglas, avec un capteur situé proche d'un de ses coins.
 Le rapport ci-présent détaillera la méthodologie utilisée afin d'obtenir 
 une étude statistique de la résolution et du contraste en fonction des
 caractéristiques du piano, présentera les valeurs résultantes et leurs incertitudes 
@@ -227,7 +227,10 @@ pour l'analyse statistique; la moyenne et l'écart-type pour chaque variable son
 %sur tous les résultats sont attendues. 
 %Plus d’attention devra être portée aux variables qui ont un effet (positif ou négatif) 
 %et moins d’attention sera portée aux variables n’ayant pas ou peu d’effet.
-
+Tel qu'il a été mentionné précédemment, plusieurs géométries ont été testées lors des
+simulations. Celles-ci sont exemplifiées dans la figure \ref{fig:fig}. La ligne rouge
+sur chacune des géométries définie la bande d'intérêt des sources; elle est positionnée
+sur l'axe où les touches du piano seraient placées pour un prototype.
 \begin{figure}[H]
   \begin{subfigure}{.155\textwidth}
     \centering
@@ -268,24 +271,48 @@ pour l'analyse statistique; la moyenne et l'écart-type pour chaque variable son
   \caption{Géométries considérées pour les simulations}
   \label{fig:fig}
 \end{figure}
+Pour chaque géométrie, trois positions arbitraires pour le capteur ont été choisies,
+chacune étant associée à un ensemble de coordonnées. La position $(0,0)$ se situe 
+au centre des grilles des figures \ref{fig:sfig1} à \ref{fig:sfig6}. 
 
+En guise de résumé, seules les valeurs de contraste et de résolution les plus faibles et les plus élevées
+sont présentées dans le tableau \ref{tableau_resultats}. Les valeurs de contraste et de 
+résolution correspondent chacune à la moyenne de l'ensemble de données, et leur incertitude 
+correspond à l'écart-type.
 
-\begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.65} Y{0.95} Y{1.45} Y{0.90} @{}}
+\begin{table}[H]
+\begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.75} Y{1.00} Y{1.35} Y{0.87} @{}}
   \hline
-  Matériau & Géométrie & Position du récepteur & Contraste & Résolution \\
+  Matériau&Géométrie&Position du capteur&Contraste&Résolution\\
   \hline
-  \multicolumn{5}{c}{Meilleurs résultats pour le contraste}\\
+  \multicolumn{5}{c}{Valeurs de contraste les plus élevées}\\
   \hline
-  Plexiglas & (a) & 100, 100 & $0.83 \pm 0.01$ & $8 \pm 1$ \\
-  Plexiglas & (c) & 20, 100 & $0.825 \pm 0.008$ & $7.7 \pm 0.2$ \\
-  Plexiglas & (a) & 50, 100 & $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
+  Plexiglas&(a)& 100, 100& $0.83 \pm 0.01$ & $8 \pm 1$ \\
+  Plexiglas&(c)& 20, 100& $0.825 \pm 0.008$ & $7.7 \pm 0.2$ \\
+  Plexiglas&(a)& 50, 100& $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
   \hline
-  \multicolumn{5}{c}{Meilleurs résultats pour la résolution}\\
+  \multicolumn{5}{c}{Valeurs de contraste les plus faibles}\\
   \hline
-  Plexiglas & (e) & 30, 100 & $0.803 \pm 0.006$ & $8 \pm 1$ \\
-  Plexiglas & (c) & 20, 100 & $0.825 \pm 0.008$ & $7.7 \pm 0.2$ \\
-  Plexiglas & (a) & 50, 100 & $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
+  Aluminium&(b)& 25, 100& $0.75 \pm 0.02$ & $15 \pm 2$ \\
+  Aluminium&(e)& 110, 170& $0.76 \pm 0.01$ & $6.6 \pm 0.5$ \\
+  Aluminium&(f)& 100, 30& $0.768 \pm 0.006$ & $12 \pm 2$ \\
+  \hline
+  \multicolumn{5}{c}{Valeurs de résolution les plus élevées}\\
+  \hline
+  Aluminium&(e)& 110, 100& $0.80 \pm 0.01$ & $15 \pm 2$ \\
+  Aluminium&(b)& 25, 100& $0.75 \pm 0.02$ & $15 \pm 2$ \\
+  Aluminium&(a)& 100, 100& $0.82 \pm 0.02$ & $15 \pm 4$ \\
+  \hline
+  \multicolumn{5}{c}{Valeurs de résolution les plus faibles}\\
+  \hline
+  Plexiglas&(e)& 30, 100& $0.803 \pm 0.006$ & $8 \pm 1$ \\
+  Plexiglas&(c)& 20, 100& $0.825 \pm 0.008$ & $7.7 \pm 0.2$ \\
+  Plexiglas&(a)& 50, 100& $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
+  \hline
 \end{tabularx}
+\caption{Résumé des résultats des simulations}
+\label{tableau_resultats}
+\end{table}
 
 %Décrire le graphique de corrélation en fonction de la position, avec 
 %L'endroit où c'est plus corrélé et comment proche c'est un peu corrélé aussi
