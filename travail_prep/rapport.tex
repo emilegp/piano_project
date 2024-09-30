@@ -383,8 +383,28 @@ des valeurs d'ordre similaires seront obtenues lors de la réalisation concrète
 Le troisième paramètre, la position du capteur, est déterminé conjointement avec 
 la géométrie, donc le choix de la position (20, 100) se doit d'être respecté. 
 
+Il est important de mentionner que les simulations comportent plusieurs limitations.
+La première de ces limitations est qu'il n'y a aucune interférence de la table ou 
+du support dans les simulations, ce qui peut être un angle mort de l'étude présentée.
+Comme il est probable que des pertes dans le signal soient occasionnées par ce
+contact, il est décidé de tester l'identification de signal avec et sans matériel 
+isolant le piano de son support. Une autre limitation a mentionner est que les trous
+dans le matéériaux ne pourront pas être de forme carrée comme dans la simulation à 
+cause de contrainte d'usinage. Il faut garder en tête l'arrondissement des coins dans
+les causes potentielles d'erreurs lors de la fabrication et des tests du dispositif.
+Enfin, il n'a pas été possible de simuler avec succès les matériaux dont la densité
+est élevée. En effet, cette grande densité implique une vitesse du son trop élévée
+pour la simulation. Lors des tests, l'onde sortait du matériau, ce qui est un résultat
+non-physique dû au caractère discret des simulations. Cela implique qu'on n'a pas pu 
+tester les métaux comme l'acier ou le laiton. Il a donc été décider de ne pas essayer
+de faire un piano tactile avec ces matériaux, d'autant que la performance du plexiglas,
+a surpasser celle de l'aluminium, laissant penser qu'une plus forte densité ne se 
+traduit pas en une meilleure performance.
 
-%Limitations
+D'ailleurs, ce n'est pas la seule situation où les simulations ont montrées leurs 
+limites. Il y a eu plusieurs données aberrantes: 
+%Explication de leur provenance, choix d'éviter les 
+%configurations qui les causent (matériaux et géométries),  
 
 \clearpage
 
