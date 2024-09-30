@@ -113,7 +113,8 @@ PHS3910 -- Techniques expérimentales et instrumentation\\
 
 \textit{\textbf{Résumé} -- Dans l'optique de développer un piano tactile fonctionnel,
 des simulations ont été effectuées sur MatLab à l'aide du module k-Wave afin d'optimiser
-certains paramètres du prototype à conceptualiser. Il a été conclut qu'une plaque asymétrique en plexiglas, ayant % je nommerais les paramètres optimisés
+certains paramètres (forme, matériau et position du capteur) du prototype à conceptualiser. 
+Il a été conclut qu'une plaque asymétrique en plexiglas, ayant 
 un capteur placé proche d'un de ses côtés, serait idéale pour maximiser le contraste et minimiser la résolution 
 lors de la détection de signaux tactiles.}
 
@@ -204,32 +205,7 @@ Les valeurs finales et leur incertitude respective découlent des impulsions cho
 pour l'analyse statistique; la moyenne et l'écart-type pour chaque variable sont calculées.
 
 
-
-
-%Étapes (AU PASSÉÉÉ!!)
-%1- Créer les configurations (Matériau + Géométrie + Position du capteur)
-%2- Simuler un impact à un endroit avec K-wave
-%3- Évaluer le signal pour des récepteurs positionnés partout sur le matériau
-%4- Faire un retournement temporel sur tous les signaux. Ce processus fait des récepteurs les émetteurs, et de l'émetteur le récepteur de chaque émission
-%5- Éliminer les retards à l'aide d'une fonction fenêtre/rectangle pour accélérer la comparaison des signaux
-%6- Pour gagner du temps, on choisi une bande d'intérêt de la plaque où on sélectionne les émissions une à la fois. 
-%7- Pour chaque émission, on la compare à toutes les émissions enregistrées de la bande, formant un graphique 2D de la corrélation en fonction de la position
-%8- Une fois chaque émission de la bande d'intérêt testée, on a effectué une étude statistique de la résolution et du constraste en ''fittant'' une gaussienne sur le graphique 2D. 
-%9- Faire la moyenne de plusieurs résolution et contraste pour obtenir l'incertitude statistique
-%1.5- Varier un paramètre à la fois en fixant les 2 autres
-
-
-
-
 \section{Résultats}
-%Résultats choisis, obtenus à l’aide des Méthodes et permettant d’informer la Discussion.
-%Attention, ici, les résultats doivent être décrits de façon factuelle, mais ne doivent
-% pas être discutés.
-%Typiquement des figures et des tableaux seront utilisés et le texte décrira de façon 
-%neutre les aspects importants des tableaux et figures à remarquer. Des incertitudes 
-%sur tous les résultats sont attendues. 
-%Plus d’attention devra être portée aux variables qui ont un effet (positif ou négatif) 
-%et moins d’attention sera portée aux variables n’ayant pas ou peu d’effet.
 Les géométries testées lors des simulations sont exemplifiées dans la figure \ref{fig:fig}. La ligne rouge
 sur chaque géométrie définie la bande d'intérêt des sources; elle est positionnée
 sur l'axe où les touches du piano seraient placées pour un prototype.
@@ -275,7 +251,7 @@ sur l'axe où les touches du piano seraient placées pour un prototype.
 \end{figure}
 Pour chaque géométrie, trois positions arbitraires pour le capteur ont été choisies,
 chacune étant associée à un ensemble de coordonnées. À titre de référence, la position $(0,0)$ se situe 
-au centre des grilles des figures \ref{fig:sfig1} à \ref{fig:sfig6}.  % A VERIFIER AVEC PHILI, je pense pas que 0,0 soit au centre, on a rien mis de négatif
+en haut à gauche des grilles des figures \ref{fig:sfig1} à \ref{fig:sfig6}.  
 
 \begin{table}[H]
 \begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.75} Y{1.00} Y{1.35} Y{0.87} @{}}
@@ -315,19 +291,7 @@ sont présentés dans le tableau \ref{tableau_resultats}. Les valeurs de contras
 résolution correspondent chacune à la moyenne de l'ensemble de données, et leur incertitude 
 correspond à l'écart-type.
 
-%Décrire le graphique de corrélation en fonction de la position, avec 
-%L'endroit où c'est plus corrélé et comment proche c'est un peu corrélé aussi
-%Décrire la graphique où on voit la géométrie avec l'emplacement du capteur et
-%des sources
-%Décrire le graphique de gaussienne rapidement
 
-
-
-%Graphique de la résolution vs le contraste, avec le type de matériau donné par
-%la couleur, la géométrie donnée par la forme du point et les infos de résolution
-%et contraste données par la position sur la graph
-
-%Parler de quels paramètres affectent plus le contraste et la résolution!!
 
 
 \section{Discussion}
