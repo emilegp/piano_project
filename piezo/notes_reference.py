@@ -50,29 +50,25 @@ for note in notes:
     #Normalisation du signal
     norm_cut_signal=cut_signal/max_amplitude
 
-    t = np.linspace(0,dt,nb_points)
-    t2 = np.arange(0,5,1/44100)
-    print(len(norm_cut_signal))
-    print(len(t))
+    # t = np.linspace(0,dt,nb_points)
+    # t2 = np.arange(0,5,1/44100)
 
-    plt.plot(t, norm_cut_signal)
-    plt.xlabel('Temps [s]')
-    plt.ylabel('Amplitude')
-    plt.show()
+    # plt.plot(t, norm_cut_signal)
+    # plt.xlabel('Temps [s]')
+    # plt.ylabel('Amplitude')
+    # plt.show()
 
     
-    plt.plot(t2, myrecording)
-    plt.xlabel('Temps [s]')
-    plt.ylabel('Amplitude')
-    plt.show()
+    # plt.plot(t2, myrecording)
+    # plt.xlabel('Temps [s]')
+    # plt.ylabel('Amplitude')
+    # plt.show()
 
     #Rajouter le nouveau array à la liste 'recordings'
     recordings.append(norm_cut_signal)
 
 #Transformer la liste en array
 recordings_array=np.array(recordings)
-print(recordings_array)
-
 
 #Enregistrer un fichier csv
-np.savetxt('kwave\\reverse_runs\\recordings.csv', recordings_array, delimiter=',')
+np.savetxt('piezo\\recordings.csv', recordings_array, delimiter=',')
