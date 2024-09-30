@@ -327,21 +327,17 @@ correspond à l'écart-type.
 
 %1.  Explication de quels paramètres on prend: Énoncement du choix total, pourquoi? pour
 %chaque choix, Méthode de choix (Choix des paramètres selon l'ordre du plus straight
-%forward au moins), 
+%forward au moins), X
 %2.  Incertitudes relatives (moins de 1%, important vu qu'on passe de simulé à réel, donc
-%besoin d'une bonne confiance sur les valeurs obtenues)
+%besoin d'une bonne confiance sur les valeurs obtenues) X
 %3.  Limitations des simulations (pas de perte ni interférence par la table, trous carrés
 %versus arrondis en vrai, etc.). Les simulations break down à densité et vitesse du 
 %son élevées (i.e. brass & acier), donc on les a évité. (pas grave car plexi meilleur
 %que Alu donc semble pas indiquer qu'on aurait de meilleurs résultats avec une plus 
-%grande densité/vitesse du son).
+%grande densité/vitesse du son). 
 %D'ailleurs, ce n'est pas la seule situation qu'on a évité... 
 %4.  Données aberrantes: Explication de leur provenance, choix d'éviter les 
 %configurations qui les causent (matériaux et géométries), 
-
-Explication de quels paramètres on prend: Indicateurs guidant le choix, Énoncement 
-du choix total, pourquoi? pour chaque choix, Méthode de choix (Choix des paramètres
-selon l'ordre du plus straight forward au moins), 
 
 À la suite d'un plus grand nombre de simulations, les indicateurs de performance 
 considérés pour le choix des paramètres sont une résolution fine, donc une 
@@ -352,18 +348,43 @@ avec le capteur en position (20,100) est celle retenue. Le choix de chaque param
 a été effectué en comparant sa performance à celle des configurations similaires, 
 c'est-à-dire en ne changeant que ce paramètre tout en gardant les autres constants,
 autant que possible.
+
 Le premier paramètre à avoir été déterminé est le matériau. Pour ce paramètre, 
 les performances de toutes les paires (géométrie, position du capteur) sont 
 comparées. Mise à part lorsqu'il y a des données aberrantes, le plexiglas est 
 meilleur que l'aluminium sur toutes les paires testées. Ce résultat systématique 
 ne laisse aucune ambiguîté quant au choix à faire, donc c'est l'aluminium qui est 
 choisi.
+
 Le deuxième paramètre déterminé est la géométrie. Ce paramètre ne permet pas la 
 comparaison par paires puisque la position du capteur est différente pour chaque 
-géométrie. Il est donc considéré que la position du capteur est un 
+géométrie. Il est considéré que la position du capteur est un degré de liberté 
+dont on dispose lors que la fabrication du dispositif. Dans ce contexte, les
+géométries sont comparées en fixant le matériau à du plexiglas, puisque ce choix
+est déjà réalisé, et en prenant la meilleure résolution et le meilleur contraste
+obtenus avec ce matériau. Les résultats obtenus pour ce paramètre sont mitigés, 
+puisque les géométries (d) et (a) fournissent de les plus hauts contrastes mais des 
+plus hautes résolutions, alors que les géométries (e) et (f) fournissent les plus 
+hautes résolutions mais des plus bas contrastes. En observant les résultats en 
+détail, on constate que le contraste varie entre 0,85 pour la meilleur géométrie 
+et 0,80 pour la pire géométrie, alors que la résolution varie entre 6,0 mm pour la 
+meilleure géométrie et 8,8 mm pour la pire géométrie. Même si la variation relative 
+est plus grande pour la résolution, ces différences restent faible et même un duo 
+de contraste de 0,8 et une résolution de 8,8 mm seraient satisfaisant. L'enjeu de la
+faisabilité a également été pris en compte pour trancher la question pour ce 
+paramètre. La géométrie (c) avec un capteur en (20,100) a donc été choisie 
+puisqu'elle atteint la troisième place du contraste et de la résolution, avec un 
+contraste de ($0,825 \pm 0,009$) et une résolution de ($7,7 \pm 0,2$)mm, tout en 
+étant facile à réaliser. Les incertitudes relatives sur le contraste et la 
+résolution sont d'environ respectivement 1\% et 3\%, ce qui est suffisament 
+faible pour considérer les résultats significatifs. On peut avoir confiance que 
+des valeurs d'ordre similaires seront obtenues lors de la réalisation concrète.
+
+Le troisième paramètre, la position du capteur, est déterminé conjointement avec 
+la géométrie, donc le choix de la position (20, 100) se doit d'être respecté. 
 
 
-
+%Limitations
 
 \clearpage
 
