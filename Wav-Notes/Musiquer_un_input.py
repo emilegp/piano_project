@@ -17,12 +17,11 @@
 
 from pydub.playback import play
 from pydub import AudioSegment
-from pydub.utils import which
 import os
+print("Répertoire de travail actuel :", os.getcwd())
 
 # Spécifie le chemin complet vers ffmpeg
-AudioSegment.converter = which("ffmpeg", path=r"C:\ProgramData\chocolatey\bin")
-
+AudioSegment.ffmpeg = r'C:\ProgramData\chocolatey\bin\ffmpeg.exe'
 
 # Dictionnaire associant les valeurs aux fichiers audio des notes
 notes_dict = {
@@ -40,11 +39,15 @@ def jouer_note(valeur):
     if valeur in notes_dict:
         fichier_note = notes_dict[valeur]
         
-        # Charger le fichier audio
-        note = AudioSegment.from_wav(fichier_note)
-        
-        # Jouer le fichier audio
-        play(note)
+        # Vérifier si le fichier existe avant de le charger
+        if os.path.isfile(fichier_note):
+            # Charger le fichier audio
+            note = AudioSegment.from_wav(fichier_note)
+            
+            # Jouer le fichier audio
+            play(note)
+        else:
+            print(f"Le fichier {fichier_note} n'existe pas.")
     else:
         print("Valeur non reconnue. Veuillez entrer une note valide.")
 
