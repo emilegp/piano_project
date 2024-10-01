@@ -56,3 +56,7 @@ valeur = input("Entrez une note (c3, c-3, d3, d-3, e3, f3, f-3, g3, g-3, a3, a-3
 jouer_note(valeur)
 valeur2 = input("Entrez une 2e note (c3, c-3, d3, d-3, e3, f3, f-3, g3, g-3, a3, a-3, b3) : ").lower()
 jouer_note(valeur2)
+#Jouer la gamme
+for i in notes_dict:
+    jouer_note(i)
+
