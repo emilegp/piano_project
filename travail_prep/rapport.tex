@@ -257,6 +257,7 @@ chacune étant associée à un ensemble de coordonnées. À titre de référence
 en haut à gauche des grilles des figures \ref{fig:sfig1} à \ref{fig:sfig6}.  
 
 \begin{table}[H]
+\caption{Résumé des résultats des simulations}
 \begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.75} Y{1.00} Y{1.35} Y{0.87} @{}}
   \hline
   Matériau&Géométrie&Position du capteur&Contraste&Résolution\\
@@ -286,7 +287,6 @@ en haut à gauche des grilles des figures \ref{fig:sfig1} à \ref{fig:sfig6}.
   Plexiglas&(a)& 50, 100& $0.823 \pm 0.006$ & $8.4 \pm 0.8$ \\
   \hline
 \end{tabularx}
-\caption{Résumé des résultats des simulations}
 \label{tableau_resultats}
 \end{table}
 En guise de résumé, les cas ayant les valeurs de contraste et de résolution les plus faibles et les plus élevées
@@ -301,30 +301,6 @@ correspond à l'écart-type.
 
 
 \section{Discussion}
-% % Ayant obtenu un fit 2D gaussien, il est possible d'analyser et de comparer les variables
-% % pertinentes, le contraste et la résolution, selon différents paramètres physiques qui 
-% % ont été élaborés dans la section \ref{}. Le graphique \ref{} offre un échantillon des 
-% % résultats obtenus pour une plaque carrée, sans trous et en bois. En ayant utilisé le 
-% % retournement temporel, la durée de simulation a pu être réduite, ce qui a permis 
-% % d'obtenir des réponses temporelles pour un nombre d'échantillons considérablement plus 
-% % grand. Cette décision a permis d'améliorer la définition des fits gaussiens. Six 
-% % échantillons ont été choisis au hasard parmi les deux bandes considérées, offrant un
-% % poids statistique aux résultats assez important.
-
-% % En observant le graphique \ref{}, on peut noter que l'emplacement de la source du signal
-% % correspond à une corrélation de 1. Ceci s'explique facilement par le fait que le signal
-% % choisi au hasard comme source et le signal de référence sont les mêmes (le choix de 
-% % réutiliser le signal a été fait encore une fois pour réduire le temps de compilation). 
-% % La courbe gaussienne a une correspondance quasi parfaite pour les données proches du 
-% % maximum du pic, mais réduit en terme d'exactitude pour les données au niveau de la base
-% % de la gaussienne.
-
-% % En évaluant l'allure de la courbe pour le cas ci-présent, on peut 
-% % estimer qu'il serait souhaitable de trouver des paramètres offrant un contraste plus 
-% % grand que ceux évalués ici. La résolution, quant-à-elle, semble déjà suffisament bonne.
-% % Évidemment, il est difficile d'arriver à une conclusion pertinente sans d'autres 
-% % éléments de comparaison.
-
 %1.  Explication de quels paramètres on prend: Énoncement du choix total, pourquoi? pour
 %chaque choix, Méthode de choix (Choix des paramètres selon l'ordre du plus straight
 %forward au moins), X
@@ -351,10 +327,32 @@ autant que possible.
 
 Le premier paramètre à avoir été déterminé est le matériau. Pour ce paramètre, 
 les performances de toutes les paires (géométrie, position du capteur) sont 
-comparées. Mise à part lorsqu'il y a des données aberrantes, le plexiglas est 
+comparées comme montré au tableau \ref{tab:tableau_resultats}. Mise à part lorsqu'il y a des données aberrantes, le plexiglas est 
 meilleur que l'aluminium sur toutes les paires testées. Ce résultat systématique 
 ne laisse aucune ambiguîté quant au choix à faire, donc c'est l'aluminium qui est 
 choisi.
+
+\begin{table}[H]
+  \caption{Résultats des simulations pour la géométrie (a) à titre d'exemple}
+  \begin{tabularx}{\columnwidth}{@{} Y{1.00} Y{0.75} Y{1.00} Y{1.35} Y{0.87} @{}}
+    \hline
+    Matériau&Géométrie&Position du capteur&Contraste&Résolution\\
+    \hline
+    \multicolumn{5}{c}{Valeurs de contraste les plus élevées}\\
+    \hline
+    Plexiglas&(a)& 100, 100& $0.83 \pm 0.01$ & $8 \pm 1$ \\
+    Plexiglas&(a)& 50, 25& $0.82 \pm 0.01$ & $8.5 \pm 0.5$ \\
+    Plexiglas&(a)& 50, 100& $0.823 \pm 0.006$ & $8.5 \pm 0.8$ \\
+    \hline
+    \multicolumn{5}{c}{Valeurs de contraste les plus faibles}\\
+    \hline
+    Aluminium&(a)& 100, 100& $0.82 \pm 0.02$ & $15 \pm 4$ \\
+    Aluminium&(a)& 50, 25& $0.79 \pm 0.01$ & $10.9 \pm 0.7$ \\
+    Aluminium&(a)& 50, 100& $0.813 \pm 0.006$ & $13 \pm 1$ \\
+    \hline
+  \end{tabularx}
+  \label{tab:tableau_resultats}
+\end{table}
 
 Le deuxième paramètre déterminé est la géométrie. Ce paramètre ne permet pas la 
 comparaison par paires puisque la position du capteur est différente pour chaque 
@@ -402,9 +400,16 @@ a surpasser celle de l'aluminium, laissant penser qu'une plus forte densité ne 
 traduit pas en une meilleure performance.
 
 D'ailleurs, ce n'est pas la seule situation où les simulations ont montrées leurs 
-limites. Il y a eu plusieurs données aberrantes 
-%Explication de leur provenance, choix d'éviter les 
-%configurations qui les causent (matériaux et géométries),  
+limites. Il y a eu plusieurs données aberrantes pour la géométrie (d) dû à la symétrie 
+présente, ce qui a occasionné un deuxième pic de corrélation à la position miroir du
+bon emplacement. La géométrie (d) a donc été rejetée pour cette raison. Il y a eu 
+d'autres pics d'amplitude secondaire pour certaines géométries, avec une prévalence 
+dans l'aluminium. Les données obtenues lors de ces situations aberrantes ont été 
+rejetées lors du choix des paramètres pour éviter toute contamination des résultats 
+par les limitations des simulations.
+
+Il faut rester vigilant dans la suite du projet par rapport aux symétries possibles 
+même si la géométrie choisie devrait les avoir supprimés. 
 
 \clearpage
 
