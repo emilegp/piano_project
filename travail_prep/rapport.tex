@@ -114,7 +114,7 @@ PHS3910 -- Techniques expérimentales et instrumentation\\
 \textit{\textbf{Résumé} -- Dans l'optique de développer un piano tactile fonctionnel,
 des simulations ont été effectuées sur MatLab à l'aide du module k-Wave afin d'optimiser
 certains paramètres (forme, matériau et position du capteur) du prototype à conceptualiser. 
-Il a été conclut qu'une plaque asymétrique en plexiglas, ayant 
+Il a été conclu qu'une plaque asymétrique en plexiglas, ayant 
 un capteur placé proche d'un de ses côtés, serait idéale pour maximiser le contraste et minimiser la résolution 
 lors de la détection de signaux tactiles.}
 %Avec ces considérations en tête, la configuration de la géométrie (c) en plexiglas 
@@ -128,7 +128,7 @@ du piano à l'aide de l'outil k-Wave, afin de déterminer les caractéristiques 
 optimiseront sa performance. En variant la forme, le matériau de 
 la plaque ainsi que la position du capteur directement dans la simulation,
 une solution complète préliminaire peut être établie. Le choix de la solution finale est
-principalement basée sur les concepts de résolution et de contraste.
+principalement basé sur les concepts de résolution et de contraste.
 
 Les choix retenus suite aux tests de simulation sont les suivants: une plaque
 asymétrique avec trous, en plexiglas, avec un capteur situé proche d'un de ses côtés.
@@ -153,7 +153,7 @@ en fonction des étapes importantes du programme MatLab utilisant le module K-Wa
 Les formes des plaques considérées ont été choisies pour avoir un éventail de 
 géométries (carré, forme asymétrique, avec et sans trous). Du plexiglas et de 
 l'aluminium ont été testés pour déterminer l'impact du milieu sur le contraste et la résolution. 
-Les simulations se limitent à ces matériaux car ce sont ceux à disposition 
+Les simulations se limitent à ces matériaux, car ce sont ceux à disposition 
 pour la construction du piano.
 
 Pour étudier l'impact du matériau, de la géométrie et de la position du capteur
@@ -161,10 +161,10 @@ individuellement, deux paramètres ont été fixés avant de faire varier le tro
 L'interdépendance entre les paramètres a été considérée comme négligeable dans 
 les modèles.
 
-Le signal \textit{$S_{ij}$(t)} obtenu à un récepteur à un point \textit{$P_i$} a été
+Le signal \textit{$S_{ij }$(t)} obtenu à un récepteur à un point \textit{$P_i$} a été
 modélisé comme la réponse impulsionnelle de la configuration (géométrie et matériau) 
 à une impulsion d'une source à un endroit \textit{$S_j$}. 
-L'impulsion a été modélisée par un delta de dirac \textit{$\delta$} qui est 
+L'impulsion a été modélisée par un delta de Dirac \textit{$\delta$} qui est 
 l'identité du produit de convolution. On a donc
 %
 \[S_{ij}(t)=(h_{P_iS_j} * \delta)(t)=h_{P_iS_j}(t).\]
@@ -197,7 +197,7 @@ Cette corrélation a été donnée par:
 Une bande d'intérêt sur la plaque a été choisie pour réduire le temps de calcul. 
 Pour chaque point de la bande, la corrélation entre son signal et celui 
 des autres points a été calculée en faisant un produit scalaire entre les vecteurs 
-de chaque paires de signaux. Les signaux similaires obtiennent un gros score alors que
+de chaque paire de signaux. Les signaux similaires obtiennent un gros score alors que
 les signaux différents ont une faible corrélation.
 Un graphique 2D de la corrélation en fonction de la position sur la bande a été fait. 
 Pour effectuer une analyse statistique de la résolution et du contraste, il a fallu 
@@ -205,12 +205,12 @@ faire correspondre une courbe gaussienne sur chaque graphique 2D obtenu.
 La largeur à mi-hauteur de la gaussienne a pu déterminer la résolution alors que la 
 différence entre le maximum de la courbe et le niveau du bruit a pu déterminer le contraste.
 Les valeurs finales et leur incertitude respective découlent des impulsions choisies 
-pour l'analyse statistique; la moyenne et l'écart-type pour chaque variable sont calculées.
+pour l'analyse statistique; la moyenne et l'écart-type pour chaque variable sont calculés.
 
 
 \section{Résultats}
 Les géométries testées lors des simulations sont exemplifiées dans la figure \ref{fig:fig}. La ligne rouge
-sur chaque géométrie définie la bande d'intérêt des sources; elle est positionnée
+sur chaque géométrie définit la bande d'intérêt des sources; elle est positionnée
 sur l'axe où les touches du piano seraient placées pour un prototype.
 \begin{figure}[H]
   \begin{subfigure}{.155\textwidth}
@@ -327,9 +327,9 @@ autant que possible.
 
 Le premier paramètre à avoir été déterminé est le matériau. Pour ce paramètre, 
 les performances de toutes les paires (géométrie, position du capteur) sont 
-comparées comme montré au tableau \ref{tab:tableau_resultats}. Mise à part lorsqu'il y a des données aberrantes, le plexiglas est 
+comparées comme montré au tableau \ref{tab:tableau_resultats}. Mis à part lorsqu'il y a des données aberrantes, le plexiglas est 
 meilleur que l'aluminium sur toutes les paires testées. Ce résultat systématique 
-ne laisse aucune ambiguîté quant au choix à faire, donc c'est l'aluminium qui est 
+ne laisse aucune ambiguïté quant au choix à faire, donc c'est l'aluminium qui est 
 choisi.
 
 \begin{table}[H]
@@ -357,24 +357,24 @@ choisi.
 Le deuxième paramètre déterminé est la géométrie. Ce paramètre ne permet pas la 
 comparaison par paires puisque la position du capteur est différente pour chaque 
 géométrie. Il est considéré que la position du capteur est un degré de liberté 
-dont on dispose lors que la fabrication du dispositif. Dans ce contexte, les
+dont on dispose lors de la fabrication du dispositif. Dans ce contexte, les
 géométries sont comparées en fixant le matériau à du plexiglas, puisque ce choix
 est déjà réalisé, et en prenant la meilleure résolution et le meilleur contraste
 obtenus avec ce matériau. Les résultats obtenus pour ce paramètre sont mitigés, 
-puisque les géométries (d) et (a) fournissent de les plus hauts contrastes mais des 
+puisque les géométries (d) et (a) fournissent les plus hauts contrastes, mais de 
 plus hautes résolutions, alors que les géométries (e) et (f) fournissent les plus 
-hautes résolutions mais des plus bas contrastes. En observant les résultats en 
-détail, on constate que le contraste varie entre 0,85 pour la meilleur géométrie 
+hautes résolutions, mais de plus bas contrastes. En observant les résultats en 
+détail, on constate que le contraste varie entre 0,85 pour la meilleure géométrie 
 et 0,80 pour la pire géométrie, alors que la résolution varie entre 6,0 mm pour la 
 meilleure géométrie et 8,8 mm pour la pire géométrie. Même si la variation relative 
-est plus grande pour la résolution, ces différences restent faible et même un duo 
-de contraste de 0,8 et une résolution de 8,8 mm seraient satisfaisant. L'enjeu de la
+est plus grande pour la résolution, ces différences restent faibles et même un duo 
+de contraste de 0,8 et une résolution de 8,8 mm serait satisfaisant. L'enjeu de la
 faisabilité a également été pris en compte pour trancher la question pour ce 
 paramètre. La géométrie (c) avec un capteur en (20,100) a donc été choisie 
 puisqu'elle atteint la troisième place du contraste et de la résolution, avec un 
-contraste de ($0,825 \pm 0,009$) et une résolution de ($7,7 \pm 0,2$)mm, tout en 
+contraste de ($0,825 \pm 0,009$) et une résolution de ($7,7 \pm 0,2$) mm, tout en 
 étant facile à réaliser. Les incertitudes relatives sur le contraste et la 
-résolution sont d'environ respectivement 1\% et 3\%, ce qui est suffisament 
+résolution sont d'environ respectivement 1\% et 3\%, ce qui est suffisamment 
 faible pour considérer les résultats significatifs. On peut avoir confiance que 
 des valeurs d'ordre similaires seront obtenues lors de la réalisation concrète.
 
@@ -386,21 +386,21 @@ La première de ces limitations est qu'il n'y a aucune interférence de la table
 du support dans les simulations, ce qui peut être un angle mort de l'étude présentée.
 Comme il est probable que des pertes dans le signal soient occasionnées par ce
 contact, il est décidé de tester l'identification de signal avec et sans matériel 
-isolant le piano de son support. Une autre limitation a mentionner est que les trous
-dans le matéériaux ne pourront pas être de forme carrée comme dans la simulation à 
-cause de contrainte d'usinage. Il faut garder en tête l'arrondissement des coins dans
+isolant le piano de son support. Une autre limitation à mentionner est que les trous
+dans le matériau ne pourront pas être de forme carrée comme dans la simulation à 
+cause de contraintes d'usinage. Il faut garder en tête l'arrondissement des coins dans
 les causes potentielles d'erreurs lors de la fabrication et des tests du dispositif.
 Enfin, il n'a pas été possible de simuler avec succès les matériaux dont la densité
-est élevée. En effet, cette grande densité implique une vitesse du son trop élévée
+est élevée. En effet, cette grande densité implique une vitesse du son trop élevée
 pour la simulation. Lors des tests, l'onde sortait du matériau, ce qui est un résultat
-non-physique dû au caractère discret des simulations. Cela implique qu'on n'a pas pu 
-tester les métaux comme l'acier ou le laiton. Il a donc été décider de ne pas essayer
-de faire un piano tactile avec ces matériaux, d'autant que la performance du plexiglas,
-a surpasser celle de l'aluminium, laissant penser qu'une plus forte densité ne se 
+non physique dû au caractère discret des simulations. Cela implique qu'on n'a pas pu 
+tester les métaux comme l'acier ou le laiton. Il a donc été décidé de ne pas essayer
+de faire un piano tactile avec ces matériaux, d'autant que la performance du plexiglas
+a surpassé celle de l'aluminium, laissant penser qu'une plus forte densité ne se 
 traduit pas en une meilleure performance.
 
-D'ailleurs, ce n'est pas la seule situation où les simulations ont montrées leurs 
-limites. Il y a eu plusieurs données aberrantes pour la géométrie (d) dû à la symétrie 
+D'ailleurs, ce n'est pas la seule situation où les simulations ont montré leurs 
+limites. Il y a eu plusieurs données aberrantes pour la géométrie (d) due à la symétrie 
 présente, ce qui a occasionné un deuxième pic de corrélation à la position miroir du
 bon emplacement. La géométrie (d) a donc été rejetée pour cette raison. Il y a eu 
 d'autres pics d'amplitude secondaire pour certaines géométries, avec une prévalence 
@@ -409,7 +409,7 @@ rejetées lors du choix des paramètres pour éviter toute contamination des ré
 par les limitations des simulations.
 
 Il faut rester vigilant dans la suite du projet par rapport aux symétries possibles 
-même si la géométrie choisie devrait les avoir supprimés. 
+même si la géométrie choisie devrait les avoir éliminés. 
 
 \clearpage
 
