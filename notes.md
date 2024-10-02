@@ -35,3 +35,9 @@ Géométrie choisie : #3, plexi, sensor (20,10)
 - avoir python qui joue des notes
 - avoir 2 programmes simultanés
 - avoir tout remis
+
+## Notes code final
+
+- inspecter code à Marie-Lou pour comprendre son dictio
+- intégrer fenêtre au temps réel
+- intégrer corrélation au temps réel
