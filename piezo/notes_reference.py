@@ -2,7 +2,7 @@ import sounddevice as sd
 import numpy as np
 import json
 
-seconds = 1 
+seconds = 2 
 fs = 44100      # Sampling rate    
 
 default = True #Si cette option est utilisée, le micro/speaker par défaut est utilisé
@@ -22,14 +22,16 @@ if not default:
     sd.default.device = [int(DeviceIn), int(DeviceOut)]
 
 notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
+#notes= ['c3','c-3','d3']
+
 notes_dict = {note: None for note in notes}
-print(notes_dict)
+#print(notes_dict)
 dt = 1e-1  #Intervalle de temps (en secondes)
 nb_points= int(dt*fs) #Équivalent en nombre de points pour les indices
 
 for note in notes:
     recordings=[]
-    for i in range(5):
+    for i in range(10):
         print(f'Enregistrement de la note',note)
 
         myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels= 1)
@@ -75,5 +77,5 @@ for note in notes:
     # plt.show()  
 
 # Save to a JSON file
-with open('piezo\\notes_dict.json', 'w') as json_file:
+with open('notes_dict.json', 'w') as json_file:
     json.dump(notes_dict, json_file)

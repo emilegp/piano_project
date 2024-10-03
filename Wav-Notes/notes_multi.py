@@ -8,16 +8,18 @@ import pygame
 from pydub import AudioSegment
 import os# Parameters
 import json
+import math
 
-with open('piezo\\notes_dict.json', 'r') as file:
+with open('notes_dict_ongle.json', 'r') as file:
     data = json.load(file)
 
 fs = 44100 
 dt = 0.1  #Intervalle de temps (en secondes)
-nb_recordings=5
+nb_recordings=10
 nb_points= int(dt*fs)
 
 notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
+#notes= ['c3','c-3','d3']
 notes_matrix=np.zeros((len(notes)*nb_recordings, nb_points))
 
 # Convert the data for each note into numpy arrays and append to the list
@@ -38,9 +40,9 @@ notes_dict = {
     'f-3': 'f-3.wav',
     'g3': 'g3.wav',
     'g-3': 'g-3.wav',
-    'a3': 'a3.wav',
-    'a-3': 'a-3.wav',
-    'b3': 'b3.wav'
+    'a3': 'a4.wav',
+    'a-3': 'a-4.wav',
+    'b3': 'b4.wav'
 }
 
 # Initialize pygame mixer
@@ -65,16 +67,16 @@ def jouer_note(note):
         print("Note non reconnue.")
 
 jouer_note('c3')
-fs = 44100  # Sampling rate (samples per second)
-threshold = 0.08  # Threshold for detecting a spike (adjust based on your sensor)
+
+threshold = 0.01  # Threshold for detecting a spike (adjust based on your sensor)
 spike_detected = False  # To track if a spike is detected
-capture_duration = 0.2 # rs:ffwfwwqqapture 1 second of data after spike
+capture_duration = 0.15 # capture 1 second of data after spike
 buffer_size = fs  # Buffer for one second of data
 signal_buffer = np.zeros(buffer_size)  # Preallocate buffer for performance
 
 # Function to plot data captured after a spike
 def plot_data(data):
-    t = np.linspace(0, capture_duration, len(data))
+    t = np.linspace(0, dt, len(data))
     plt.plot(t, data)
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
@@ -111,17 +113,43 @@ def signal_analysis():
     time.sleep(capture_duration)  # Sleep for 1 second to gather post-spike data
 
     # Capture the buffer after the sleep duration
-    post_spike_data = np.copy(signal_buffer)[int(fs-fs*capture_duration-1000):]
+    post_spike_data = np.copy(signal_buffer)[int(fs-fs*capture_duration-800):]
     
 ##################################################################
 # Data treatement
 ##################################################################
 
+    data_max_amp = np.max(abs(post_spike_data))
+    data_threshold = data_max_amp/10
 
-    
+    #Créer la fenêtre utilisée pour le signal
+    for index,value in enumerate(post_spike_data):
+        if value>=data_threshold:
+            start_signal=index
+            break
+    cut_data = post_spike_data[start_signal:(start_signal+int(dt*fs))].flatten()
+
     # Plot the data
-    plot_data(post_spike_data)
-    note = ''
+    #plot_data(cut_data)
+
+    #Normalisation du signal
+    norm_cut_data=cut_data/data_max_amp
+
+    #Transformer la liste en array
+    signal_array=np.array(norm_cut_data)
+
+    #Produit scalaire (corrélation) entre les données de training et le signal test
+    scalar_prod=np.dot(notes_matrix,signal_array)
+    print(scalar_prod)
+
+    #Trouver l'indice de la valeur max du produit scalaire et trouver sa note correspondante
+    index_max=np.argmax(scalar_prod)
+    note_index=index_max//nb_recordings
+    print(index_max, note_index)
+    print(f"La note à jouer est:",notes[note_index])
+
+
+    note = notes[note_index]
     if note:
         print(f"Playing note: {note}")
         # Start a new thread to play the note
