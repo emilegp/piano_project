@@ -1,18 +1,33 @@
+import sounddevice as sd
+import numpy as np
 import threading
+import matplotlib.pyplot as plt
 import time
-import random
 from collections import deque
 import pygame
 from pydub import AudioSegment
-import os
+import os# Parameters
+import json
 
-# Initialize pygame mixer
-pygame.mixer.init()
+with open('piezo\\notes_dict.json', 'r') as file:
+    data = json.load(file)
 
-# Specify the path to ffmpeg
-AudioSegment.ffmpeg = r'C:\ProgramData\chocolatey\bin\ffmpeg.exe'
+fs = 44100 
+dt = 0.1  #Intervalle de temps (en secondes)
+nb_recordings=5
+nb_points= int(dt*fs)
 
-# Dictionary to map signals to notes
+notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
+notes_matrix=np.zeros((len(notes)*nb_recordings, nb_points))
+
+# Convert the data for each note into numpy arrays and append to the list
+i=0
+for note, recordings in data.items():
+    for element in recordings:
+        array = np.array(element) 
+        notes_matrix[i]=array
+        i+=1
+
 notes_dict = {
     'c3': 'c3.wav',
     'c-3': 'c-3.wav',
@@ -28,77 +43,96 @@ notes_dict = {
     'b3': 'b3.wav'
 }
 
-# Function to play a note
-def jouer_note(valeur):
-    if valeur in notes_dict:
-        fichier_note = notes_dict[valeur]
+# Initialize pygame mixer
+pygame.mixer.init()
+
+# Function to play a note (runs in a separate thread)
+def jouer_note(note):
+    if note in notes_dict:
+        fichier_note = notes_dict[note]
+        
         if os.path.isfile(fichier_note):
-            note = AudioSegment.from_wav(fichier_note)
-            fichier_exporte = fichier_note  # Use original file
-            son = pygame.mixer.Sound(fichier_exporte)
+            # Load the WAV file in memory
+            note_sound = AudioSegment.from_wav(fichier_note)
+            
+            # Play the note using pygame
+            son = pygame.mixer.Sound(fichier_note)
             son.play()
-            pygame.time.wait(int(note.duration_seconds * 100))  # Wait for the note to finish playing
+            pygame.time.wait(int(note_sound.duration_seconds * 1000))  # Wait for the note to finish playing
         else:
             print(f"Le fichier {fichier_note} n'existe pas.")
     else:
-        print("Valeur non reconnue. Veuillez entrer une note valide.")
+        print("Note non reconnue.")
 
-# Function to read sensor data and play music notes based on detected impulses
-def read_sensor_data(buffer, pre_points, post_points, threshold):
-    post_impulse_data_needed = 0  # Track post-impulse data collection
+jouer_note('c3')
+fs = 44100  # Sampling rate (samples per second)
+threshold = 0.08  # Threshold for detecting a spike (adjust based on your sensor)
+spike_detected = False  # To track if a spike is detected
+capture_duration = 0.2 # rs:ffwfwwqqapture 1 second of data after spike
+buffer_size = fs  # Buffer for one second of data
+signal_buffer = np.zeros(buffer_size)  # Preallocate buffer for performance
 
+# Function to plot data captured after a spike
+def plot_data(data):
+    t = np.linspace(0, capture_duration, len(data))
+    plt.plot(t, data)
+    plt.xlabel('Time [s]')
+    plt.ylabel('Amplitude')
+    plt.title('Signal After Spike')
+    plt.show()
+
+# Callback function for real-time audio input
+def audio_callback(indata, frames, time, status):
+    global spike_detected, signal_buffer
+    
+    if status:
+        print(status)
+    
+    # Flatten the input data
+    audio_data = indata[:, 0]
+    
+    # Shift the buffer and add new data
+    signal_buffer = np.roll(signal_buffer, -frames)
+    signal_buffer[-frames:] = audio_data
+    
+    # Check for spike
+    if not spike_detected and np.max(audio_data) > threshold:
+        spike_detected = True
+        print("Spike detected!")
+    
+        # Start a new thread to capture the next second of data
+        capture_thread = threading.Thread(target=signal_analysis)
+        capture_thread.start()
+
+# Function to capture and plot the second after spike detection
+def signal_analysis():
+    global spike_detected
+    
+    time.sleep(capture_duration)  # Sleep for 1 second to gather post-spike data
+
+    # Capture the buffer after the sleep duration
+    post_spike_data = np.copy(signal_buffer)[int(fs-fs*capture_duration-1000):]
+    
+##################################################################
+# Data treatement
+##################################################################
+
+
+    
+    # Plot the data
+    plot_data(post_spike_data)
+    note = ''
+    if note:
+        print(f"Playing note: {note}")
+        # Start a new thread to play the note
+        play_note_thread = threading.Thread(target=jouer_note, args=(note,))
+        play_note_thread.start()
+    
+    # Reset spike detection to allow detecting future spikes
+    spike_detected = False
+
+# Start the audio stream
+with sd.InputStream(callback=audio_callback, samplerate=fs, channels=1):
+    print("Recording... (Press Ctrl+C to stop)")
     while True:
-        # Simulate sensor data (replace with actual sensor readings)
-        signal = random.uniform(0, 1)  # Simulating sensor data
-        buffer.append(signal)  # Store the signal in the rolling buffer
-
-        # Check if we are capturing post-impulse data
-        if post_impulse_data_needed > 0:
-            post_impulse_data_needed -= 1
-            if post_impulse_data_needed == 0:
-                print(f"Captured signal: {list(buffer)}")
-                captured_signal = list(buffer)  # Capture the full signal (pre and post)
-                
-                # Map the signal to a note and play it
-                mapped_note = map_signal_to_note(captured_signal)
-                if mapped_note:
-                    jouer_note(mapped_note)
-        
-        # Detect an impulse
-        elif signal > threshold:
-            print(f"Impulse detected with signal: {signal}")
-            post_impulse_data_needed = post_points  # Start capturing post-impulse data
-            print("Capturing post-impulse data...")
-
-        time.sleep(0.05)  # Simulate sensor read delay
-
-# Map a captured signal to a specific note (this is a basic example, adjust as needed)
-def map_signal_to_note(captured_signal):
-    avg_signal = sum(captured_signal) / len(captured_signal)
-    if avg_signal < 0.2:
-        return 'c3'
-    elif avg_signal < 0.4:
-        return 'd3'
-    elif avg_signal < 0.6:
-        return 'e3'
-    elif avg_signal < 0.8:
-        return 'f3'
-    else:
-        return 'g3'
-
-# Parameters for the rolling buffer
-pre_points = 50  # Number of data points before the impulse
-post_points = 50  # Number of data points after the impulse
-threshold = 0.1  # Impulse detection threshold
-
-# Create a circular buffer to hold the pre- and post-impulse data
-buffer = deque(maxlen=pre_points + post_points)
-
-# Start the thread that continuously reads sensor data
-sensor_thread = threading.Thread(target=read_sensor_data, args=(buffer, pre_points, post_points, threshold))
-sensor_thread.start()
-
-# Main program continues (could handle other tasks)
-while True:
-    print("Main program running...")
-    time.sleep(1)
+        time.sleep(0.001)  # Keep the main loop running
