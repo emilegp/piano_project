@@ -37,7 +37,7 @@ pygame.mixer.init()
 def jouer_note(valeur):
     if valeur in notes_dict:
         fichier_note = notes_dict[valeur]
-        
+
         if os.path.isfile(fichier_note):
             # Charger le fichier WAV en mémoire
             note = AudioSegment.from_wav(fichier_note)
@@ -46,7 +46,17 @@ def jouer_note(valeur):
             fichier_exporte = fichier_note  # Utiliser le fichier d'origine ici
             son = pygame.mixer.Sound(fichier_exporte)
             son.play()
-            pygame.time.wait(int(note.duration_seconds * 200))  # Attendre la fin de la lecture
+            pygame.time.wait(int(note.duration_seconds * 150))  # Attendre la fin de la lecture
+        elif os.path.isfile(f"\\Wav-Notes\\{notes_dict[valeur]}"):
+            fichier_note = f"\\Wav-Notes\\{notes_dict[valeur]}"
+            # Charger le fichier WAV en mémoire
+            note = AudioSegment.from_wav(fichier_note)
+            
+            # Exporter l'audio au format WAV en mémoire et le jouer avec pygame
+            fichier_exporte = fichier_note  # Utiliser le fichier d'origine ici
+            son = pygame.mixer.Sound(fichier_exporte)
+            son.play()
+            pygame.time.wait(int(note.duration_seconds * 150))  # Attendre la fin de la lecture
         else:
             print(f"Le fichier {fichier_note} n'existe pas.")
     else:
