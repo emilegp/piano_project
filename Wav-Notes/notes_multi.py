@@ -10,15 +10,15 @@ import os# Parameters
 import json
 import math
 
-with open('notes_dict_ongle.json', 'r') as file:
+with open('notes_dict_boom.json', 'r') as file:
     data = json.load(file)
 
 fs = 44100 
 dt = 0.1  #Intervalle de temps (en secondes)
-nb_recordings=10
+nb_recordings=20
 nb_points= int(dt*fs)
 
-notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
+notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3', 'easter']
 #notes= ['c3','c-3','d3']
 notes_matrix=np.zeros((len(notes)*nb_recordings, nb_points))
 
@@ -42,7 +42,8 @@ notes_dict = {
     'g-3': 'g-3.wav',
     'a3': 'a4.wav',
     'a-3': 'a-4.wav',
-    'b3': 'b4.wav'
+    'b3': 'b4.wav',
+    'easter' : 'boom.wav'
 }
 
 # Initialize pygame mixer

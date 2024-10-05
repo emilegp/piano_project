@@ -28,7 +28,8 @@ notes_dict = {
     'g-3': 'g-3.wav',
     'a3': 'a3.wav',
     'a-3': 'a-3.wav',
-    'b3': 'b3.wav'
+    'b3': 'b3.wav',
+    'easter' : 'boom.wav'
 }
 
 # Initialisation de pygame
@@ -62,11 +63,5 @@ def jouer_note(valeur):
     else:
         print("Valeur non reconnue. Veuillez entrer une note valide.")
 
-#valeur = input("Entrez une note (c3, c-3, d3, d-3, e3, f3, f-3, g3, g-3, a3, a-3, b3) : ").lower()
-#jouer_note(valeur)
-#valeur2 = input("Entrez une 2e note (c3, c-3, d3, d-3, e3, f3, f-3, g3, g-3, a3, a-3, b3) : ").lower()
-#jouer_note(valeur2)
-#Jouer la gamme
-for i in notes_dict:
-    jouer_note(i)
+jouer_note('easter')
 
