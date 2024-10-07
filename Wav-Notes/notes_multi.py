@@ -19,7 +19,6 @@ nb_recordings=20
 nb_points= int(dt*fs)
 
 notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
-#notes= ['c3','c-3','d3']
 notes_matrix=np.zeros((len(notes)*nb_recordings, nb_points))
 
 # Convert the data for each note into numpy arrays and append to the list
