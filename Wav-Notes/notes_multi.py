@@ -10,7 +10,7 @@ import os# Parameters
 import json
 import math
 
-with open('notes_dict_boom.json', 'r') as file:
+with open('notes_dict_on_god.json', 'r') as file:
     data = json.load(file)
 
 fs = 44100 
@@ -18,7 +18,7 @@ dt = 0.1  #Intervalle de temps (en secondes)
 nb_recordings=20
 nb_points= int(dt*fs)
 
-notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3', 'easter']
+notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
 #notes= ['c3','c-3','d3']
 notes_matrix=np.zeros((len(notes)*nb_recordings, nb_points))
 
@@ -42,8 +42,7 @@ notes_dict = {
     'g-3': 'g-3.wav',
     'a3': 'a4.wav',
     'a-3': 'a-4.wav',
-    'b3': 'b4.wav',
-    'easter' : 'boom.wav'
+    'b3': 'b4.wav'
 }
 
 # Initialize pygame mixer
@@ -141,13 +140,10 @@ def signal_analysis():
 
     #Produit scalaire (corrélation) entre les données de training et le signal test
     scalar_prod=np.dot(notes_matrix,signal_array)
-    print(scalar_prod)
 
     #Trouver l'indice de la valeur max du produit scalaire et trouver sa note correspondante
     index_max=np.argmax(scalar_prod)
     note_index=index_max//nb_recordings
-    print(index_max, note_index)
-    print(f"La note à jouer est:",notes[note_index])
 
 
     note = notes[note_index]

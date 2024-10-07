@@ -21,7 +21,7 @@ if not default:
 
     sd.default.device = [int(DeviceIn), int(DeviceOut)]
 
-notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3', 'easter']
+notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
 #notes= ['c3','c-3','d3']
 
 notes_dict = {note: None for note in notes}
