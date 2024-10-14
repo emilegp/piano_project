@@ -1,3 +1,12 @@
+#Le but de ce code est de prendre les dictionnaires en fichiers json et d'en donner la résolution et
+#le contraste. Pour se faire, les étapes principales sont: 
+#0. Fenêtrer les signaux pour pouvoir les comparer
+#1. Obtenir la valeur de corrélation normalisée entre 1 point et tout les autres
+#2. Fit une gaussienne avec la moyenne et l'écart-type
+#3. À partir de la gaussienne obtenir le contraste et la résolution
+#4. Faire une moyenne sur 6-10-12 courbe pour éviter une aberration éventuelle.
+#5. Célébrer!
+
 import numpy as np
 import matplotlib.pyplot as plt
 import json
@@ -74,58 +83,11 @@ def plot_corr_and_gaussian(corr_data, title):
     plt.show()
 
 # Corrélation et affichage pour les données originales
-corr_data_original = corr(data, 120)
+corr_data_original = corr(data, 110)
 plot_corr_and_gaussian(corr_data_original, "Signal original")
 
 # Corrélation et affichage pour les données 2-bit
-corr_data_1bit = corr(data1bit, 120)
+corr_data_1bit = corr(data1bit, 110)
 plot_corr_and_gaussian(corr_data_1bit, "Signal abîmé")
 
 
-# Générer un signal de test (somme de deux sinusoïdes)
-fs = 1000  # Fréquence d'échantillonnage (Hz)
-t = np.linspace(0, 1, fs, endpoint=False)  # Intervalle de temps
-f1, f2 = 50, 200  # Fréquences des sinusoïdes
-signal = np.sin(2 * np.pi * f1 * t) + 0.5 * np.sin(2 * np.pi * f2 * t)
-
-# 1. Effectuer la transformée de Fourier rapide (FFT)
-signal_fft = np.fft.fft(signal)
-frequencies = np.fft.fftfreq(len(signal), 1/fs)
-
-# 2. Créer un filtre passe-bande
-low_cutoff = 40  # Fréquence de coupure basse (Hz)
-high_cutoff = 100  # Fréquence de coupure haute (Hz)
-filter_mask = (np.abs(frequencies) > low_cutoff) & (np.abs(frequencies) < high_cutoff)
-
-# 3. Appliquer le filtre
-filtered_fft = signal_fft * filter_mask
-
-# 4. Revenir au domaine temporel avec la transformée inverse de Fourier
-filtered_signal = np.fft.ifft(filtered_fft)
-
-# Afficher les résultats
-plt.figure(figsize=(12, 6))
-
-# Affichage du signal original
-plt.subplot(3, 1, 1)
-plt.plot(t, signal)
-plt.title("Signal original")
-plt.xlabel("Temps [s]")
-plt.ylabel("Amplitude")
-
-# Spectre de fréquence original
-plt.subplot(3, 1, 2)
-plt.plot(frequencies[:fs//2], np.abs(signal_fft)[:fs//2])
-plt.title("Spectre de fréquence original")
-plt.xlabel("Fréquence [Hz]")
-plt.ylabel("Amplitude")
-
-# Signal filtré
-plt.subplot(3, 1, 3)
-plt.plot(t, filtered_signal.real)
-plt.title("Signal filtré")
-plt.xlabel("Temps [s]")
-plt.ylabel("Amplitude")
-
-plt.tight_layout()
-plt.show()
