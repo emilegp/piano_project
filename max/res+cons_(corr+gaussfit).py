@@ -1,8 +1,8 @@
 #Le but de ce code est de prendre les dictionnaires en fichiers json et d'en donner la résolution et
 #le contraste. Pour se faire, les étapes principales sont: 
 #0. Fenêtrer les signaux pour pouvoir les comparer
-#1. Obtenir la valeur de corrélation normalisée entre 1 point et tout les autres
-#2. Fit une gaussienne avec la moyenne et l'écart-type
+#1.X Obtenir la valeur de corrélation normalisée entre 1 point et tout les autres
+#2.X Fit une gaussienne avec la moyenne et l'écart-type
 #3. À partir de la gaussienne obtenir le contraste et la résolution
 #4. Faire une moyenne sur 6-10-12 courbe pour éviter une aberration éventuelle.
 #5. Célébrer!
@@ -84,10 +84,19 @@ def plot_corr_and_gaussian(corr_data, title):
 
 # Corrélation et affichage pour les données originales
 corr_data_original = corr(data, 110)
-plot_corr_and_gaussian(corr_data_original, "Signal original")
+
+# Calculer la moyenne de chaque bloc de 20 éléments
+vec_reshaped_og = corr_data_original.reshape(-1, 20)
+vec_moyen_og = np.mean(vec_reshaped_og, axis=1)
+
+plot_corr_and_gaussian(vec_moyen_og, "Signal original")
 
 # Corrélation et affichage pour les données 2-bit
 corr_data_1bit = corr(data1bit, 110)
-plot_corr_and_gaussian(corr_data_1bit, "Signal abîmé")
 
+# Calculer la moyenne de chaque bloc de 20 éléments
+vec_reshaped_1bit = corr_data_1bit.reshape(-1, 20)
+vec_moyen_1bit = np.mean(vec_reshaped_1bit, axis=1)
+
+plot_corr_and_gaussian(vec_moyen_1bit, "Signal abîmé")
 
