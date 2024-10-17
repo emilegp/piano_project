@@ -8,13 +8,14 @@ with open('C:/Users/maxim/OneDrive/Documents/GitHub/piano_project/Wav-Notes/note
     data = json.load(f)
 
 # Paramètres importants
-fs = 44100  # sample rate
+redu=1 #facteur de Réduction de la fréquence d'échantillonnage
+fs = int(44100/redu)  # sample rate
 dt = 0.1  # Intervalle de temps (en secondes)
 nb_recordings = 20  # nb d'enregistrements par note
 nb_points = int(dt * fs)  # Équivalent en nombre de points pour les indices
 point_du_tap = 130
 
-notes = ['c3', 'c-3', 'd3', 'd-3', 'e3', 'f3', 'f-3', 'g3', 'g-3', 'a3', 'a-3', 'b3']
+notes= ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
 notes_matrix = np.zeros((len(notes) * nb_recordings, nb_points))
 
 # Transférer les données du dictionnaire dans une matrice avec 12*nb_recordings lignes et nb_points par ligne
@@ -22,7 +23,8 @@ i = 0
 for note, recordings in data.items():
     for prise in recordings:
         array = np.array(prise)
-        notes_matrix[i] = array
+        array_fin=array[::redu]
+        notes_matrix[i] = array_fin
         i += 1
 
 def dico_filtré_passband(matrice, frequence_minimale, frequence_maximale):

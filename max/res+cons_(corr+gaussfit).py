@@ -1,102 +1,146 @@
-#Le but de ce code est de prendre les dictionnaires en fichiers json et d'en donner la résolution et
-#le contraste. Pour se faire, les étapes principales sont: 
-#0. Fenêtrer les signaux pour pouvoir les comparer
-#1.X Obtenir la valeur de corrélation normalisée entre 1 point et tout les autres
-#2.X Fit une gaussienne avec la moyenne et l'écart-type
-#3. À partir de la gaussienne obtenir le contraste et la résolution
-#4. Faire une moyenne sur 6-10-12 courbe pour éviter une aberration éventuelle.
-#5. Célébrer!
-
 import numpy as np
-import matplotlib.pyplot as plt
 import json
+import pandas as pd
 from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
 
-# Charger le fichier JSON
-with open('C:/Users/maxim/OneDrive/Documents/GitHub/piano_project/Wav-Notes/notes_dict_on_god.json', 'r') as f:
-    data = json.load(f)
+print('run')
 
-# Charger le fichier JSON
-with open('C:/Users/maxim/OneDrive/Documents/GitHub/piano_project/Wav-Notes/dico_bit/modified_signal_1bit.json', 'r') as f:
-    data1bit = json.load(f)
+# Charger les fichiers JSON
+def lecteur():
+    with open('Wav-Notes/notes_dict_1ligne.json', 'r') as f:
+        data = json.load(f)
+    with open('Wav-Notes/modified_signal_1bit.json', 'r') as f:
+        data0bit = json.load(f)
+    with open('Wav-Notes/modified_signal_1bit.json', 'r') as f:
+        data1bit = json.load(f)
+    with open('Wav-Notes/modified_signal_2bit.json', 'r') as f:
+        data2bit = json.load(f)
+    with open('Wav-Notes/modified_signal_3bit.json', 'r') as f:
+        data3bit = json.load(f)
+    with open('Wav-Notes/modified_signal_4bit.json', 'r') as f:
+        data4bit = json.load(f)
+    with open('Wav-Notes/modified_signal_6bit.json', 'r') as f:
+        data6bit = json.load(f)
+    with open('Wav-Notes/modified_signal_8bit.json', 'r') as f:
+        data8bit = json.load(f)
+    with open('Wav-Notes/modified_signal_16bit.json', 'r') as f:
+        data16bit = json.load(f)
+    return [data,data0bit,data1bit,data2bit,data3bit,data4bit,data6bit,data8bit]
 
-# Fonction gaussienne
-def gaussian(x, a, mu, sigma):
-    return a * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2))
+# Fonction gaussienne avec plancher
+def gaussian_with_offset(x, a, mu, sigma, offset):
+    return a * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2)) + offset
 
-# Fonction pour faire la corrélation pour un dico donné
+# Fonction pour calculer la corrélation
 def corr(nom_du_dico, tap):
-    # Paramètres importants
     fs = 44100  # sample rate
-    dt = 0.1  # Intervalle de temps (en secondes)
-    nb_recordings = 20  # nb d'enregistrements par note
-    nb_points = int(dt * fs)  # Équivalent en nombre de points pour les indices
+    dt = 0.1
+    nb_recordings = 1
+    nb_points = int(dt * fs)
     point_du_tap = tap
 
-    notes = ['c3', 'c-3', 'd3', 'd-3', 'e3', 'f3', 'f-3', 'g3', 'g-3', 'a3', 'a-3', 'b3']
+    notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
     notes_matrix = np.zeros((len(notes) * nb_recordings, nb_points))
 
-    # Transférer les données du dictionnaire dans une matrice avec 12*nb_recordings lignes et nb_points par ligne
     i = 0
     for note, recordings in nom_du_dico.items():
         for prise in recordings:
             array = np.array(prise)
-            notes_matrix[i] = array
+            array_normalise = array / np.max(array)
+            notes_matrix[i] = array_normalise
             i += 1
 
-    # Produit scalaire (corrélation) entre un point et les 240 autres points
     scalar_prod = np.dot(notes_matrix, notes_matrix[point_du_tap])
     maximum = np.max(np.abs(scalar_prod))
     correlation = scalar_prod / maximum
 
     return correlation
 
-# Fonction pour ajuster la courbe gaussienne (Pur chatGPT)
-def fit_gaussian(corr_data):
-    x_data = np.arange(len(corr_data))  # Générer les indices comme x
-    initial_guess = [1, np.argmax(corr_data), 1]  # Estimation initiale (amplitude, centre, largeur)
+# Ajustement avec plancher, incertitudes et bornes
+def fit_gaussian_with_offset_and_errors(corr_data, yerr):
+    x_data = np.arange(len(corr_data))
+    initial_guess = [1, np.argmax(corr_data), 1, np.mean(corr_data)]  # [amplitude, mean, sigma, offset]
     
-    # Ajustement de la courbe gaussienne
-    params, _ = curve_fit(gaussian, x_data, corr_data, p0=initial_guess)
+    # Ajuster les bornes de l'offset : autoriser des valeurs autour de la moyenne des données
+    offset_mean = np.mean(corr_data)
+    bounds = ([0, 0, 0, offset_mean - 0.01], [1, len(corr_data), np.inf, offset_mean + 0.01])  
+
+    # Utilisation des erreurs dans l'ajustement
+    params, pcov = curve_fit(gaussian_with_offset, x_data, corr_data, p0=initial_guess, 
+                             sigma=yerr, absolute_sigma=True, bounds=bounds)
     
-    return params, x_data
+    perr = np.sqrt(np.diag(pcov))  # Erreurs sur les paramètres ajustés
+    return params, perr, x_data
 
-# Tracer les corrélations avec ajustement gaussien (Pur chatGPT)
-def plot_corr_and_gaussian(corr_data, title):
-    params, x_data = fit_gaussian(corr_data)
+# Fonction pour obtenir la résolution et le contraste
+def analyze_gaussian_fit(corr_data, yerr):
+    # Ajuster les données avec la fonction gaussienne avec plancher
+    params, perr, x_data = fit_gaussian_with_offset_and_errors(corr_data, yerr)
     
-    # Extraire les paramètres ajustés
-    amplitude_fit, mean_fit, sigma_fit = params
-    
-    # Générer la courbe ajustée
-    y_fit = gaussian(x_data, amplitude_fit, mean_fit, sigma_fit)
+    # Extraction des paramètres ajustés
+    amplitude_fit, mean_fit, sigma_fit, offset_fit = params
+    amplitude_err, mean_err, sigma_err, offset_err = perr
 
-    # Tracer les données et la courbe ajustée
-    plt.figure(figsize=(12, 6))
-    plt.plot(corr_data, label='Corrélation', color='red')
-    plt.plot(x_data, y_fit, label='Fit Gaussien', color='blue', linestyle='--')
+    # La résolution est convertie en cm (chaque point est espacé de 1,5cm)
+    resolution = 1.5 * np.log(2) * np.sqrt(2) * sigma_fit
+    resolution_err = 1.5 * np.log(2) * np.sqrt(2) * sigma_err  
 
-    plt.title(title)
-    plt.xlabel("Indice")
-    plt.ylabel("Amplitude")
-    plt.legend()
-    plt.show()
+    # Calcul de la différence entre le maximum de la gaussienne et l'offset
+    max_diff = amplitude_fit
+    max_diff_err = amplitude_err  # Incertitude sur la différence est celle de l'amplitude
 
-# Corrélation et affichage pour les données originales
-corr_data_original = corr(data, 110)
+    # Retourner les résultats
+    return {
+        "resolution": resolution,
+        "resolution_err": resolution_err,
+        "max_diff": max_diff,
+        "max_diff_err": max_diff_err,
+    }
 
-# Calculer la moyenne de chaque bloc de 20 éléments
-vec_reshaped_og = corr_data_original.reshape(-1, 20)
-vec_moyen_og = np.mean(vec_reshaped_og, axis=1)
+# Créer une liste pour stocker les résultats
+results_list = []
 
-plot_corr_and_gaussian(vec_moyen_og, "Signal original")
+# Liste des dictionnaires à traiter
+dictionaries_to_process = lecteur()  # Ajoute d'autres dictionnaires ici
 
-# Corrélation et affichage pour les données 2-bit
-corr_data_1bit = corr(data1bit, 110)
+for idx, current_data in enumerate(dictionaries_to_process):
+    a1=[]
+    a2=[]
+    a3=[]
+    a4=[]
+    for i in range(6):
+        corr_data = corr(current_data, 3+2*i)
+        vec_norm = corr_data / np.max(corr_data)
+        
+        # Incertitudes fictives pour l'exemple (à remplacer par les vraies valeurs)
+        yerr = np.random.uniform(0.05, 0.15, size=len(vec_norm[0]))
+        
+        # Analyser les ajustements
+        results = analyze_gaussian_fit(vec_norm, yerr)
+        a1 = a1.append(results["resolution"])
+        a2 = a2.append(results["resolution_err"])
+        a3 = a3.append(results["max_diff"])
+        a4 = a4.append(results["max_diff_err"])
 
-# Calculer la moyenne de chaque bloc de 20 éléments
-vec_reshaped_1bit = corr_data_1bit.reshape(-1, 20)
-vec_moyen_1bit = np.mean(vec_reshaped_1bit, axis=1)
+    resolution=np.mean(a1)
+    resolution_err=np.mean(a2)
+    contraste=np.mean(a3)
+    contraste_err=np.mean(a4)
 
-plot_corr_and_gaussian(vec_moyen_1bit, "Signal abîmé")
+    # Ajouter les résultats à la liste
+    results_list.append({
+        "Dictionnaire": f"Dict_{dictionaries_to_process[idx]}",
+        "Résolution": resolution,
+        "Erreur Résolution": resolution_err,
+        "Contraste": contraste,
+        "Erreur Contraste": contraste_err,
+    })
 
+# Convertir les résultats en DataFrame
+results_df = pd.DataFrame(results_list)
+
+# Exporter les résultats en fichier Excel
+results_df.to_excel('resultats_analyses.xlsx', index=False)
+
+print("Analyse terminée et résultats exportés vers 'resultats_analyses.xlsx'.")
