@@ -76,5 +76,5 @@ for note in notes:
 # plt.show()  
 
 # Save to a JSON file
-with open('notes_dict.json', 'w') as json_file:
+with open('notes_dict_1ligne.json', 'w') as json_file:
     json.dump(notes_dict, json_file)

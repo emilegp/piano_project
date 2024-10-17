@@ -25,10 +25,10 @@ for note, recordings in data.items():
         notes_matrix[i] = array
         i += 1
 
-def dico_filtré_passband(frequence_minimale, frequence_maximale):
+def dico_filtré_passband(matrice, frequence_minimale, frequence_maximale):
     # 1. Effectuer la transformée de Fourier rapide (FFT)
-    signal_fft = np.fft.rfft(notes_matrix)
-    frequencies = np.fft.rfftfreq(len(notes_matrix[0]), 1/fs)
+    signal_fft = np.fft.rfft(matrice)
+    frequencies = np.fft.rfftfreq(len(matrice[0]), 1/fs)
 
     # 2. Créer un filtre passe-bande
     low_cutoff = frequence_minimale  # Fréquence de coupure basse (Hz)
@@ -45,13 +45,12 @@ def dico_filtré_passband(frequence_minimale, frequence_maximale):
     return filtered_signal, frequencies, filtered_fft[point_du_tap], signal_fft[point_du_tap]
 
 #La suite du code n'est pas utile en soit mais permet de confirmer que ça donne la bonne chose AND IT DOES!!
-sign, frequencies, filtered_fft, signal_fft=dico_filtré_passband(150,3000)
-filtered_signal=sign[point_du_tap]
+sign, frequencies, filtered_fft, signal_fft=dico_filtré_passband(notes_matrix,150,3000)
+signal_post_filtre=sign[point_du_tap]
 signal=notes_matrix[point_du_tap]
 
 # Générer le temps 
-freqs = int(fs*dt)  # Fréquence d'échantillonnage (Hz)
-t = np.linspace(0, 1, freqs, endpoint=False)  # Intervalle de temps
+t = np.linspace(0, 1, nb_points, endpoint=False)  # Intervalle de temps
 #f1, f2 = 50, 200  # Fréquences des sinusoïdes
 #signal = np.sin(2 * np.pi * f1 * t) + 0.5 * np.sin(2 * np.pi * f2 * t)
 
@@ -81,7 +80,7 @@ plt.ylabel("Amplitude")
 
 # Signal filtré
 plt.subplot(2, 2, 3)
-plt.plot(t, filtered_signal.real)
+plt.plot(t, signal_post_filtre.real)
 plt.title("Signal filtré")
 plt.xlabel("Temps [s]")
 plt.ylabel("Amplitude")
