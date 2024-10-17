@@ -26,7 +26,7 @@ def lecteur():
         data8bit = json.load(f)
     with open('Wav-Notes/modified_signal_16bit.json', 'r') as f:
         data16bit = json.load(f)
-    return [data,data0bit,data1bit,data2bit,data3bit,data4bit,data6bit,data8bit]
+    return [data,data0bit,data1bit,data2bit,data3bit,data4bit,data6bit,data8bit,data16bit]
 
 # Fonction gaussienne avec plancher
 def gaussian_with_offset(x, a, mu, sigma, offset):
