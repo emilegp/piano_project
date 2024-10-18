@@ -3,30 +3,21 @@ import json
 import pandas as pd
 from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
+print('Librairies importées')
 
-print('run')
+
+fichiers=['notes_dict_1ligne','modified_signal_1bit','modified_signal_2bit','modified_signal_3bit'
+          ,'modified_signal_4bit','modified_signal_6bit','modified_signal_8bit','modified_signal_16bit'
+          ,'fs=8820-fbas=300-fhaut=1500']
+#Ajouter les futurs dicos à corréler
 
 # Charger les fichiers JSON
 def lecteur():
-    with open('Wav-Notes/notes_dict_1ligne.json', 'r') as f:
-        data = json.load(f)
-    with open('Wav-Notes/modified_signal_1bit.json', 'r') as f:
-        data0bit = json.load(f)
-    with open('Wav-Notes/modified_signal_1bit.json', 'r') as f:
-        data1bit = json.load(f)
-    with open('Wav-Notes/modified_signal_2bit.json', 'r') as f:
-        data2bit = json.load(f)
-    with open('Wav-Notes/modified_signal_3bit.json', 'r') as f:
-        data3bit = json.load(f)
-    with open('Wav-Notes/modified_signal_4bit.json', 'r') as f:
-        data4bit = json.load(f)
-    with open('Wav-Notes/modified_signal_6bit.json', 'r') as f:
-        data6bit = json.load(f)
-    with open('Wav-Notes/modified_signal_8bit.json', 'r') as f:
-        data8bit = json.load(f)
-    with open('Wav-Notes/modified_signal_16bit.json', 'r') as f:
-        data16bit = json.load(f)
-    return [data,data0bit,data1bit,data2bit,data3bit,data4bit,data6bit,data8bit,data16bit]
+    encyclopedie=[]
+    for nom in fichiers:
+        with open(f'Wav-Notes/{nom}.json', 'r') as f:
+            encyclopedie.append(json.load(f))
+    return encyclopedie 
 
 # Fonction gaussienne avec plancher
 def gaussian_with_offset(x, a, mu, sigma, offset):
@@ -34,10 +25,10 @@ def gaussian_with_offset(x, a, mu, sigma, offset):
 
 # Fonction pour calculer la corrélation
 def corr(nom_du_dico, tap):
-    fs = 44100  # sample rate
+    nb_points = len(nom_du_dico['1'][0])  # sample rate
     dt = 0.1
+    fs=int(nb_points/dt)
     nb_recordings = 1
-    nb_points = int(dt * fs)
     point_du_tap = tap
 
     notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
@@ -68,7 +59,7 @@ def fit_gaussian_with_offset_and_errors(corr_data, yerr):
 
     # Utilisation des erreurs dans l'ajustement
     params, pcov = curve_fit(gaussian_with_offset, x_data, corr_data, p0=initial_guess, 
-                             sigma=yerr, absolute_sigma=True, bounds=bounds)
+                             sigma=yerr, absolute_sigma=True, bounds=bounds, maxfev=10000)
     
     perr = np.sqrt(np.diag(pcov))  # Erreurs sur les paramètres ajustés
     return params, perr, x_data
@@ -102,35 +93,38 @@ def analyze_gaussian_fit(corr_data, yerr):
 results_list = []
 
 # Liste des dictionnaires à traiter
-dictionaries_to_process = lecteur()  # Ajoute d'autres dictionnaires ici
+dictionaries_to_process = lecteur()  # Ajoute les autres dictionnaires ici
+
+# Liste des noms correspondant aux dictionnaires
+bit_names = ['Original', '1bit', '2bit', '3bit', '4bit', '6bit', '8bit', '16bit']
 
 for idx, current_data in enumerate(dictionaries_to_process):
-    a1=[]
-    a2=[]
-    a3=[]
-    a4=[]
+    a1 = []
+    a2 = []
+    a3 = []
+    a4 = []
     for i in range(6):
-        corr_data = corr(current_data, 3+2*i)
+        corr_data = corr(current_data, 3 + 2 * i)
         vec_norm = corr_data / np.max(corr_data)
         
         # Incertitudes fictives pour l'exemple (à remplacer par les vraies valeurs)
-        yerr = np.random.uniform(0.05, 0.15, size=len(vec_norm[0]))
-        
+        yerr = np.random.uniform(0.05, 0.15, size=len(vec_norm))
+                
         # Analyser les ajustements
         results = analyze_gaussian_fit(vec_norm, yerr)
-        a1 = a1.append(results["resolution"])
-        a2 = a2.append(results["resolution_err"])
-        a3 = a3.append(results["max_diff"])
-        a4 = a4.append(results["max_diff_err"])
+        a1.append(results["resolution"])
+        a2.append(results["resolution_err"])
+        a3.append(results["max_diff"])
+        a4.append(results["max_diff_err"])
 
-    resolution=np.mean(a1)
-    resolution_err=np.mean(a2)
-    contraste=np.mean(a3)
-    contraste_err=np.mean(a4)
+    resolution = np.mean(a1)
+    resolution_err = np.mean(a2)
+    contraste = np.mean(a3)
+    contraste_err = np.mean(a4)
 
-    # Ajouter les résultats à la liste
+    # Ajouter les résultats à la liste, en incluant les noms des bits
     results_list.append({
-        "Dictionnaire": f"Dict_{dictionaries_to_process[idx]}",
+        "Dictionnaire": bit_names[idx],
         "Résolution": resolution,
         "Erreur Résolution": resolution_err,
         "Contraste": contraste,
