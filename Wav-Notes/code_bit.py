@@ -3,7 +3,7 @@ import os
 import numpy as np
 
 # Charger le fichier JSON avec votre signal
-input_filepath = 'C:/Ecole/A2024/Technique experimental/notes_dict_on_god.json'
+input_filepath = 'Wav-Notes/notes_dict_1ligne.json'
 with open(input_filepath, 'r') as f:
     data = json.load(f)
 
