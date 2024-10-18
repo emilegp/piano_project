@@ -172,8 +172,30 @@ Polytechnique Montréal\\}
 
 % acquisition des résolutions et contrastes pour les 3 facteurs
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
+\subsection{Incertitudes}
+L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
+de l'ADC. La résolution de l'ADC, $\delta$, dépend du nombre de bits des échantillons, et peut être décrite par:
+\[\delta=\frac{\Delta_{max}}{2^{n}},\]
+où $\Delta_{max}$ est l'éventail possible des mesures, et $n$ est le nombre de bits. L'incertitude correspond
+à la moitié de cette valeur, soit $\sigma_{res}=\delta/2$. L'incertitude sur la position de la source du signal
+est approximée par la moitié de la largeur d'un doigt, $\sigma_{pos}\approx4\ mm$. La corrélation des signaux a été déterminée
+en calculant le produit scalaire. On sait que pour une multiplication, la propagation de l'incertitude se calcule de la
+manière suivante:
+\begin{align*}
+  \sigma_{z}=z \sqrt{\frac{\sigma_x}{x}^2+\frac{\sigma_y}{y}^2}.
+\end{align*}
+L'incertitude totale sur le produit scalaire est donc:
+\begin{align*}
+  \sigma_{tot}=\sqrt{\sum_i^{N} \sigma_{z_i}^2},
+\end{align*}
+où $N$ est le nombre de points évalués pour les échantillons. Pour déterminer l'incertitude sur les
+paramètres du fit gaussien, tout en considérant l'impact des incertitudes en $x$ et $y$, la fonction \textit{scipy.ODR}
+a été utilisée. Finalement, l'incertitude sur le contraste correspond directement à l'incertitude sur le paramètre de
+l'amplitude ($\sigma_{A}$), et l'incertitude sur la résolution (FWHM) correspond à:
+\begin{align*}
+  \sigma_{FWHM}=\sqrt{2ln2}\ \sigma_{\sigma},
+\end{align*}
+où $\sigma_{\sigma}$ est l'incertitude sur l'écart-type, $\sigma$.
 \section{Codes}
 
  %Important de clean le code avant de remettre, j'ai entendu dire qu'il était picky là-dessus.

@@ -1,5 +1,6 @@
 import numpy as np
 from scipy.odr import ODR, Model, RealData
+import matplotlib.pyplot as plt
 
 # Fonction gaussienne
 def gaussian_with_floor(p, x):
@@ -46,10 +47,13 @@ sigma_err = np.sqrt(cov_matrix[2, 2])
 FWHM_err = np.sqrt(2*np.log(2)) * sigma_err
 
 # Trouver l'incertitude sur le contraste
-contraste = A_opt-floor_opt
-A_err = np.sqrt(cov_matrix[0, 0]) 
-floor_err = np.sqrt(cov_matrix[3, 3]) 
-contraste_err = np.sqrt(A_err**2 + floor_err**2)
+contraste = A_opt
+contraste_err = np.sqrt(cov_matrix[0, 0])  
+
+print(A_opt, floor_opt)
+gaussian=gaussian_with_floor(output.beta, position)
+plt.plot(position, gaussian)
+plt.show()
 
 print(f'Résolution: ', FWHM, '+-', FWHM_err)
 print(f'Contraste: ', contraste, '+-', contraste_err)
