@@ -65,3 +65,23 @@ fichiers=['fs=44100-fbas=1000-fhaut=5000','fs=8820-fbas=1000-fhaut=5000',
     'fs=1764-fbas=700-fhaut=3000','fs=1696-fbas=700-fhaut=3000',
     'fs=1633-fbas=700-fhaut=3000']
 #5-6
+
+
+# Ajustement avec plancher, incertitudes et bornes
+#def fit_gaussian_with_offset_and_errors(corr_data, yerr):
+# x_data = np.arange(len(corr_data))
+# initial_guess = [1, np.argmax(corr_data), 1, np.mean(corr_data)]  # [amplitude, mean, sigma, offset]
+
+# # Ajuster les bornes de l'offset : autoriser des valeurs autour de la moyenne des données
+# offset_mean = np.mean(corr_data)
+# bounds = ([0, 0, 0, offset_mean - 0.01], [1, len(corr_data), np.inf, offset_mean + 0.01])  
+
+# # Utilisation des erreurs dans l'ajustement
+# params, pcov = curve_fit(gaussian_with_offset, x_data, corr_data, p0=initial_guess, 
+#                             sigma=yerr, absolute_sigma=True, bounds=bounds, maxfev=10000)
+
+# perr = np.sqrt(np.diag(pcov))  # Erreurs sur les paramètres ajustés
+# return params, perr, x_data
+
+# Fonction pour obtenir la résolution et le contraste
+#def analyze_gaussian_fit(corr_data, yerr):
