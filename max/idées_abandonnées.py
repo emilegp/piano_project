@@ -6,9 +6,9 @@ from scipy.optimize import curve_fit
 
 # Fonction pour calculer la corrélation
 def corr(nom_du_dico, tap):
-    nb_points = len(nom_du_dico['1'][0])  # sample rate
+    nb_points = len(nom_du_dico['1'][0])  
     dt = 0.1
-    fs=int(nb_points/dt)
+    fs=int(nb_points/dt) # sample rate
     nb_recordings = 1
     point_du_tap = tap
 

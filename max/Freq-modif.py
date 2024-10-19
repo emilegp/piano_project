@@ -14,9 +14,9 @@ output_directory = os.path.dirname(input_filepath)
 # Paramètres à ajustés
 #filtre_bas = [100,100,150,150,200,200,250,250,300,300,350,350,400,400,500,500]
 #filtre_haut = [2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500]
-filtre_bas=[1]
-filtre_haut=[100000]
-redu=10 #facteur de Réduction de la fréquence d'échantillonnage
+filtre_bas=[550]
+filtre_haut=[1500]
+redu=30 #facteur de Réduction de la fréquence d'échantillonnage
 
 # Paramètres importants
 fs = int(44100//redu)  # sample rate

@@ -7,9 +7,11 @@ import matplotlib.pyplot as plt
 print('Librairies importées')
 
 
-fichiers=['notes_dict_1ligne','modified_signal_1bit','modified_signal_2bit','modified_signal_3bit'
-          ,'modified_signal_4bit','modified_signal_6bit','modified_signal_8bit','modified_signal_16bit'
-          ,'fs=8820-fbas=300-fhaut=1500']
+fichiers=['fs=44100-fbas=1000-fhaut=5000','fs=8820-fbas=1000-fhaut=5000',
+    'fs=44100-fbas=700-fhaut=3000','fs=4410-fbas=700-fhaut=3000',
+    'fs=1917-fbas=700-fhaut=3000','fs=1837-fbas=700-fhaut=3000',
+    'fs=1764-fbas=700-fhaut=3000','fs=1696-fbas=700-fhaut=3000',
+    'fs=1633-fbas=700-fhaut=3000']
 #Ajouter les futurs dicos à corréler
 
 # Charger les fichiers JSON
@@ -30,10 +32,10 @@ def gaussian_with_floor(p, x):
 def correlateur(data,point_du_tap,nb_bit):
     #Rembarque sur le code à Marielou
     # Paramètres importants
-    fs = int(44100)  # sample rate
-    dt = 0.1  # Intervalle de temps (en secondes)
+    nb_points = len(data['1'][0])  
+    dt = 0.1
+    fs=int(nb_points/dt) # sample
     nb_recordings = 1  # nb d'enregistrements par note
-    nb_points = int(dt * fs)  # Équivalent en nombre de points pour les indices
 #    nb_points = len(data['1'][0])  # sample rate   
 
     notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
@@ -52,7 +54,7 @@ def correlateur(data,point_du_tap,nb_bit):
     position = 3*10**(-2) + 1.5*np.arange(0, 17)*10**(-2)
     correlation = np.dot(signaux_reference,signal)/np.max(np.dot(signaux_reference,signal))
 
-    nb_bits = 32
+    nb_bits = nb_bit
     range = 2
     err_ampl = (range/(2**(nb_bits)))/2
     err_position = 4e-3
@@ -148,7 +150,8 @@ def correlateur(data,point_du_tap,nb_bit):
 # Créer une liste pour stocker les résultats
 results_list = []
 dictionaries_to_process = lecteur()  # Ajoute les autres dictionnaires ici
-bit_names = ['Original', '1bit', '2bit', '3bit', '4bit', '6bit', '8bit', '16bit']
+bit_names = fichiers
+#bit_qty=[32,1,2,3,4,6,8,16]
 
 for idx, current_data in enumerate(dictionaries_to_process):
     a1 = []
@@ -156,8 +159,8 @@ for idx, current_data in enumerate(dictionaries_to_process):
     a3 = []
     a4 = []
     for i in range(6):
-        corr_data = correlateur(current_data, 3 + 2 * i)
-               
+        corr_data = correlateur(current_data, 3 + 2 * i, 32)
+
         # Analyser les ajustements
         results = corr_data
         a1.append(results["resolution"])
@@ -183,6 +186,6 @@ for idx, current_data in enumerate(dictionaries_to_process):
 results_df = pd.DataFrame(results_list)
 
 # Exporter les résultats en fichier Excel
-results_df.to_excel('resultats_analyses.xlsx', index=False)
+results_df.to_excel('resultats_analyses_n3-4.xlsx', index=False)
 
-print("Analyse terminée et résultats exportés vers 'resultats_analyses.xlsx'.")
+print("Analyse terminée et résultats exportés vers 'resultats_analyses_n3-4.xlsx'.")
