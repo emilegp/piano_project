@@ -6,9 +6,9 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 print('Librairies importées')
 
-fichiers=['notes_dict_1ligne','modified_signal_1bit','modified_signal_2bit','modified_signal_3bit'
-          ,'modified_signal_4bit','modified_signal_6bit','modified_signal_8bit','modified_signal_16bit']
-#nb_bit
+
+
+fichiers=['notes_dict_1ligne']
 
 # Charger les fichiers JSON
 def lecteur():
@@ -28,7 +28,7 @@ def fit_gaussian_with_bounds(corr_data, xaxis, yerr):
     initial_guess = [np.max(corr_data), np.argmax(corr_data), np.std(corr_data), np.mean(corr_data)]  # [amplitude, mean, sigma, offset]
 
     # Contraintes sur les bornes pour que sigma > 0 et floor proche de la moyenne des données
-    bounds = ([0, 0, 0, np.mean(corr_data) - 0.09], [np.inf, len(corr_data), np.inf, np.mean(corr_data) + 0.09])
+    bounds = ([0, 0, 0, np.mean(corr_data) - 0.01], [np.inf, len(corr_data), np.inf, np.mean(corr_data) + 0.01])
 
     # Utilisation de curve_fit avec la nouvelle fonction gaussienne
     params, pcov = curve_fit(gaussian_with_floor, x_data, corr_data, p0=initial_guess,
@@ -44,9 +44,9 @@ def correlateur_et_curve_fit_gaussien(data, point_du_tap):
     nb_points = len(data['1'][0])  
     dt = 0.1
     fs=int(nb_points/dt) # sample rate
-    nb_recordings = 1  # nb d'enregistrements par note
+    nb_recordings = 20  # nb d'enregistrements par note
 
-    notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
+    notes= ['c3','c-3','d3','d-3','e3','f3','f-3','g3','g-3','a3','a-3','b3']
     matrice = np.zeros((len(notes) * nb_recordings, nb_points))
 
     i = 0
@@ -60,7 +60,8 @@ def correlateur_et_curve_fit_gaussien(data, point_du_tap):
     signaux_reference = matrice
     signal = matrice[point_du_tap]
     position = 3*10**(-2) + 1.5*np.arange(0, 17)*10**(-2)
-    correlation = np.dot(signaux_reference,signal)/np.max(np.dot(signaux_reference,signal))
+    correlation_bloc = np.dot(signaux_reference,signal)/np.max(np.dot(signaux_reference,signal))
+    correlation= np.mean(correlation_bloc.reshape(-1, nb_recordings), axis=1)
 
     nb_bits = 32
     range = 2
@@ -174,10 +175,9 @@ def correlateur_ODR(data,point_du_tap,nb_bit):
     A_opt, mu_opt, log_sigma_opt, floor_opt = output.beta
     sigma_opt = np.exp(log_sigma_opt)  # Revenir à σ
 
-    #Calculer la gaussienne ajustée
+    # Calculer la gaussienne ajustée
     #gaussian_fit = gaussian_with_floor_constrained([A_opt, mu_opt, log_sigma_opt, floor_opt], position)
-    
-    # print(A_opt-np.mean(correlation))
+    #
     # # Afficher les résultats
     # plt.figure(figsize=(10, 6))
     # plt.plot(position, correlation, 'bo', label="Données originales")
@@ -202,6 +202,24 @@ def correlateur_ODR(data,point_du_tap,nb_bit):
         "max_diff_err": contraste_err,
     }
 
+# Ajustement avec plancher, incertitudes et bornes
+#def fit_gaussian_with_offset_and_errors(corr_data, yerr):
+    x_data = np.arange(len(corr_data))
+    initial_guess = [1, np.argmax(corr_data), 1, np.mean(corr_data)]  # [amplitude, mean, sigma, offset]
+    
+    # Ajuster les bornes de l'offset : autoriser des valeurs autour de la moyenne des données
+    offset_mean = np.mean(corr_data)
+    bounds = ([0, 0, 0, offset_mean - 0.01], [1, len(corr_data), np.inf, offset_mean + 0.01])  
+
+    # Utilisation des erreurs dans l'ajustement
+    params, pcov = curve_fit(gaussian_with_offset, x_data, corr_data, p0=initial_guess, 
+                             sigma=yerr, absolute_sigma=True, bounds=bounds, maxfev=10000)
+    
+    perr = np.sqrt(np.diag(pcov))  # Erreurs sur les paramètres ajustés
+    return params, perr, x_data
+
+# Fonction pour obtenir la résolution et le contraste
+#def analyze_gaussian_fit(corr_data, yerr):
     # Ajuster les données avec la fonction gaussienne avec plancher
     params, perr, x_data = fit_gaussian_with_offset_and_errors(corr_data, yerr)
     
@@ -228,7 +246,7 @@ def correlateur_ODR(data,point_du_tap,nb_bit):
 # Créer une liste pour stocker les résultats
 results_list = []
 dictionaries_to_process = lecteur()  # Ajoute les autres dictionnaires ici
-bit_names = ['Original', '1bit', '2bit', '3bit', '4bit', '6bit', '8bit', '16bit']
+bit_names = fichiers #['Original', '1bit', '2bit', '3bit', '4bit', '6bit', '8bit', '16bit']
 bit_qty=[32,1,2,3,4,6,8,16] #bit_qty[idx]
 
 for idx, current_data in enumerate(dictionaries_to_process):
@@ -236,8 +254,8 @@ for idx, current_data in enumerate(dictionaries_to_process):
     a2 = []
     a3 = []
     a4 = []
-    for i in [7,8,9,10,11]:
-        corr_data = correlateur_ODR(current_data, i,bit_qty[idx])
+    for i in range(6):
+        corr_data = correlateur_ODR(current_data, 3 + 2 * i,32)
 
         # Analyser les ajustements
         results = corr_data
@@ -264,6 +282,6 @@ for idx, current_data in enumerate(dictionaries_to_process):
 results_df = pd.DataFrame(results_list)
 
 # Exporter les résultats en fichier Excel
-results_df.to_excel('resultats_nouveaux_points_nb_bit.xlsx', index=False)
+results_df.to_excel('resultats_dicoongod.xlsx', index=False)
 
-print("Analyse terminée et résultats exportés vers 'resultats'.")
+print("Analyse terminée et résultats exportés vers 'resultats_ODRcontraste=A-f.xlsx'.")
