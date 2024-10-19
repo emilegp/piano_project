@@ -35,3 +35,6 @@ plt.plot(t, myrecording)
 plt.xlabel('Temps [s]')
 plt.ylabel('Amplitude')
 plt.show()
+
+print(np.max(myrecording).dtype)
+

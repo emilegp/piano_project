@@ -27,6 +27,7 @@
 \usepackage{multirow}
 \usepackage[hidelinks]{hyperref}
 \usepackage{abstract}
+\usepackage{svg}
 \renewcommand{\abstractnamefont}{\normalfont\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\itshape}
 \usepackage{titlesec}
@@ -101,7 +102,8 @@
 \rule{\linewidth}{0.2mm} \\[2.3cm]
 
 \large{\textbf{Présenté à}\\
-  Jean Provost\\[2.5cm]
+  Jean Provost\\
+  Lucien Weiss\\[2.5cm]
   \textbf{Par :}\\
   Émile \textbf{Guertin-Picard} (2208363)\\
   Philippine \textbf{Beaubois} (2211153)\\
@@ -147,8 +149,32 @@ Polytechnique Montréal\\}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+Cette fiche technique présente les caractéristiques d'un piano construit avec un
+écran tactile acoustique. Un capteur piezoélectrique, placé sur une plaque de
+plexiglas de 5 mm d'épaisseur, permet de localiser un impact sur la plaque par 
+son onde sonore, pour permettre ensuite de jouer la note appropriée. Cette plaque 
+et ses dimensions sont présentées à la figure \ref{piano_fig}. Le piano peut jouer\
+une seule gamme (12 notes), et est limité à ne pouvoir jouer qu'une seule note à 
+la fois. L'acquisition de signal sonore se fait à une fréquence de 44100 Hz par un
+ADC, donnant des échantillons de 32 bits. Le contenu fréquentiel n'est pas filtré,
+donc des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le piano joue en temps
+réel, avec un délai entre la frappe et le son de la note d'approximativement 200 ms,
+dépendant de la puissance de l'ordinateur qui lit les données du capteur. \textcolor{red}{mettre res et contraste une fois connues}
+
+\begin{figure}[H]
+  \centering
+  \includesvg[scale=1]{schema.svg}
+  \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
+  piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
+  du bas de la plaque approximativement.}
+  \label{piano_fig}
+\end{figure}
+
+
+
 \section{Spécifications}
 
+dire pourquoi on a testé res et contraste pour d'autres facteurs que ceux du prototype réel (aka pour l'analyse de réduction de couts)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temps de réponse moyen serait nice
 
@@ -171,7 +197,12 @@ Polytechnique Montréal\\}
 % Tests :
 
 % acquisition des résolutions et contrastes pour les 3 facteurs
+
+% *** écrire en qqpart l'indépendance du param de nb de bits vs les autres ***
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Pour pouvoir réduire les coûts blabla... \textcolor{red}{TODO}
+
 \subsection{Incertitudes}
 L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
 de l'ADC. La résolution de l'ADC, $\delta$, dépend du nombre de bits des échantillons, et peut être décrite par:
