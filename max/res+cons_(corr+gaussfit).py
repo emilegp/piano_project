@@ -7,11 +7,20 @@ import matplotlib.pyplot as plt
 print('Librairies importées')
 
 
-fichiers=['fs=44100-fbas=1000-fhaut=5000','fs=8820-fbas=1000-fhaut=5000',
+fichiers=['fs=44100-fbas=100-fhaut=1500','fs=1764-fbas=100-fhaut=1500',
+    'fs=882-fbas=100-fhaut=1500','fs=44100-fbas=300-fhaut=1500','fs=1764-fbas=300-fhaut=1500',
+    'fs=1470-fbas=300-fhaut=1500','fs=882-fbas=300-fhaut=1500',
+    'fs=44100-fbas=300-fhaut=5000','fs=4410-fbas=300-fhaut=5000',
+    'fs=2205-fbas=300-fhaut=5000','fs=2004-fbas=300-fhaut=5000',
+    'fs=1764-fbas=300-fhaut=5000','fs=1575-fbas=300-fhaut=5000',
+    'fs=1470-fbas=300-fhaut=5000','fs=4410-fbas=550-fhaut=1500',
+    'fs=44100-fbas=550-fhaut=1500','fs=1470-fbas=550-fhaut=1500',
+    'fs=44100-fbas=1000-fhaut=5000','fs=8820-fbas=1000-fhaut=5000',
     'fs=44100-fbas=700-fhaut=3000','fs=4410-fbas=700-fhaut=3000',
     'fs=1917-fbas=700-fhaut=3000','fs=1837-fbas=700-fhaut=3000',
     'fs=1764-fbas=700-fhaut=3000','fs=1696-fbas=700-fhaut=3000',
-    'fs=1633-fbas=700-fhaut=3000']
+    'fs=1633-fbas=700-fhaut=3000']#1-6
+
 #Ajouter les futurs dicos à corréler
 
 # Charger les fichiers JSON
@@ -23,8 +32,13 @@ def lecteur():
     return encyclopedie 
 
 # Fonction gaussienne
-def gaussian_with_floor(p, x):
+#def gaussian_with_floor(p, x):
     A, mu, sigma, floor = p
+    return A * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2)) + floor
+# Fonction gaussienne avec transformation pour σ
+def gaussian_with_floor_constrained(p, x):
+    A, mu, log_sigma, floor = p
+    sigma = np.exp(log_sigma)  # σ > 0 en utilisant la transformation exponentielle
     return A * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2)) + floor
 
 # Fonction pour calculer la corrélation
@@ -34,9 +48,8 @@ def correlateur(data,point_du_tap,nb_bit):
     # Paramètres importants
     nb_points = len(data['1'][0])  
     dt = 0.1
-    fs=int(nb_points/dt) # sample
+    fs=int(nb_points/dt) # sample rate
     nb_recordings = 1  # nb d'enregistrements par note
-#    nb_points = len(data['1'][0])  # sample rate   
 
     notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
     matrice = np.zeros((len(notes) * nb_recordings, nb_points))
@@ -78,26 +91,26 @@ def correlateur(data,point_du_tap,nb_bit):
         err_prod = np.sqrt(np.sum(err_multiplication ** 2))
         err_prod_ampl.append(err_prod)
 
-
-    # Utilisation de ODR pour faire le fit gaussien (permet d'avoir des incertitudes en x et y), trouvé avec ChatGPT
+    # Utilisation de ODR pour faire le fit gaussien avec σ toujours positif
     data = RealData(position, correlation, sx=err_position, sy=err_prod_ampl)
-    model = Model(gaussian_with_floor)
-    guess_initial = [np.max(correlation), np.mean(position), np.std(position), np.mean(correlation)]  # Ajuster mu et sigma
+    model = Model(gaussian_with_floor_constrained)
+    
+    guess_initial = [np.max(correlation), np.mean(position), np.log(np.std(position)), np.mean(correlation)]
     odr = ODR(data, model, beta0=guess_initial)
     output = odr.run()
 
     # Paramètres optimaux et matrice de covariance
-    A_opt, mu_opt, sigma_opt, floor_opt = output.beta
+    A_opt, mu_opt, log_sigma_opt, floor_opt = output.beta
+    sigma_opt = np.exp(log_sigma_opt)  # Revenir à σ
+
     cov_matrix = output.cov_beta
+    sigma_err = np.sqrt(cov_matrix[2, 2]) * sigma_opt  # Propagation de l'incertitude via transformation
 
-    # Trouver l'incertitude sur la résolution
-    resolution = np.sqrt(2*np.log(2)) * sigma_opt
-    sigma_err = np.sqrt(cov_matrix[2, 2])  
-    resolution_err = np.sqrt(2*np.log(2)) * sigma_err
+    resolution = np.sqrt(2 * np.log(2)) * sigma_opt
+    resolution_err = np.sqrt(2 * np.log(2)) * sigma_err
 
-    # Trouver l'incertitude sur le contraste
     contraste = A_opt
-    contraste_err = np.sqrt(cov_matrix[0, 0])  
+    contraste_err = np.sqrt(cov_matrix[0, 0]) 
 
     return {
         "resolution": resolution,
@@ -150,8 +163,8 @@ def correlateur(data,point_du_tap,nb_bit):
 # Créer une liste pour stocker les résultats
 results_list = []
 dictionaries_to_process = lecteur()  # Ajoute les autres dictionnaires ici
-bit_names = fichiers
-#bit_qty=[32,1,2,3,4,6,8,16]
+bit_names = fichiers #['Original', '1bit', '2bit', '3bit', '4bit', '6bit', '8bit', '16bit']
+bit_qty=[32,1,2,3,4,6,8,16] #bit_qty[idx]
 
 for idx, current_data in enumerate(dictionaries_to_process):
     a1 = []
@@ -186,6 +199,6 @@ for idx, current_data in enumerate(dictionaries_to_process):
 results_df = pd.DataFrame(results_list)
 
 # Exporter les résultats en fichier Excel
-results_df.to_excel('resultats_analyses_n3-4.xlsx', index=False)
+results_df.to_excel('resultats_rafines_1-6.xlsx', index=False)
 
-print("Analyse terminée et résultats exportés vers 'resultats_analyses_n3-4.xlsx'.")
+print("Analyse terminée et résultats exportés vers 'resultats_analyses_1-6.xlsx'.")
