@@ -140,7 +140,7 @@ Polytechnique Montréal\\}
 
 %----------------------------------------------------
 
-\section{Description générale}
+\section{Description générale et spécifications}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Idées :
@@ -156,33 +156,25 @@ de jouer la note appropriée en temps réel. Cette plaque
 et ses dimensions sont présentées à la figure \ref{piano_fig}. Le piano peut jouer\
 une seule gamme (12 notes), et est limité à ne pouvoir jouer qu'une seule note à 
 la fois. L'acquisition de signal sonore se fait à une fréquence de 44100 Hz par un
-ADC, donnant des échantillons de 32 bits. Le contenu fréquentiel n'est pas filtré,
-donc des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le délai entre la frappe
+ADC, donnant des échantillons de 32 bits. Des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le délai entre la frappe
 et le son de la note est d'environ 200 ms,
-dépendant de la puissance de l'ordinateur qui lit les données du capteur. La résolution,
-qui informe de la grandeur qu'une note doit prende pour être distincte, ainsi que le
-contraste, qui quantifie la différence entre les signaux, sont données dans la table de
-spécifications.
+dépendant de la puissance de l'ordinateur qui lit les données du capteur. 
+ \begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.25]{schema.png}
+   \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
+   piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
+   du bas de la plaque approximativement.}
+   \label{piano_fig}
+ \end{figure}
 
-% \begin{figure}[H]
-%   \centering
-%   \includesvg[scale=1]{schema.svg}
-%   \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
-%   piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
-%   du bas de la plaque approximativement.}
-%   \label{piano_fig}
-% \end{figure}
-
-
-
-\section{Spécifications}
 Le tableau \ref{specs} résume les résultats pertinents des tests de caractérisations
-effectués sur le prototype. La première ligne du tableau illustre la résolution et le 
-contraste obtenu pour le piano tel quel, en maximisant les facteurs selon sa performance.
-De là, des bornes ont été posées sur le nombre de bits, la fréquence d'échantillonage et le contenu fréquentiel
+effectués sur le prototype. La première ligne du tableau illustre la résolution, grandeur qu'une note doit prende pour être distincte, et le 
+contraste, qui quantifie la différence entre les signaux obtenus, pour le piano présenté ci-dessus. De là, des bornes ont été posées sur le nombre de bits, la fréquence d'échantillonage et le contenu fréquentiel
 pour évaluer l'influence de chacun sur la performance globale du dispositif. Ces tests ont été effectués dans l'optique d'amoindrir
 les coûts pour un deuxième prototype. Les tests choisis dans le tableau \ref{specs} sont ceux pour lesquels la dégradation 
 des facteurs résultaient en valeurs convenables de résolution et de contraste.
+
 \begin{table}[H]
     \centering
     \begin{tabular}{c c c | c c}
@@ -199,7 +191,7 @@ des facteurs résultaient en valeurs convenables de résolution et de contraste.
     32 & 1764 & 100-1500 & $5.05\ \pm\ 0.08$ & $0.57\ \pm\ 0.03$ \\
     \hline
     \end{tabular}
-    \caption{Tableau des spécifications \label{specs}}
+    \caption{Tableau des spécifications de l'écran tactile acoustique avec modification de facteurs.\label{specs}}
   \end{table}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -229,8 +221,10 @@ des facteurs résultaient en valeurs convenables de résolution et de contraste.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Pour pouvoir réduire les coûts blabla... \textcolor{red}{TODO}
+
 \subsection{Nombre de bits des échantillons du signal}
-our modifier le nombre de bits artificiellement de chaque signal, le processus est assez simple.
+
+Pour modifier le nombre de bits artificiellement de chaque signal, le processus est assez simple.
 Le nombre de bits disponibles doit être déterminé au début pour la précision. En effet, lorsque le nombre de bits est réduit,
 il n'est pas possible de tous les utiliser pour la précision. Dans les faits, un bit est toujours réservé pour la description du signe (positif ou négatif).
 Puisque la base 2 est utilisée dans ce prototype, le nombre de niveaux disponibles pour approximer
