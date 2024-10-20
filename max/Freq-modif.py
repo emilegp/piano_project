@@ -14,9 +14,9 @@ output_directory = os.path.dirname(input_filepath)
 # Paramètres à ajustés
 #filtre_bas = [100,100,150,150,200,200,250,250,300,300,350,350,400,400,500,500]
 #filtre_haut = [2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500]
-filtre_bas=[550]
-filtre_haut=[1500]
-redu=30 #facteur de Réduction de la fréquence d'échantillonnage
+filtre_bas=[700]
+filtre_haut=[3000]
+redu=27 #facteur de Réduction de la fréquence d'échantillonnage
 
 # Paramètres importants
 fs = int(44100//redu)  # sample rate
@@ -63,28 +63,28 @@ def dico_filtré_passband(matrice, frequence_minimale, frequence_maximale):
     # Retourne le nouveau dico avec les signaux filtrés
     return filtered_signal_cut, frequencies, filtered_fft[point_du_tap], signal_fft[point_du_tap]
 
-# Fonction pour créer un nouveau fichier JSON pour chaque niveau de bits
-def create_modified_json(fbas,fhaut,freq_sampling, output_directory):
-    notes_dict = {}
-    
-    for bas,haut in zip(fbas,fhaut):
-        matrice_traitee, frequencies, filtered_fft, signal_fft=dico_filtré_passband(notes_matrix,bas,haut)
+def create_modified_json(fbas, fhaut, freq_sampling, output_directory):
+    for bas, haut in zip(fbas, fhaut):
+        # Appliquer les filtres à la matrice
+        matrice_traitee, frequencies, filtered_fft, signal_fft = dico_filtré_passband(notes_matrix, bas, haut)
 
-    # On parcourt les notes et les enregistrements pour remplir le dictionnaire
-    for i, note in enumerate(notes):
-        recordings = []
-        for j in range(nb_recordings):
-            # On suppose que chaque enregistrement correspond à une ligne dans notes_matrix
-            recordings.append(matrice_traitee[i * nb_recordings + j].tolist())  # Convertir en liste
-        notes_dict[note] = recordings
+        # Créer un dictionnaire pour cette combinaison de filtres
+        notes_dict = {}
+        
+        for i, note in enumerate(notes):
+            recordings = []
+            for j in range(nb_recordings):
+                # Convertir en liste chaque enregistrement traité
+                recordings.append(matrice_traitee[i * nb_recordings + j].tolist())
+            notes_dict[note] = recordings
 
-    for bas,haut in zip(fbas,fhaut):
-        # Générer le nom de fichier pour chaque duo de filtre
+        # Générer un fichier JSON pour chaque combinaison de filtre
         output_filename = os.path.join(output_directory, f'fs={freq_sampling}-fbas={bas}-fhaut={haut}.json')
 
-        # Sauvegarder le nouveau dictionnaire dans un fichier JSON
+        # Sauvegarder ce dictionnaire dans un fichier JSON
         with open(output_filename, 'w') as outfile:
             json.dump(notes_dict, outfile, indent=4)
+
 
 # Créer un fichier JSON pour chaque niveau de bits dans le même répertoire que le fichier original
 create_modified_json(filtre_bas, filtre_haut, fs, output_directory)
