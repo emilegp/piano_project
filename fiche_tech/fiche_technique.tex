@@ -262,30 +262,30 @@ Pour tester différentes fréquences d'échantillonnage plus faibles que la
 fréquence intiale, il suffit d'échantilloner l'échantillon déjà obtenu. En
 effet, en prenant un point sur deux dans un échantillon dont la fréquence
 d'échantillonnage est de 44 100 Hz, le nouvel échantillon a directement une
-fréquence d'échantillonage de 22 050 Hz. 
+fréquence d'échantillonnage de 22 050 Hz. 
 
-En procédant de cette façon, plusieurs fréquences d'échantillonage ont été
+En procédant de cette façon, plusieurs fréquences d'échantillonnage ont été
 artificiellement enregistrées. Les résultats de résolution et contraste 
-qu'elles ont produit est présenté au tableau \ref{fs}.
+qu'elles ont produit est présenté au tableau \ref{fs_fig}.
 
-\begin{table}[ht]
+\begin{figure}[ht]
     \centering
-    \begin{tabular}{l c c}
-    \hline
-    Dictionnaire & Résolution (cm) & Contraste  \\ \hline
-    1bit & $0 \pm 8$ & $0 \pm 100$ \\
-    2bit & $0.0 \pm 0.2$ & $0 \pm 5$ \\
-    3bit & $0.04 \pm 0.06$ & $1 \pm 2$ \\
-    4bit & $0.04 \pm 0.03$ & $1 \pm 1$ \\
-    6bit & $0.042 \pm 0.006$ & $1.1 \pm 0.3$ \\
-    8bit & $0.042 \pm 0.002$ & $1.15 \pm 0.09$ \\
-    16bit & $0.050 \pm 0.002$ & $1.39 \pm 0.08$ \\
-    Original & $0.064 \pm 0.001$ & $1.25 \pm 0.02$ \\
-    \hline
-    \end{tabular}
-    \caption{Tableau des résultats }
-    \label{fs}
-  \end{table}
+    \includegraphics[scale=0.75]{Graphique_fs.png}
+    \caption{Contraste et résolution en fonction de la fréquence d'échantillonnage}
+    \label{fs_fig}
+  \end{figure}
+
+26 valeurs de fréquences testées. Seules les valeurs non-aberrantes sont
+présentes sur le graphique. La ligne pointillée verticale indique 
+la moitié des valeurs testés. On constate que peut de valeurs sont affichées
+pour une fréquence en dessous de 400 Hz. Cela est dû à des aberrations dans
+la convergeance du fit gaussien utilisé dans le code, ce qui témoigne de 
+données d'une qualité insuffisante pour être utilisées dans la conception d'un
+piano. 
+On remarque également que la fréquence et le contraste varient légèrement entre 
+400 Hz et 44,1 kHz, mais qu'il n'y a pas de tendance à la hausse ou à la baisse 
+générale. Cela indique qu'on peut diminuer la fréquence d'échantillonnage 
+jusqu'à 400 Hz sans trop d'impact sur la résolution et le contraste.
 
 \subsection{Contenu fréquentiel du signal}
 
