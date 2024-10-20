@@ -216,26 +216,32 @@ Puisque la base 2 est utilisée dans ce prototype, le nombre de niveaux disponib
 les données est le suivant :
 $ 2^{nbr\_bit -1}$.
 Ainsi, pour diminuer la précision des valeurs du signal au nombre de bits souhaité,
-le signal sera multiplié par $\frac{ 2^{nbr_bit -1}}{2}$ pour normaliser le signal, ensuite chaque
-valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par $\frac{ 2^{nbr_bit -1}}{2}$ pour
-revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont été obtenus et sont présentés dans le tableau qui suit.
+le signal sera multiplié par le facteur suivant, 
+\begin{align}
+Facteur=\frac{ 2^{nbr_bit -1}}{2} 
+\end{align}
+pour normaliser le signal, ensuite chaque
+valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par
+ $Facteur$ 
+ pour revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont été obtenus et sont présentés dans le tableau qui suit.
 \begin{table}[ht]
-  \centering
-  \begin{tabular}{l c c c c}
-  \hline
-  Dictionnaire & Résolution & Erreur Résolution & Contraste & Erreur Contraste \\ \hline
-  1bit & 0.070452 & 8.284432 & -0.057599 & 113.5591 \\
-  2bit & 0.036577 & 0.227103 & 0.120715 & 4.715503 \\
-  3bit & 0.041791 & 0.059722 & 0.495011 & 2.076969 \\
-  4bit & 0.040465 & 0.024991 & 0.563969 & 1.053042 \\
-  6bit & 0.042056 & 0.006118 & 1.107812 & 0.269374 \\
-  8bit & 0.041545 & 0.002079 & 1.154641 & 0.09054 \\
-  16bit & 0.049873 & 0.001649 & 1.392218 & 0.08161 \\
-  Original & 0.063902 & 0.000766 & 1.248192 & 0.01538 \\
-  \hline
-  \end{tabular}
-  \caption{Tableau des résultats}
-\end{table}
+    \centering
+    \begin{tabular}{l c c}
+    \hline
+    Dictionnaire & Résolution (cm) & Contraste  \\ \hline
+    1bit & $0 \pm 8$ & $0 \pm 100$ \\
+    2bit & $0.0 \pm 0.2$ & $0 \pm 5$ \\
+    3bit & $0.04 \pm 0.06$ & $1 \pm 2$ \\
+    4bit & $0.04 \pm 0.03$ & $1 \pm 1$ \\
+    6bit & $0.042 \pm 0.006$ & $1.1 \pm 0.3$ \\
+    8bit & $0.042 \pm 0.002$ & $1.15 \pm 0.09$ \\
+    16bit & $0.050 \pm 0.002$ & $1.39 \pm 0.08$ \\
+    Original & $0.064 \pm 0.001$ & $1.25 \pm 0.02$ \\
+    \hline
+    \end{tabular}
+    \caption{Tableau des résultats }
+  \end{table}
+  
   
 En analysant les données présentes dans ce tableau, on constate qu'en dessous de 6 bits,  
 les valeurs de résolution et de contraste commencent à être nettement moins correctes.  
