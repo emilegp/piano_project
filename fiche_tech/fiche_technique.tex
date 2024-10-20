@@ -259,7 +259,7 @@ similaire mais a moindre couts.
 \subsection{Fréquence d'échantillonnage du signal}
 
 Pour tester différentes fréquences d'échantillonnage plus faibles que la 
-fréquence intiale, il suffit d'échantilloner l'échantillon déjà obtenu. En
+fréquence initiale, il suffit d'échantilloner l'échantillon déjà obtenu. En
 effet, en prenant un point sur deux dans un échantillon dont la fréquence
 d'échantillonnage est de 44 100 Hz, le nouvel échantillon a directement une
 fréquence d'échantillonnage de 22 050 Hz. 
@@ -270,10 +270,10 @@ qu'elles ont produit est présenté au tableau \ref{fs_fig}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[scale=0.75]{Graphique_fs.png}
+    \includegraphics[scale=0.65]{graphique_fs.png}
     \caption{Contraste et résolution en fonction de la fréquence d'échantillonnage}
     \label{fs_fig}
-  \end{figure}
+\end{figure}
 
 26 valeurs de fréquences testées. Seules les valeurs non-aberrantes sont
 présentes sur le graphique. La ligne pointillée verticale indique 
@@ -288,6 +288,52 @@ générale. Cela indique qu'on peut diminuer la fréquence d'échantillonnage
 jusqu'à 400 Hz sans trop d'impact sur la résolution et le contraste.
 
 \subsection{Contenu fréquentiel du signal}
+
+Pour stocker le signal, il est possible de le transformer dans le domaine 
+fréquentiel, puis d'en retirer une partie avant de l'enregistrer. De cette 
+façon, un moins grand nombre de bit est nécessaire l'information.
+
+Le processus pour retirer une partie du contenu fréquentiel du signal consiste
+à lui appliquer une FFT, puis à définir des filtres à appliquer, d'obtenir le
+signal fréquentiel filtré et enfin appliquer la FFT inverse pour retrouver
+un signal dans le domaine temporel ayant un contenu fréquentiel réduit. 
+Il est alors possible de tester la qualité de ce nouveau signal en calculant
+la résolution et le contraste obtenu à l'aide d'une corrélation avec un 
+ensemble de vecteurs ayant été réduits de la même façon.
+
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.8]{Freqmax_graph.png}
+    \caption{Contraste et résolution en fonction de la fréquence maximale conservée}
+    \label{fmax_fig}
+\end{figure}
+
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[scale=0.7]{Freqmin_graph.png}
+    \caption{Contraste et résolution en fonction de la fréquence minimale conservée}
+    \label{fmin_fig}
+\end{figure}
+
+
+% \begin{table}[ht]
+%     \centering
+%     \begin{tabular}{c c c}
+%     \hline
+%     fréquence minimale (Hz) & Résolution (cm) & Contraste  \\ \hline
+%     0 & $0.064 \pm 0.001$ & $0.62 \pm 0.02$ \\
+%     400 & $0.063 \pm 0.001$ & $0.53 \pm 0.02$ \\
+%     900 & $0.051 \pm 0.002$ & $0.41 \pm 0.05$ \\
+%     1200 & $0.059 \pm 0.001$ & $0.42 \pm 0.03$ \\
+%     1500 & $0.095 \pm 0.008$ & $0.8 \pm 0.4$\\
+%     \hline
+%     \end{tabular}
+%     \caption{Tableau des résultats}
+%     \label{filtre_bas_tab}
+% \end{table}
 
 
 
