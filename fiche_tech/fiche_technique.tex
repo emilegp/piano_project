@@ -150,16 +150,19 @@ Polytechnique Montréal\\}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Cette fiche technique présente les caractéristiques d'un piano construit avec un
-écran tactile acoustique. Un capteur piezoélectrique, placé sur une plaque de
-plexiglas de 5 mm d'épaisseur, permet de localiser un impact sur la plaque par 
-son onde sonore, pour permettre ensuite de jouer la note appropriée. Cette plaque 
+écran tactile acoustique. Un capteur piezoélectrique, sur une plaque de plexiglas 
+de 5 mm d'épaisseur, localise un impact par son onde sonore, pour permettre 
+de jouer la note appropriée en temps réel. Cette plaque 
 et ses dimensions sont présentées à la figure \ref{piano_fig}. Le piano peut jouer\
 une seule gamme (12 notes), et est limité à ne pouvoir jouer qu'une seule note à 
 la fois. L'acquisition de signal sonore se fait à une fréquence de 44100 Hz par un
 ADC, donnant des échantillons de 32 bits. Le contenu fréquentiel n'est pas filtré,
-donc des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le piano joue en temps
-réel, avec un délai entre la frappe et le son de la note d'approximativement 200 ms,
-dépendant de la puissance de l'ordinateur qui lit les données du capteur. \textcolor{red}{mettre res et contraste une fois connues}
+donc des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le délai entre la frappe
+et le son de la note est d'environ 200 ms,
+dépendant de la puissance de l'ordinateur qui lit les données du capteur. La résolution,
+qui informe de la grandeur qu'une note doit prende pour être distincte, ainsi que le
+contraste, qui quantifie la différence entre les signaux, sont données dans la table de
+spécifications.
 
 \begin{figure}[H]
   \centering
