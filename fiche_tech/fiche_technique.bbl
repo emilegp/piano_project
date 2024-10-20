@@ -1,0 +1,52 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global/global}
+    \entry{nyquist}{misc}{}{}
+      \name{author}{1}{}{%
+        {{hash=6847528dc456b294ffb326481079eb2b}{%
+           family={{National Instruments}},
+           familyi={N\bibinitperiod}}}%
+      }
+      \strng{namehash}{6847528dc456b294ffb326481079eb2b}
+      \strng{fullhash}{6847528dc456b294ffb326481079eb2b}
+      \strng{fullhashraw}{6847528dc456b294ffb326481079eb2b}
+      \strng{bibnamehash}{6847528dc456b294ffb326481079eb2b}
+      \strng{authorbibnamehash}{6847528dc456b294ffb326481079eb2b}
+      \strng{authornamehash}{6847528dc456b294ffb326481079eb2b}
+      \strng{authorfullhash}{6847528dc456b294ffb326481079eb2b}
+      \strng{authorfullhashraw}{6847528dc456b294ffb326481079eb2b}
+      \field{sortinit}{N}
+      \field{sortinithash}{22369a73d5f88983a108b63f07f37084}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Acquiring an Analog Signal: Bandwidth, Nyquist Sampling Theorem, and Aliasing}
+      \field{year}{2024}
+      \verb{urlraw}
+      \verb \url{https://www.ni.com/en/shop/data-acquisition/measurement-fundamentals/analog-fundamentals/acquiring-an-analog-signal--bandwidth--nyquist-sampling-theorem-.html#:~:text=The%20Nyquist%20Sampling%20Theorem%20explains,the%20Nyquist%20frequency%2C%20fN.}
+      \endverb
+      \verb{url}
+      \verb %5Curl%7Bhttps://www.ni.com/en/shop/data-acquisition/measurement-fundamentals/analog-fundamentals/acquiring-an-analog-signal--bandwidth--nyquist-sampling-theorem-.html#:~:text=The%20Nyquist%20Sampling%20Theorem%20explains,the%20Nyquist%20frequency%2C%20fN.%7D
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+
