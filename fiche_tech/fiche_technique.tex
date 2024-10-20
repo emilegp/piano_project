@@ -181,10 +181,10 @@ des facteurs résultaient en valeurs convenables de résolution et de contraste.
     32 & 44100 & - & $6.39\ \pm \ 0.08$ & $0.62 \ \pm\ 0.02$ \\
     16 & 44100 & - & $5.0\ \pm \ 0.2$ & $0.70 \ \pm\ 0.08$ \\
     8 & 44100 & - & $4.2 \ \pm\ 0.2$ & $0.58  \ \pm\ 0.09$ \\
-    32 & 44100 & 300-5000 & $6.71\ \pm\ 0.08$ & $0.529\ \pm\ 0.009$ \\
-    32 & 44100 & 300-1500 &	$6.27\ \pm\ 0.08$ &	$0.72\ \pm\ 0.02$ \\
-    32 & 1764 & 300-1500 &	$4.2\ \pm\ 0.1$ & $0.577\ \pm\ 0.006$\\
-    32 & 1764 & 100-1500 & $5.05\ \pm\ 0.08$ & $0.57\ \pm\ 0.03$ \\
+    32 & 44100 & 300-5000 & $6.71\ \pm\ 0.08$ & $0.529\ \pm\ 0.004$ \\
+    32 & 44100 & 300-1500 &	$6.27\ \pm\ 0.08$ &	$0.72\ \pm\ 0.01$ \\
+    32 & 1764 & 300-1500 &	$4.2\ \pm\ 0.1$ & $0.577\ \pm\ 0.003$\\
+    32 & 1764 & 100-1500 & $5.05\ \pm\ 0.08$ & $0.57\ \pm\ 0.02$ \\
     \hline
     \end{tabular}
     \caption{Tableau des spécifications de l'écran tactile acoustique avec modification de facteurs.\label{specs}}
@@ -264,7 +264,46 @@ correctement en diminuant la borne supérieure du contenu fréquentiel. La théo
 minimale d'un signal doit nécessairement correspondre au double de la fréquence maximale du signal évalué \cite{nyquist}. 
 
 Pour ce faire, certaines plages de contenu fréquentiel on été choisies, pour ensuite évaluer l'impact de la réduction de la fréquence 
-d'échantillonage.
+d'échantillonage. Des tests ont été effectués pour les bornes supérieures suivantes: 5000 Hz, 3000 Hz, 2250 Hz, 1750 Hz, 1500 Hz et 1000 Hz.
+La borne inférieure a été maintenue à 300 Hz, ce qui correspond à une limite satisfaisante, tel que déterminé dans les autres tests. Pour essayer de visualiser
+l'influence de la fréquence de Nyquist, les figures \ref{res_interdep} et \ref{contraste_interdep} illustrent les résultats pour la résolution et le contraste.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{resolution_interdependance.png}
+    \caption{Résolution en fonction de la fréquence d'échantillonage
+    (1002, 2004, 4410 et 44100 Hz) et de la fréquence de la borne supérieure du contenu fréquentiel.
+    Ici, la borne inférieure est maintenue à 300 Hz.}
+    \label{res_interdep}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.8]{contraste_interdependance.png}
+    \caption{Contraste en fonction de la fréquence d'échantillonnage
+    (1002, 2004, 4410 et 44100 Hz) et de la fréquence de la borne supérieure du contenu fréquentiel.
+    Ici, la borne inférieure est maintenue à 300 Hz.}
+    \label{contraste_interdep}
+\end{figure}
+
+En observant les tendances, on voit clairement que pour les fréquences d'échantillonnage inférieures au double
+de la fréquence maximale ($f<f_{nyquist}$), les variations de résolution et de contraste disparaissent. Par exemple,
+les résultats obtenus pour une fréquence d'échantillonnage de 1002 Hz sont constants pour toutes les bornes (résolution $=7.17\ \pm \ 0.09\ cm$,
+contraste $=0.551\ \pm\ 0.009$). En augmentant la fréquence d'échantillonnage, le même phénomène est observé; pour une fréquence d'échantillonnage de 
+2004 Hz, tous les résultats au dessus de $f/2=$ 1002 Hz deviennent constants et pour une fréquence d'échantillonage de 4410 Hz, tous les résultats au dessus de
+$f/2=$ 2205 Hz deviennent constants. En dessous de la fréquence d'échantillonnage de Nyquist, les "vraies" fréquences ne sont pas détectées, mais une version "repliée"
+(\textit{aliasing}) d'elles-mêmes, à plus basses fréquences, peuvent l'être. Le phénomène est illustré dans la figure \ref{aliasing}. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.5]{Aliasing-plot.png}
+    \caption{Exemple du phénomène d'\textit{aliasing} \cite{nyquist}}
+    \label{aliasing}
+\end{figure}
+
+Par conséquent, il est loqique que les fréquences plus grandes que $f_{sample}/2$ ne soient pas détectées, et que 
+de les éliminer suite au filtre n'affecte d'aucune manière le résultat final. Ces tests supportent donc le fait que la fréquence 
+d'acquisition de données ne doit donc jamais être inférieure à la fréquence de Nyquist. Si la composante fréquencielle maximale est 
+connue, la fréquence d'acquisition peut dont être posée au double de celle-ci. 
+
 
 \subsection{Incertitudes}
 L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
