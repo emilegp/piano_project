@@ -218,12 +218,56 @@ $ 2^{nbr\_bit -1}$.
 Ainsi, pour diminuer la précision des valeurs du signal au nombre de bits souhaité,
 le signal sera multiplié par le facteur suivant, 
 \begin{align}
-Facteur=\frac{ 2^{nbr_bit -1}}{2} 
+Facteur=\frac{ 2^{nbr\_bit -1}}{2} 
 \end{align}
 pour normaliser le signal, ensuite chaque
 valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par
  $Facteur$ 
- pour revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont été obtenus et sont présentés dans le tableau qui suit.
+ pour revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont 
+ été obtenus et sont présentés dans le tableau \ref{nb_bit_tab}.
+\begin{table}[ht]
+    \centering
+    \begin{tabular}{l c c}
+    \hline
+    Dictionnaire & Résolution (cm) & Contraste  \\ \hline
+    1bit & $0 \pm 8$ & $0 \pm 100$ \\
+    2bit & $0.0 \pm 0.2$ & $0 \pm 5$ \\
+    3bit & $0.04 \pm 0.06$ & $0 \pm 2$ \\
+    4bit & $0.04 \pm 0.03$ & $0 \pm 1$ \\
+    6bit & $0.042 \pm 0.006$ & $0.6 \pm 0.3$ \\
+    8bit & $0.042 \pm 0.002$ & $0.58 \pm 0.09$ \\
+    16bit & $0.050 \pm 0.002$ & $0.70 \pm 0.08$ \\
+    Original & $0.064 \pm 0.001$ & $0.62 \pm 0.02$ \\
+    \hline
+    \end{tabular}
+    \caption{Tableau des résultats }
+    \label{nb_bit_tab}
+  \end{table}
+  
+  
+En analysant les données présentes dans ce tableau, on constate qu'en dessous de 6 bits,  
+les valeurs de résolution et de contraste commencent à être nettement moins correctes.  
+Cette affirmation peut être démontrée par la nette augmentation des incertitudes, ce qui  
+rend les valeurs plus incertaines. Il est donc juste de déterminer qu'un signal traité  
+avec moins de ressources que celles requises pour 6 bits aurait un impact néfaste sur  
+l'efficacité du fonctionnement du piano. Cependant, cela nous permet également de remarquer  
+qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.  
+Cela pourrait être bénéfique car il permettrait de faire fonctionner correctement un prototype  
+utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
+similaire mais a moindre couts. 
+
+\subsection{Fréquence d'échantillonnage du signal}
+
+Pour tester différentes fréquences d'échantillonnage plus faibles que la 
+fréquence intiale, il suffit d'échantilloner l'échantillon déjà obtenu. En
+effet, en prenant un point sur deux dans un échantillon dont la fréquence
+d'échantillonnage est de 44 100 Hz, le nouvel échantillon a directement une
+fréquence d'échantillonage de 22 050 Hz. 
+
+En procédant de cette façon, plusieurs fréquences d'échantillonage ont été
+artificiellement enregistrées. Les résultats de résolution et contraste 
+qu'elles ont produit est présenté au tableau \ref{fs}.
+
 \begin{table}[ht]
     \centering
     \begin{tabular}{l c c}
@@ -240,19 +284,13 @@ valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé 
     \hline
     \end{tabular}
     \caption{Tableau des résultats }
+    \label{fs}
   \end{table}
-  
-  
-En analysant les données présentes dans ce tableau, on constate qu'en dessous de 6 bits,  
-les valeurs de résolution et de contraste commencent à être nettement moins correctes.  
-Cette affirmation peut être démontrée par la nette augmentation des incertitudes, ce qui  
-rend les valeurs plus incertaines. Il est donc juste de déterminer qu'un signal traité  
-avec moins de ressources que celles requises pour 6 bits aurait un impact néfaste sur  
-l'efficacité du fonctionnement du piano. Cependant, cela nous permet également de remarquer  
-qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.  
-Cela pourrait être bénéfique car il permettrait de faire fonctionner correctement un prototype  
-utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
-similaire mais a moindre couts. 
+
+\subsection{Contenu fréquentiel du signal}
+
+
+
 
 \subsection{Interdépendance des facteurs}
 L'interdépendance des facteurs a dûe être prise en compte lors de la caractérisation du prototype. Sachant que le nombre
