@@ -28,6 +28,9 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{abstract}
 \usepackage{svg}
+\usepackage{biblatex}
+\addbibresource{bibliographie.bib}
+
 \renewcommand{\abstractnamefont}{\normalfont\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\itshape}
 \usepackage{titlesec}
@@ -140,51 +143,52 @@ Polytechnique Montréal\\}
 
 %----------------------------------------------------
 
-\section{Description générale}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Idées :
-
-% Nombre de notes, un seul octave, une note à la fois.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Description générale et spécifications}
 
 Cette fiche technique présente les caractéristiques d'un piano construit avec un
-écran tactile acoustique. Un capteur piezoélectrique, placé sur une plaque de
-plexiglas de 5 mm d'épaisseur, permet de localiser un impact sur la plaque par 
-son onde sonore, pour permettre ensuite de jouer la note appropriée. Cette plaque 
+écran tactile acoustique. Un capteur piezoélectrique, sur une plaque de plexiglas 
+de 5 mm d'épaisseur, localise un impact par son onde sonore, pour permettre 
+de jouer la note appropriée en temps réel. Cette plaque 
 et ses dimensions sont présentées à la figure \ref{piano_fig}. Le piano peut jouer\
 une seule gamme (12 notes), et est limité à ne pouvoir jouer qu'une seule note à 
 la fois. L'acquisition de signal sonore se fait à une fréquence de 44100 Hz par un
-ADC, donnant des échantillons de 32 bits. Le contenu fréquentiel n'est pas filtré,
-donc des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le piano joue en temps
-réel, avec un délai entre la frappe et le son de la note d'approximativement 200 ms,
-dépendant de la puissance de l'ordinateur qui lit les données du capteur. \textcolor{red}{mettre res et contraste une fois connues}
+ADC, donnant des échantillons de 32 bits. Des fréquences sonores de 0 Hz à 22000 Hz sont présentes. Le délai entre la frappe
+et le son de la note est d'environ 200 ms,
+dépendant de la puissance de l'ordinateur qui lit les données du capteur. 
+ \begin{figure}[H]
+   \centering
+   \includegraphics[scale=0.25]{schema.png}
+   \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
+   piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
+   du bas de la plaque approximativement.}
+   \label{piano_fig}
+ \end{figure}
 
-\begin{figure}[H]
-  \centering
-  \includesvg[scale=1]{schema.svg}
-  \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
-  piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
-  du bas de la plaque approximativement.}
-  \label{piano_fig}
-\end{figure}
+Le tableau \ref{specs} résume les résultats pertinents des tests de caractérisations
+effectués sur le prototype. La première ligne du tableau illustre la résolution, grandeur qu'une note doit prende pour être distincte, et le 
+contraste, qui quantifie la différence entre les signaux obtenus, pour le piano présenté ci-dessus. De là, des bornes ont été posées sur le nombre de bits, la fréquence d'échantillonage et le contenu fréquentiel
+pour évaluer l'influence de chacun sur la performance globale du dispositif. Ces tests ont été effectués dans l'optique d'amoindrir
+les coûts pour un deuxième prototype. Les tests choisis dans le tableau \ref{specs} sont ceux pour lesquels la dégradation 
+des facteurs résultaient en valeurs convenables de résolution et de contraste.
 
-
-
-\section{Spécifications}
-
-dire pourquoi on a testé res et contraste pour d'autres facteurs que ceux du prototype réel (aka pour l'analyse de réduction de couts)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Temps de réponse moyen serait nice
-
-% Res et contraste :
-% nb de bits des échantillons du signal (int16, float32 hors de la carte)
-% contenu fréquentiel
-% fréquence d'échantillonage
-
-% Forme de tableau
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c c c | c c}
+    \hline
+    \multicolumn{3}{c|}{Facteurs} & \multirow{2}{*}{Résolution (cm)} & \multirow{2}{*}{Contraste} \\ 
+    Bits & Fréquence d'échantillonge (Hz) & Contenu fréquentiel (Hz) & & \\
+    \hline
+    32 & 44100 & - & $6.39\ \pm \ 0.08$ & $0.62 \ \pm\ 0.02$ \\
+    16 & 44100 & - & $5.0\ \pm \ 0.2$ & $0.70 \ \pm\ 0.08$ \\
+    8 & 44100 & - & $4.2 \ \pm\ 0.2$ & $0.58  \ \pm\ 0.09$ \\
+    32 & 44100 & 300-5000 & $6.71\ \pm\ 0.08$ & $0.529\ \pm\ 0.009$ \\
+    32 & 44100 & 300-1500 &	$6.27\ \pm\ 0.08$ &	$0.72\ \pm\ 0.02$ \\
+    32 & 1764 & 300-1500 &	$4.2\ \pm\ 0.1$ & $0.577\ \pm\ 0.006$\\
+    32 & 1764 & 100-1500 & $5.05\ \pm\ 0.08$ & $0.57\ \pm\ 0.03$ \\
+    \hline
+    \end{tabular}
+    \caption{Tableau des spécifications de l'écran tactile acoustique avec modification de facteurs.\label{specs}}
+  \end{table}
 
 
 \section{Rapports de tests}
@@ -202,6 +206,59 @@ dire pourquoi on a testé res et contraste pour d'autres facteurs que ceux du pr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Pour pouvoir réduire les coûts blabla... \textcolor{red}{TODO}
+
+\subsection{Nombre de bits des échantillons du signal}
+
+Pour modifier le nombre de bits artificiellement de chaque signal, le processus est assez simple.
+Le nombre de bits disponibles doit être déterminé au début pour la précision. En effet, lorsque le nombre de bits est réduit,
+il n'est pas possible de tous les utiliser pour la précision. Dans les faits, un bit est toujours réservé pour la description du signe (positif ou négatif).
+Puisque la base 2 est utilisée dans ce prototype, le nombre de niveaux disponibles pour approximer
+les données est le suivant :
+$ 2^{nbr\_bit -1}$.
+Ainsi, pour diminuer la précision des valeurs du signal au nombre de bits souhaité,
+le signal sera multiplié par $\frac{ 2^{nbr_bit -1}}{2}$ pour normaliser le signal, ensuite chaque
+valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par $\frac{ 2^{nbr_bit -1}}{2}$ pour
+revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont été obtenus et sont présentés dans le tableau qui suit.
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{l c c c c}
+  \hline
+  Dictionnaire & Résolution & Erreur Résolution & Contraste & Erreur Contraste \\ \hline
+  1bit & 0.070452 & 8.284432 & -0.057599 & 113.5591 \\
+  2bit & 0.036577 & 0.227103 & 0.120715 & 4.715503 \\
+  3bit & 0.041791 & 0.059722 & 0.495011 & 2.076969 \\
+  4bit & 0.040465 & 0.024991 & 0.563969 & 1.053042 \\
+  6bit & 0.042056 & 0.006118 & 1.107812 & 0.269374 \\
+  8bit & 0.041545 & 0.002079 & 1.154641 & 0.09054 \\
+  16bit & 0.049873 & 0.001649 & 1.392218 & 0.08161 \\
+  Original & 0.063902 & 0.000766 & 1.248192 & 0.01538 \\
+  \hline
+  \end{tabular}
+  \caption{Tableau des résultats}
+\end{table}
+  
+En analysant les données présentes dans ce tableau, on constate qu'en dessous de 6 bits,  
+les valeurs de résolution et de contraste commencent à être nettement moins correctes.  
+Cette affirmation peut être démontrée par la nette augmentation des incertitudes, ce qui  
+rend les valeurs plus incertaines. Il est donc juste de déterminer qu'un signal traité  
+avec moins de ressources que celles requises pour 6 bits aurait un impact néfaste sur  
+l'efficacité du fonctionnement du piano. Cependant, cela nous permet également de remarquer  
+qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.  
+Cela pourrait être bénéfique car il permettrait de faire fonctionner correctement un prototype  
+utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
+similaire mais a moindre couts. 
+
+\subsection{Interdépendance des facteurs}
+L'interdépendance des facteurs a dûe être prise en compte lors de la caractérisation du prototype. Sachant que le nombre
+de bits des échantillons affecte principalement l'analyse des signaux, il a été convenu que son influence pouvait être analysée
+de manière indépendante aux deux autres facteurs. Cependant, la fréquence d'échantillonage et le contenu fréquentiel étaient soupçonnés
+d'avoir une interdépendance non négligeable sur les valeurs de contraste et de résolution obtenues. Effectivement, l'impact de la fréquence
+de Nyquist du signal pouvait potentiellement faire en sorte qu'un signal ayant une fréquence d'échantillonage plus basse fonctionne tout de même 
+correctement en diminuant la borne supérieure du contenu fréquentiel. La théorème de Nyquist stipule que la fréquence d'échantillonage
+minimale d'un signal doit nécessairement correspondre au double de la fréquence maximale du signal évalué \cite{nyquist}. 
+
+Pour ce faire, certaines plages de contenu fréquentiel on été choisies, pour ensuite évaluer l'impact de la réduction de la fréquence 
+d'échantillonage.
 
 \subsection{Incertitudes}
 L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
@@ -227,14 +284,719 @@ l'amplitude ($\sigma_{A}$), et l'incertitude sur la résolution (FWHM) correspon
   \sigma_{FWHM}=\sqrt{2ln2}\ \sigma_{\sigma},
 \end{align*}
 où $\sigma_{\sigma}$ est l'incertitude sur l'écart-type, $\sigma$.
+
+
+
 \section{Codes}
 
- %Important de clean le code avant de remettre, j'ai entendu dire qu'il était picky là-dessus.
+Les codes présentés ci-dessous ont été utilisés pour faire fonctionner le piano et pour faire les
+multiples tests. Ces derniers peuvent nécessiter d'être adaptés pour pouvoir faire des tests
+spécifiques, ou encore pour décider quelles notes peuvent être jouées par le piano.
 
+\subsection{Programme pour modifier le contenu fréquentiel et la fréquence d'échantillonage}
+
+\begin{lstlisting}[language=python]
+import numpy as np
+import matplotlib.pyplot as plt
+import json
+import os
+from scipy.optimize import curve_fit
+
+# Charger le fichier JSON (dictionnaire de notes)
+with open('C:/Users/maxim/OneDrive/Documents/GitHub/piano_project/Wav-Notes/notes_dict_1ligne.json', 'r') as f:
+    data = json.load(f)
+input_filepath = 'Wav-Notes/notes_dict_1ligne.json'
+# Obtenir le repertoire du fichier original
+output_directory = os.path.dirname(input_filepath)
+
+# Parametres a ajuster
+# liste filtre_bas : [100,100,150,150,200,200,250,250,300,300,350,350,400,400,500,500]
+# liste filtre_haut : [2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500]
+filtre_bas=[550]
+filtre_haut=[1500]
+redu=30 #facteur de reduction de la frequence d'echantillonnage
+
+# Parametres importants
+fs = int(44100//redu)  # sample rate
+dt = 0.1  # Intervalle de temps (en secondes)
+nb_recordings = 1  # nb d'enregistrements par note
+nb_points = int(dt * fs)  # Equivalent en nombre de points pour les indices
+point_du_tap = 11 # Sert a l'affichage
+
+notes= ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
+notes_matrix = np.zeros((len(notes) * nb_recordings, nb_points))
+
+# Transferer les donnees du dictionnaire dans une matrice avec 17 lignes et nb_points par ligne
+i = 0
+for note, recordings in data.items():
+    for prise in recordings:
+        array = np.array(prise)
+        array_fin=array[::redu]
+        if len(array_fin)!=nb_points:
+            array_fin=array_fin[:nb_points]
+        notes_matrix[i] = array_fin
+        i += 1
+
+def dico_filtre_passband(matrice, frequence_minimale, frequence_maximale):
+    # 1. Effectuer la transformee de Fourier rapide (FFT)
+    signal_fft = np.fft.rfft(matrice)
+    frequencies = np.fft.rfftfreq(len(matrice[0]), 1/fs)
+
+    # 2. Creer un filtre passe-bande
+    low_cutoff = frequence_minimale  # Frequence de coupure basse (Hz)
+    high_cutoff = frequence_maximale  # Frequence de coupure haute (Hz)
+    filter_mask = (frequencies > low_cutoff) & (frequencies < high_cutoff)
+
+    # 3. Appliquer le filtre
+    filtered_fft = signal_fft * filter_mask
+
+    # 4. Revenir au domaine temporel avec la transformee inverse de Fourier
+    filtered_signal = np.fft.irfft(filtered_fft)
+    
+    # 5. Remplacer la deuxieme moitie de chaque vecteur par des zeros
+    filtered_signal_cut = np.zeros_like(filtered_signal)  # Creer une matrice du meme type, remplie de zeros
+    half_point = filtered_signal.shape[1] // 2  # Obtenir le point de coupure (moitie)
+    filtered_signal_cut[:, :half_point] = filtered_signal[:, :half_point]
+    
+    # Retourne le nouveau dico avec les signaux filtres
+    return filtered_signal_cut, frequencies, filtered_fft[point_du_tap], signal_fft[point_du_tap]
+
+# Fonction pour creer un nouveau fichier JSON pour chaque niveau de bits
+def create_modified_json(fbas,fhaut,freq_sampling, output_directory):
+    notes_dict = {}
+    
+    for bas,haut in zip(fbas,fhaut):
+        matrice_traitee, frequencies, filtered_fft, signal_fft=dico_filtre_passband(notes_matrix,bas,haut)
+
+    # On parcourt les notes et les enregistrements pour remplir le dictionnaire
+    for i, note in enumerate(notes):
+        recordings = []
+        for j in range(nb_recordings):
+            # On suppose que chaque enregistrement correspond a une ligne dans notes_matrix
+            recordings.append(matrice_traitee[i * nb_recordings + j].tolist())  # Convertir en liste
+        notes_dict[note] = recordings
+
+    for bas,haut in zip(fbas,fhaut):
+        # Generer le nom de fichier pour chaque duo de filtre
+        output_filename = os.path.join(output_directory, f'fs={freq_sampling}-fbas={bas}-fhaut={haut}.json')
+
+        # Sauvegarder le nouveau dictionnaire dans un fichier JSON
+        with open(output_filename, 'w') as outfile:
+            json.dump(notes_dict, outfile, indent=4)
+
+# Creer un fichier JSON pour chaque niveau de bits dans le meme repertoire que le fichier original
+create_modified_json(filtre_bas, filtre_haut, fs, output_directory)
+
+#La suite du code n'est pas utile en soi mais permet de confirmer que ca donne la bonne chose
+sign, frequencies, filtered_fft, signal_fft=dico_filtre_passband(notes_matrix,filtre_bas[0],filtre_haut[0])
+signal_post_filtre=sign[point_du_tap]
+signal=notes_matrix[point_du_tap]
+
+# Generer le temps 
+t1 = np.linspace(0, 1, len(signal), endpoint=False)  # Intervalle de temps
+t2 = np.linspace(0, 1, len(signal_post_filtre), endpoint=False)  # Intervalle de temps
+#f1, f2 = 50, 200  # Frequences des sinusoides
+#signal = np.sin(2 * np.pi * f1 * t) + 0.5 * np.sin(2 * np.pi * f2 * t)
+
+# Afficher les resultats
+plt.figure(figsize=(10, 6))
+
+# Affichage du signal original
+plt.subplot(2, 2, 1)
+plt.plot(t1, signal)
+plt.title("Signal original")
+plt.xlabel("Temps [s]")
+plt.ylabel("Amplitude")
+
+# Spectre de frequence original
+plt.subplot(2, 2, 2)
+plt.plot(frequencies[:fs//2], np.abs(signal_fft)[:fs//2])
+plt.title("Spectre de frequence original")
+plt.xlabel("Frequence [Hz]")
+plt.ylabel("Amplitude")
+
+# Spectre de frequence filtre
+plt.subplot(2, 2, 4)
+plt.plot(frequencies[:fs//2], np.abs(filtered_fft)[:fs//2])
+plt.title("Spectre de frequence filtre")
+plt.xlabel("Frequence [Hz]")
+plt.ylabel("Amplitude")
+
+# Signal filtre
+plt.subplot(2, 2, 3)
+plt.plot(t2, signal_post_filtre.real)
+plt.title("Signal filtre")
+plt.xlabel("Temps [s]")
+plt.ylabel("Amplitude")
+
+plt.tight_layout()
+plt.show()
+\end{lstlisting}
+
+\subsection{Programme pour changer le nombre de bits des échantillons}
+
+\begin{lstlisting}[language=python]
+import json
+import os
+import numpy as np
+
+# Charger le fichier JSON (dictionnaire)
+input_filepath = 'Wav-Notes/notes_dict_1ligne.json'
+with open(input_filepath, 'r') as f:
+    data = json.load(f)
+
+# Obtenir le repertoire du fichier original
+output_directory = os.path.dirname(input_filepath)
+
+# Fonction pour reduire la precision d'un signal en fonction du nombre de bits
+def reduce_precision(signal, n_bits):
+    if n_bits == 1:
+        # Cas special pour 1 bit : toutes les valeurs negatives deviennent 0
+        return [1 if value > 0 else 0 for value in signal]
+    elif n_bits > 1:
+        levels = 2**(n_bits - 1)  # Utiliser n_bits - 1 pour tenir compte du bit de signe
+        # Quantifier le signal dans le nombre de niveaux approprie
+        signal_quantified = np.round(np.array(signal) * (levels // 2)) / (levels // 2)
+    else:
+        signal_quantified = np.zeros_like(signal)  # Tout est ramene a zero pour 0 bit
+    
+    return signal_quantified.tolist()  # Convertir en liste pour garder le format JSON
+
+# Fonction pour creer un nouveau fichier JSON pour chaque niveau de bits
+def create_modified_json(data, n_bits, output_directory):
+    # Creer un nouveau dictionnaire avec les signaux modifies
+    modified_data = {}
+    
+    for note, vecteurs in data.items():
+        modified_data[note] = [reduce_precision(vecteur, n_bits) for vecteur in vecteurs]
+    
+    # Generer le nom de fichier pour chaque niveau de bits
+    output_filename = os.path.join(output_directory, f'modified_signal_{n_bits}bit.json')
+    
+    # Sauvegarder le nouveau dictionnaire dans un fichier JSON
+    with open(output_filename, 'w') as outfile:
+        json.dump(modified_data, outfile, indent=4)
+
+# Creer un fichier JSON pour chaque niveau de bits dans le meme repertoire que le fichier original
+create_modified_json(data, 16, output_directory)
+create_modified_json(data, 8, output_directory)
+create_modified_json(data, 6, output_directory)
+create_modified_json(data, 4, output_directory)
+create_modified_json(data, 3, output_directory)
+create_modified_json(data, 2, output_directory)
+create_modified_json(data, 1, output_directory)
+create_modified_json(data, 0, output_directory)
+\end{lstlisting}
+
+\subsection{Programme pour calculer la résolution et le contraste pour un dictionnaire de notes}
+
+\begin{lstlisting}[language=python]
+import numpy as np
+from scipy.odr import ODR, Model, RealData
+import json
+import pandas as pd
+from scipy.optimize import curve_fit
+import matplotlib.pyplot as plt
+print('Librairies importees')
+
+# liste des noms de dictionnaires JSON a charger
+fichiers=['notes_dict_1ligne','modified_signal_1bit','modified_signal_2bit','modified_signal_3bit'
+          ,'modified_signal_4bit','modified_signal_6bit','modified_signal_8bit','modified_signal_16bit']
+
+# Charger les fichiers JSON
+def lecteur():
+    encyclopedie=[]
+    for nom in fichiers:
+        with open(f'Wav-Notes/{nom}.json', 'r') as f:
+            encyclopedie.append(json.load(f))
+    return encyclopedie 
+
+# Fonction gaussienne avec floor ajustable pour curve_fit
+def gaussian_with_floor(x, A, mu, sigma, floor):
+    return A * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2)) + floor
+
+# Fonction pour ajuster avec des bornes (curve_fit)
+def fit_gaussian_with_bounds(corr_data, xaxis, yerr):
+    x_data = xaxis  # np.arange(len(corr_data))
+    initial_guess = [np.max(corr_data), np.argmax(corr_data), np.std(corr_data), np.mean(corr_data)]  # [amplitude, mean, sigma, offset]
+
+    # Contraintes sur les bornes pour que sigma > 0 et floor proche de la moyenne des donnees
+    bounds = ([0, 0, 0, np.mean(corr_data) - 0.09], [np.inf, len(corr_data), np.inf, np.mean(corr_data) + 0.09])
+
+    # Utilisation de curve_fit avec la nouvelle fonction gaussienne
+    params, pcov = curve_fit(gaussian_with_floor, x_data, corr_data, p0=initial_guess,
+                             sigma=yerr, absolute_sigma=True, bounds=bounds, maxfev=10000)
+
+    perr = np.sqrt(np.diag(pcov))  # Erreurs sur les parametres ajustes
+    return params, perr, x_data
+
+# Fonction pour calculer la correlation du curve_fit
+def correlateur_et_curve_fit_gaussien(data, point_du_tap):
+        #Rembarque sur le code a Marielou
+    # Parametres importants
+    nb_points = len(data['1'][0])  
+    dt = 0.1
+    fs=int(nb_points/dt) # sample rate
+    nb_recordings = 1  # nb d'enregistrements par note
+
+    notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
+    matrice = np.zeros((len(notes) * nb_recordings, nb_points))
+
+    i = 0
+    for note, recordings in data.items():
+        for prise in recordings:
+            array = np.array(prise)
+            array_normalise = array / np.max(array)
+            matrice[i] = array_normalise
+            i += 1
+
+    signaux_reference = matrice
+    signal = matrice[point_du_tap]
+    position = 3*10**(-2) + 1.5*np.arange(0, 17)*10**(-2)
+    correlation = np.dot(signaux_reference,signal)/np.max(np.dot(signaux_reference,signal))
+
+    nb_bits = 32
+    range = 2
+    err_ampl = (range/(2**(nb_bits)))/2
+
+    # Propagation de l'erreur sur le produit scalaire de la correlation
+    yerr = []
+    for element in signaux_reference:
+        # Remplacer les zeros par une petite valeur pour eviter la division par zero
+        signal_safe = np.where(signal == 0, 1e-10, signal)
+        element_safe = np.where(element == 0, 1e-10, element)
+
+        # Calculer l'erreur de multiplication
+        err_multiplication = (signal_safe * element_safe) * np.sqrt((err_ampl / signal_safe) ** 2 + (err_ampl / element_safe) ** 2)
+
+        # Verifier si err_multiplication contient des NaN ou des infinis
+        if np.any(np.isnan(err_multiplication)) or np.any(np.isinf(err_multiplication)):
+            print("Attention : err_multiplication contient des NaN ou des infinis.")
+            continue  # Passer a l'iteration suivante
+
+        # Calculer l'erreur totale
+        err_prod = np.sqrt(np.sum(err_multiplication ** 2))
+        yerr.append(err_prod)
+    #yerr=1*correlation
+
+    params, perr, x_data = fit_gaussian_with_bounds(correlation,position, yerr)
+    
+    amplitude_fit, mean_fit, sigma_fit, offset_fit = params
+    amplitude_err, mean_err, sigma_err, offset_err = perr
+
+    # La resolution est convertie en cm (chaque point est espace de 1,5 cm)
+    resolution = 1.5 * np.log(2) * np.sqrt(2) * sigma_fit
+    resolution_err = 1.5 * np.log(2) * np.sqrt(2) * sigma_err
+
+    max_diff = amplitude_fit-offset_fit
+    max_diff_err = amplitude_err-offset_err
+
+    return {
+        "resolution": resolution,
+        "resolution_err": resolution_err,
+        "max_diff": max_diff,
+        "max_diff_err": max_diff_err,
+    }
+
+# Fonction gaussienne ODR
+def gaussian_with_floor_constrained(p, x):
+    A, mu, log_sigma, floor = p
+    sigma = np.exp(log_sigma)  # sigma > 0 en utilisant la transformation exponentielle
+    return A * np.exp(-((x - mu) ** 2) / (2 * sigma ** 2)) + floor
+
+# Fonction pour calculer la correlation ODR
+def correlateur_ODR(data,point_du_tap,nb_bit):
+    # Parametres importants
+    nb_points = len(data['1'][0])  
+    dt = 0.1
+    fs=int(nb_points/dt) # sample rate
+    nb_recordings = 1  # nb d'enregistrements par note
+
+    notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
+    matrice = np.zeros((len(notes) * nb_recordings, nb_points))
+
+    i = 0
+    for note, recordings in data.items():
+        for prise in recordings:
+            array = np.array(prise)
+            array_normalise = array / np.max(array)
+            matrice[i] = array_normalise
+            i += 1
+
+    signaux_reference = matrice
+    signal = matrice[point_du_tap]
+    position = 3*10**(-2) + 1.5*np.arange(0, 17)*10**(-2)
+    correlation = np.dot(signaux_reference,signal)/np.max(np.dot(signaux_reference,signal))
+
+    nb_bits = nb_bit
+    range = 2
+    err_ampl = (range/(2**(nb_bits)))/2
+    err_position = 4e-3
+
+    # Propagation de l'erreur sur le produit scalaire de la correlation
+    err_prod_ampl = []
+    for element in signaux_reference:
+        # Remplacer les zeros par une petite valeur pour eviter la division par zero
+        signal_safe = np.where(signal == 0, 1e-10, signal)
+        element_safe = np.where(element == 0, 1e-10, element)
+
+        # Calculer l'erreur de multiplication
+        err_multiplication = (signal_safe * element_safe) * np.sqrt((err_ampl / signal_safe) ** 2 + (err_ampl / element_safe) ** 2)
+
+        # Verifier si err_multiplication contient des NaN ou des infinis
+        if np.any(np.isnan(err_multiplication)) or np.any(np.isinf(err_multiplication)):
+            print("Attention : err_multiplication contient des NaN ou des infinis.")
+            continue  # Passer a l'iteration suivante
+
+        # Calculer l'erreur totale
+        err_prod = np.sqrt(np.sum(err_multiplication ** 2))
+        err_prod_ampl.append(err_prod)
+
+    # Utilisation de ODR pour faire le fit gaussien avec sigma toujours positif
+    data = RealData(position, correlation, sx=err_position, sy=err_prod_ampl)
+    model = Model(gaussian_with_floor_constrained)
+    
+    guess_initial = [np.max(correlation), np.mean(position), np.log(np.std(position)), np.mean(correlation)]
+    odr = ODR(data, model, beta0=guess_initial)
+    output = odr.run()
+
+    # Parametres optimaux et matrice de covariance
+    A_opt, mu_opt, log_sigma_opt, floor_opt = output.beta
+    sigma_opt = np.exp(log_sigma_opt)  # Revenir a sigma
+
+    resolution = np.sqrt(2 * np.log(2)) * sigma_opt
+    resolution_err = np.sqrt(2 * np.log(2)) * sigma_opt * np.sqrt(output.cov_beta[2, 2])
+
+    contraste = A_opt-np.mean(correlation)
+    contraste_err = 2*np.sqrt(output.cov_beta[0, 0])
+    
+    return {
+        "resolution": resolution,
+        "resolution_err": resolution_err,
+        "max_diff": contraste,
+        "max_diff_err": contraste_err,
+    }
+
+    # Ajuster les donnees avec la fonction gaussienne avec plancher
+    params, perr, x_data = fit_gaussian_with_offset_and_errors(corr_data, yerr)
+    
+    # Extraction des parametres ajustes
+    amplitude_fit, mean_fit, sigma_fit, offset_fit = params
+    amplitude_err, mean_err, sigma_err, offset_err = perr
+
+    # La resolution est convertie en cm (chaque point est espace de 1,5cm)
+    resolution = 1.5 * np.log(2) * np.sqrt(2) * sigma_fit
+    resolution_err = 1.5 * np.log(2) * np.sqrt(2) * sigma_err  
+
+    # Calcul de la difference entre le maximum de la gaussienne et l'offset
+    max_diff = amplitude_fit
+    max_diff_err = amplitude_err  # Incertitude sur la difference est celle de l'amplitude
+
+    # Retourner les resultats
+    return {
+        "resolution": resolution,
+        "resolution_err": resolution_err,
+        "max_diff": max_diff,
+        "max_diff_err": max_diff_err,
+    }
+
+# Creer une liste pour stocker les resultats
+results_list = []
+dictionaries_to_process = lecteur()  # Ajoute les autres dictionnaires ici
+bit_names = ['Original', '1bit', '2bit', '3bit', '4bit', '6bit', '8bit', '16bit']
+bit_qty = [32, 1, 2, 3, 4, 6, 8, 16]  # bit_qty[idx]
+
+for idx, current_data in enumerate(dictionaries_to_process):
+    a1 = []
+    a2 = []
+    a3 = []
+    a4 = []
+    for i in [7, 8, 9, 10, 11]:
+        corr_data = correlateur_ODR(current_data, i, bit_qty[idx])
+
+        # Analyser les ajustements
+        results = corr_data
+        a1.append(results["resolution"])
+        a2.append(results["resolution_err"])
+        a3.append(results["max_diff"])
+        a4.append(results["max_diff_err"])
+
+    resolution = np.mean(a1)
+    resolution_err = np.mean(a2)
+    contraste = np.mean(a3)
+    contraste_err = np.mean(a4)
+
+    # Ajouter les resultats a la liste, en incluant les noms des bits
+    results_list.append({
+        "Dictionnaire": bit_names[idx],
+        "Resolution": resolution,
+        "Erreur Resolution": resolution_err,
+        "Contraste": contraste,
+        "Erreur Contraste": contraste_err,
+    })
+
+# Convertir les resultats en DataFrame
+results_df = pd.DataFrame(results_list)
+
+# Exporter les resultats en fichier Excel
+results_df.to_excel('resultats_nouveaux_points_nb_bit.xlsx', index=False)
+
+print("Analyse terminee et resultats exportes vers 'resultats'.")
+\end{lstlisting}
+
+\subsection{Programme pour enregistrer un dictionnaire de notes}
+
+\begin{lstlisting}[language=python]
+import sounddevice as sd
+import numpy as np
+import json
+
+# temps pour taper la note
+seconds = 2 
+
+# freq d'acquisition par defaut
+fs = 44100    
+
+default = True # Si cette option est utilisee, le micro/speaker par defaut est utilise
+devices = sd.query_devices()
+
+if not default:
+    InputStr = "Choisir le # correspondant au micro parmi la liste: \n"
+    OutputStr = "Choisir le # correspondant au speaker parmi la liste: \n"
+    for i in range(len(devices)):
+        if devices[i]['max_input_channels']:
+            InputStr += ('%d : %s \n' % (i, ''.join(devices[i]['name'])))
+        if devices[i]['max_output_channels']:
+            OutputStr += ('%d : %s \n' % (i, ''.join(devices[i]['name'])))
+    DeviceIn = input(InputStr)
+    DeviceOut = input(OutputStr)
+
+    sd.default.device = [int(DeviceIn), int(DeviceOut)]
+
+# liste de notes a enregistrer
+notes = ['1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17']
+
+notes_dict = {note: None for note in notes}
+dt = 1e-1  # Intervalle de temps (en secondes)
+nb_points = int(dt*fs) # Equivalent en nombre de points pour les indices
+
+# enregistrement de chaque note
+for note in notes:
+    recordings = []
+    print(f'Enregistrement de la note', note)
+
+    # ecoute de la note
+    myrecording = sd.rec(int(seconds * fs), samplerate=fs, channels=1)
+    sd.wait()
+    print(f'Enregistrement fini.')
+
+    # Trouver l'amplitude maximale en valeur absolue
+    max_amplitude = np.max(abs(myrecording))
+    threshold = max_amplitude / 10  # Definir le seuil
+    print(threshold)
+
+    # Creer la fenetre utilisee pour le signal
+    for index, value in enumerate(myrecording):
+        if value >= threshold:
+            start_signal = index
+            break
+
+    cut_signal = myrecording[start_signal:(start_signal + nb_points)].flatten()
+
+    # Normalisation du signal
+    norm_cut_signal = cut_signal / max_amplitude
+
+    # Rajouter le nouveau array a la liste 'recordings'
+    recordings.append(norm_cut_signal.tolist())
+
+    # Transformer la liste en array
+    nom_note = note
+    notes_dict[nom_note] = recordings
+
+# sauvegarde du dictionnaire en JSON
+with open('notes_dict_1ligne.json', 'w') as json_file:
+    json.dump(notes_dict, json_file)
+\end{lstlisting}
+
+\subsection{Programme pour jouer du piano en temps réel}
+
+\begin{lstlisting}[language=python]
+import sounddevice as sd
+import numpy as np
+import threading
+import matplotlib.pyplot as plt
+import time
+from collections import deque
+import pygame
+from pydub import AudioSegment
+import os
+import json
+import math
+
+# chargement du dictionnaire
+with open('Wav-Notes\\notes_dict_jo.json', 'r') as file:
+    data = json.load(file)
+
+# parametres audio
+fs = 44100 
+dt = 0.1  # Intervalle de temps (en secondes)
+nb_recordings = 1 # Combien de signaux par note
+nb_points = int(dt * fs)
+
+# liste de notes
+notes = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17']
+notes_matrix = np.zeros((len(notes) * nb_recordings, nb_points))
+
+# Conversion des donnees en arrays et reformatage de la memoire
+i = 0
+for note, recordings in data.items():
+    for element in recordings:
+        array = np.array(element) 
+        notes_matrix[i] = array
+        i += 1
+
+notes_dict = {
+    '1': 'c3.wav',
+    '2': 'c-3.wav',
+    '3': 'd3.wav',
+    '4': 'd-3.wav',
+    '5': 'e3.wav',
+    '6': 'f3.wav',
+    '7': 'f-3.wav',
+    '8': 'g3.wav',
+    '9': 'g-3.wav',
+    '10': 'a4.wav',
+    '11': 'a-4.wav',
+    '12': 'b4.wav',
+    '13': 'c4.wav',
+    '14': 'c-4.wav',
+    '15': 'd4.wav',
+    '16': 'd-4.wav',
+    '17': 'e4.wav'
+}
+
+pygame.mixer.init()
+
+# THREAD : fonction pour jouer l'audio d'une note
+def jouer_note(note):
+    if note in notes_dict:
+        fichier_note = f'Wav-Notes\\{notes_dict[note]}'
+        
+        if os.path.isfile(fichier_note):
+            # Load the WAV file in memory
+            note_sound = AudioSegment.from_wav(fichier_note)
+            
+            # Play the note using pygame
+            son = pygame.mixer.Sound(fichier_note)
+            son.play()
+            pygame.time.wait(int(note_sound.duration_seconds * 1000))  # attendre fin de l'audio
+        else:
+            print(f"Le fichier {fichier_note} n'existe pas.")
+    else:
+        print("Note non reconnue.")
+
+# test de note
+jouer_note('c3')
+
+# parametres de detection de signal audio
+threshold = 0.01  # amplitude minimale pour signaler une impulsion
+spike_detected = False  # flag pour savoir si un signal est detecte
+capture_duration = 0.15  # temps de capture d'audio post impulsion
+buffer_size = fs  # taille du buffer qui contient le signal audio roulant
+signal_buffer = np.zeros(buffer_size)
+
+# Au besoin, fonction pour visualiser le signal audio d'une impulsion
+def plot_data(data):
+    t = np.linspace(0, dt, len(data))
+    plt.plot(t, data)
+    plt.xlabel('Time [s]')
+    plt.ylabel('Amplitude')
+    plt.title('Signal After Spike')
+    plt.show()
+
+# Lecture d'audio en temps reel
+def audio_callback(indata, frames, time, status):
+    global spike_detected, signal_buffer
+    
+    if status:
+        print(status)
+    
+    # aplatissage du data entrant
+    audio_data = indata[:, 0]
+    
+    # roulement du signal dans le buffer
+    signal_buffer = np.roll(signal_buffer, -frames)
+    signal_buffer[-frames:] = audio_data
+    
+    # Analyse du buffer pour l'impulsion
+    if not spike_detected and np.max(audio_data) > threshold:
+        spike_detected = True
+        print("Spike detected!")
+    
+        # Si detection, lance le thread d'analyse de signal
+        capture_thread = threading.Thread(target=signal_analysis)
+        capture_thread.start()
+
+# THREAD : Analyse de signal
+def signal_analysis():
+    global spike_detected
+    
+    time.sleep(capture_duration)  # laisse le buffer prendre la suite du signal post impulsion
+
+    # Capture du signal de l'impulsion dans le buffer
+    post_spike_data = np.copy(signal_buffer)[int(fs - fs * capture_duration - 800):]
+    
+##################################################################
+# Traitement de donnees
+##################################################################
+
+    data_max_amp = np.max(abs(post_spike_data))
+    data_threshold = data_max_amp / 10
+
+    # Creer la fenetre utilisee pour le signal
+    for index, value in enumerate(post_spike_data):
+        if value >= data_threshold:
+            start_signal = index
+            break
+    cut_data = post_spike_data[start_signal:(start_signal + int(dt * fs))].flatten()
+
+    # Plot the data
+    # plot_data(cut_data)
+
+    # Normalisation du signal
+    norm_cut_data = cut_data / data_max_amp
+
+    # Transformer la liste en array
+    signal_array = np.array(norm_cut_data)
+
+    # Produit scalaire (correlation) entre les donnees de training et le signal test
+    scalar_prod = np.dot(notes_matrix, signal_array)
+
+    # Trouver l'indice de la valeur max du produit scalaire et trouver sa note correspondante
+    index_max = np.argmax(scalar_prod)
+    note_index = index_max // nb_recordings
+    print(scalar_prod)
+
+    note = notes[note_index]
+    if note:
+        print(f"Playing note: {note}")
+        # Lance le thread pour jouer la note identifiee
+        play_note_thread = threading.Thread(target=jouer_note, args=(note,))
+        play_note_thread.start()
+    
+    # Reset du flag pour continuer a lire des impulsions
+    spike_detected = False
+
+# Lancement de la lecture d'audio en continu
+with sd.InputStream(callback=audio_callback, samplerate=fs, channels=1):
+    print("Recording... (Press Ctrl+C to stop)")
+    while True:
+        time.sleep(0.001)  # Keep the main loop running
+\end{lstlisting}
 
 
 \clearpage
-
+\printbibliography
 % \bibliographystyle{unsrtnat}
 % \bibliography{My_Library}
 
