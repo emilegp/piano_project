@@ -6,19 +6,8 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 print('Librairies importées')
 
-fichiers=['fs=44100-fbas=100-fhaut=1500','fs=1764-fbas=100-fhaut=1500',
-    'fs=882-fbas=100-fhaut=1500','fs=44100-fbas=300-fhaut=1500','fs=1764-fbas=300-fhaut=1500',
-    'fs=1470-fbas=300-fhaut=1500','fs=882-fbas=300-fhaut=1500',
-    'fs=44100-fbas=300-fhaut=5000','fs=4410-fbas=300-fhaut=5000',
-    'fs=2205-fbas=300-fhaut=5000','fs=2004-fbas=300-fhaut=5000',
-    'fs=1764-fbas=300-fhaut=5000','fs=1575-fbas=300-fhaut=5000',
-    'fs=1470-fbas=300-fhaut=5000','fs=4410-fbas=550-fhaut=1500',
-    'fs=44100-fbas=550-fhaut=1500','fs=1470-fbas=550-fhaut=1500',
-    'fs=44100-fbas=1000-fhaut=5000','fs=8820-fbas=1000-fhaut=5000',
-    'fs=44100-fbas=700-fhaut=3000','fs=4410-fbas=700-fhaut=3000',
-    'fs=1917-fbas=700-fhaut=3000','fs=1837-fbas=700-fhaut=3000',
-    'fs=1764-fbas=700-fhaut=3000','fs=1696-fbas=700-fhaut=3000',
-    'fs=1633-fbas=700-fhaut=3000']
+fichiers=['fs=386-fbas=1-fhaut=10000',
+          'fs=324-fbas=1-fhaut=10000']
 
 # Charger les fichiers JSON
 def lecteur():
@@ -185,6 +174,6 @@ for idx, current_data in enumerate(dictionaries_to_process):
 results_df = pd.DataFrame(results_list)
 
 # Exporter les résultats en fichier Excel
-results_df.to_excel('resultats_nouveaux_points_confirm.xlsx', index=False)
+results_df.to_excel('resultats_nouveaux_points_fs2.xlsx', index=False)
 
-print("Analyse terminée et résultats exportés vers 'nyquist'.")
+print("Analyse terminée et résultats exportés vers 'resultats_nouveaux_points_fs.xlsx'.")
