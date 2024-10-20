@@ -202,8 +202,46 @@ dire pourquoi on a testé res et contraste pour d'autres facteurs que ceux du pr
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 Pour pouvoir réduire les coûts blabla... \textcolor{red}{TODO}
-\subsection{bite}
- 
+\subsection{Nombre de bits des échantillons du signal}
+our modifier le nombre de bits artificiellement de chaque signal, le processus est assez simple.
+Le nombre de bits disponibles doit être déterminé au début pour la précision. En effet, lorsque le nombre de bits est réduit,
+il n'est pas possible de tous les utiliser pour la précision. Dans les faits, un bit est toujours réservé pour la description du signe (positif ou négatif).
+Puisque la base 2 est utilisée dans ce prototype, le nombre de niveaux disponibles pour approximer
+les données est le suivant :
+$ 2^{nbr\_bit -1}$.
+Ainsi, pour diminuer la précision des valeurs du signal au nombre de bits souhaité,
+le signal sera multiplié par $\frac{ 2^{nbr_bit -1}}{2}$ pour normaliser le signal, ensuite chaque
+valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par $\frac{ 2^{nbr_bit -1}}{2}$ pour
+revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont été obtenus et sont présentés dans le tableau qui suit.
+\begin{table}[ht]
+  \centering
+  \begin{tabular}{l c c c c}
+  \hline
+  Dictionnaire & Résolution & Erreur Résolution & Contraste & Erreur Contraste \\ \hline
+  1bit & 0.070452 & 8.284432 & -0.057599 & 113.5591 \\
+  2bit & 0.036577 & 0.227103 & 0.120715 & 4.715503 \\
+  3bit & 0.041791 & 0.059722 & 0.495011 & 2.076969 \\
+  4bit & 0.040465 & 0.024991 & 0.563969 & 1.053042 \\
+  6bit & 0.042056 & 0.006118 & 1.107812 & 0.269374 \\
+  8bit & 0.041545 & 0.002079 & 1.154641 & 0.09054 \\
+  16bit & 0.049873 & 0.001649 & 1.392218 & 0.08161 \\
+  Original & 0.063902 & 0.000766 & 1.248192 & 0.01538 \\
+  \hline
+  \end{tabular}
+  \caption{Tableau des résultats}
+\end{table}
+  
+En analysant les données présentes dans ce tableau, on constate qu'en dessous de 6 bits,  
+les valeurs de résolution et de contraste commencent à être nettement moins correctes.  
+Cette affirmation peut être démontrée par la nette augmentation des incertitudes, ce qui  
+rend les valeurs plus incertaines. Il est donc juste de déterminer qu'un signal traité  
+avec moins de ressources que celles requises pour 6 bits aurait un impact néfaste sur  
+l'efficacité du fonctionnement du piano. Cependant, cela nous permet également de remarquer  
+qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.  
+Cela pourrait être bénéfique car il permettrait de faire fonctionner correctement un prototype  
+utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
+similaire mais a moindre couts. 
+
 \subsection{Incertitudes}
 L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
 de l'ADC. La résolution de l'ADC, $\delta$, dépend du nombre de bits des échantillons, et peut être décrite par:
