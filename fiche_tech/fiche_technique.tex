@@ -28,6 +28,9 @@
 \usepackage[hidelinks]{hyperref}
 \usepackage{abstract}
 \usepackage{svg}
+\usepackage{biblatex}
+\addbibresource{bibliographie.bib}
+
 \renewcommand{\abstractnamefont}{\normalfont\bfseries}
 \renewcommand{\abstracttextfont}{\normalfont\itshape}
 \usepackage{titlesec}
@@ -244,6 +247,18 @@ qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.
 Cela pourrait être bénéfique car il permettrait de faire fonctionner correctement un prototype  
 utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
 similaire mais a moindre couts. 
+
+\subsection{Interdépendance des facteurs}
+L'interdépendance des facteurs a dûe être prise en compte lors de la caractérisation du prototype. Sachant que le nombre
+de bits des échantillons affecte principalement l'analyse des signaux, il a été convenu que son influence pouvait être analysée
+de manière indépendante aux deux autres facteurs. Cependant, la fréquence d'échantillonage et le contenu fréquentiel étaient soupçonnés
+d'avoir une interdépendance non négligeable sur les valeurs de contraste et de résolution obtenues. Effectivement, l'impact de la fréquence
+de Nyquist du signal pouvait potentiellement faire en sorte qu'un signal ayant une fréquence d'échantillonage plus basse fonctionne tout de même 
+correctement en diminuant la borne supérieure du contenu fréquentiel. La théorème de Nyquist stipule que la fréquence d'échantillonage
+minimale d'un signal doit nécessairement correspondre au double de la fréquence maximale du signal évalué \cite{nyquist}. 
+
+Pour ce faire, certaines plages de contenu fréquentiel on été choisies, pour ensuite évaluer l'impact de la réduction de la fréquence 
+d'échantillonage.
 
 \subsection{Incertitudes}
 L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
@@ -981,7 +996,7 @@ with sd.InputStream(callback=audio_callback, samplerate=fs, channels=1):
 
 
 \clearpage
-
+\printbibliography
 % \bibliographystyle{unsrtnat}
 % \bibliography{My_Library}
 
