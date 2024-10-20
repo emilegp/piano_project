@@ -164,20 +164,44 @@ qui informe de la grandeur qu'une note doit prende pour être distincte, ainsi q
 contraste, qui quantifie la différence entre les signaux, sont données dans la table de
 spécifications.
 
-\begin{figure}[H]
-  \centering
-  \includesvg[scale=1]{schema.svg}
-  \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
-  piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
-  du bas de la plaque approximativement.}
-  \label{piano_fig}
-\end{figure}
+% \begin{figure}[H]
+%   \centering
+%   \includesvg[scale=1]{schema.svg}
+%   \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
+%   piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
+%   du bas de la plaque approximativement.}
+%   \label{piano_fig}
+% \end{figure}
 
 
 
 \section{Spécifications}
+Le tableau \ref{specs} résume les résultats pertinents des tests de caractérisations
+effectués sur le prototype. La première ligne du tableau illustre la résolution et le 
+contraste obtenu pour le piano tel quel, en maximisant les facteurs selon sa performance.
+De là, des bornes ont été posées sur le nombre de bits, la fréquence d'échantillonage et le contenu fréquentiel
+pour évaluer l'influence de chacun sur la performance globale du dispositif. Ces tests ont été effectués dans l'optique d'amoindrir
+les coûts pour un deuxième prototype. Les tests choisis dans le tableau \ref{specs} sont ceux pour lesquels la dégradation 
+des facteurs résultaient en valeurs convenables de résolution et de contraste.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c c c | c c}
+    \hline
+    \multicolumn{3}{c|}{Facteurs} & \multirow{2}{*}{Résolution (m)} & \multirow{2}{*}{Contraste} \\ 
+    Bits & Fréquence d'échantillonge (Hz) & Contenu fréquentiel (Hz) & & \\
+    \hline
+    32 & 44100 & - & $0.0639\ \pm \ 0.0008$ & $0.62 \ \pm\ 0.02$ \\
+    16 & 44100 & - & $0.050\ \pm \ 0.002$ & $0.70 \ \pm\ 0.08$ \\
+    8 & 44100 & - & $0.042 \ \pm\ 0.002$ & $0.58  \ \pm\ 0.09$ \\
+    32 & 44100 & 300-5000 & $0.0671\ \pm\ 0.0008$ & $0.529\ \pm\ 0.009$ \\
+    32 & 44100 & 300-1500 &	$0.0627\ \pm\ 0.0008$ &	$0.72\ \pm\ 0.02$ \\
+    32 & 1764 & 300-1500 &	$0.042\ \pm\ 0.001$ & $0.577\ \pm\ 0.006$\\
+    32 & 1764 & 100-1500 & $0.0505\ \pm\ 0.0008$ & $0.57\ \pm\ 0.03$ \\
+    \hline
+    \end{tabular}
+    \caption{Tableau des spécifications \label{specs}}
+  \end{table}
 
-dire pourquoi on a testé res et contraste pour d'autres facteurs que ceux du prototype réel (aka pour l'analyse de réduction de couts)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Temps de réponse moyen serait nice
 
