@@ -313,16 +313,33 @@ En multipliant terme à terme le filtre et le vecteur dans le domaine fréquenti
 obtient le vecteur filtré dont les composantes sont conservées lorsqu'elles sont dans 
 à l'intérieur de l'intervalle et nulles sinon.
 
-En modifiant la valeur des filtres, on 
-
+En modifiant la valeur des filtres, on peut voir l'impact de la réduction du contenu 
+fréquentiel sur la résolution et le contraste afin de déterminer jusqu'à quelles 
+fréquences on peut réduire le signal. La fréquence maximale conservée est le premier
+paramètre testé et ses résultats sont illustrés à la figure \ref{fmax_fig}, pour une 
+fréquence minimale conservée de 10 Hz et une fréquence d'échantillonnage de 44,1 kHz.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.8]{Freqmax_graph.png}
+    \includegraphics[scale=0.65]{Freqmax_graph.png}
     \caption{Contraste et résolution en fonction de la fréquence maximale conservée}
     \label{fmax_fig}
 \end{figure}
 
+On observe que dans la portion à droite de la ligne pointillée verticale, le 
+contraste est relativement constant entre $0,50 \pm 0,02$ et $0,80 \pm 0,02$ et 
+la résolution est également relativement constante entre $(8,3 \pm 0,1)$ cm et 
+$(4,0 \pm 0,1)$ cm. Dans la portion à gauche de la ligne pointillée, les valeurs 
+fluctuent beaucoup plus, avec des résolution qui dépassent 10 cm, des incertitudes 
+supérieures aux valeurs et même des contrastes obtenus avec la régression gaussienne
+qui dépassent 1. Ces éléments correspondent à un échec de la régression gaussienne 
+et témoignent d'une trop grande dégradation du signal. La position de la ligne 
+pointillée, à environ 300 Hz, marque une limite inférieure pour la réduction de 
+la fréquence maximale.
+
+De la même façon, on peut tester la fréquence minimale conservée en fixant la 
+fréquence maximale à 5000 Hz et la fréquence d'échantillonnage à 44,1 kHz. Les 
+résultats de ce test sont présentés à la figure \ref{fmin_fig}.
 
 \begin{figure}[H]
     \centering
@@ -330,6 +347,10 @@ En modifiant la valeur des filtres, on
     \caption{Contraste et résolution en fonction de la fréquence minimale conservée}
     \label{fmin_fig}
 \end{figure}
+
+À nouveau, on observe des valeurs relativement constantes pour la résolution et le 
+contraste, soit entre $4,4 \pm 0,1$ cm et $9,5 \pm 0,8$ cm et entre $0,41 \pm 0,1$ 
+et $ $ respectivement.
 
 
 % \begin{table}[ht]
