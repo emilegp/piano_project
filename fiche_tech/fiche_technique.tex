@@ -193,15 +193,15 @@ des facteurs résultait en valeurs convenables de résolution et de contraste.
 \section{Rapports de tests}
 
 La section qui suit détaille les tests effectués afin de produire le tableau des spécifications.
-Une attention particulière est portée à la modifications du nombre de bits des échantillons, de
-la fréquence d'échantillonage utilisée ainsi qu'au contenu fréquentiel sauvegardé, afin d'analyser
+Une attention particulière est portée à la modification du nombre de bits des échantillons, de
+la fréquence d'échantillonnage utilisée ainsi qu'au contenu fréquentiel sauvegardé, afin d'analyser
 si un dispositif ayant ces facteurs de dégradés peut tout de même présenter des performances adéquates.
 Comme c'est le cas, le processeur et la mémoire requise pour opérer le piano pourrait être moins dispendieux
 et rester opérationnel.
 
 Les tests mesurent tous la performance du dispositif en analysant la résolution et le contraste, tous les deux
-acquis par le processus suivant. Un dictionnaire de plusieurs impacts espacés de 5mm chacuns sur une ligne droite
-est enregistrée par le capteur piézoélectrique. Le signal de ces impacts est enregistré sous la forme d'un vecteur.
+acquis par le processus suivant. Un dictionnaire de plusieurs impacts espacés de 5mm chacun sur une ligne droite
+est enregistré par le capteur piézoélectrique. Le signal de ces impacts est enregistré sous la forme d'un vecteur.
 Un de ces impacts est choisi, puis la corrélation entre ce dernier et tous les impacts est calculée. Afin d'accélérer
 le temps de calcul, réduisant ainsi le délai impact-note pour jouer le piano en temps réel, la corrélation est
 approximée par un produit scalaire des deux signaux normalisés. Une distribution gaussienne peut ensuite être
@@ -210,7 +210,7 @@ mi-hauteur. Un paramètre constant est aussi ajouté à la gaussienne afin d'aju
 La différence entre ce plancher et la valeur du produit scalaire la plus haute est ce qui donne le contraste. Enfin,
 ce processus de corrélation entre un signal et le reste du dictionnaire est répété pour différents signaux afin
 de faire une étude statistique.
-Ainsi, pour chaque tests, le dictionnaire est modifié, puis ce processus de calcul est appliqué. Les calculs
+Ainsi, pour chaque test, le dictionnaire est modifié, puis ce processus de calcul est appliqué. Les calculs
 d'incertitudes pour la résolution et le contraste sont détaillés à la section \ref{inc}.
 
 \subsection{Nombre de bits des échantillons du signal}
@@ -231,9 +231,9 @@ F=\frac{ 2^{n -1}}{2}\text{.}
 Pour normaliser le signal, chaque
 valeur sera ensuite arrondie à son niveau le plus proche. Le signal sera alors divisé par
 $F$ 
-pour revenir à son échelle d'origine. Avec cette méthode, plusieurs réductions du nombre de bits ont été effectués
+pour revenir à son échelle d'origine. Avec cette méthode, plusieurs réductions du nombre de bits ont été effectuées
 sur le dictionnaire original à 32 bits, afin d'essayer de voir si les résultats restent concluants malgré cette
-déterioration. Les résultats suivants ont été obtenus et sont présentés dans le tableau \ref{nb_bit_tab}.
+détérioration. Les résultats suivants ont été obtenus et sont présentés dans le tableau \ref{nb_bit_tab}.
 \begin{table}[H]
     \centering
     \begin{tabular}{l c c}
@@ -246,7 +246,7 @@ déterioration. Les résultats suivants ont été obtenus et sont présentés da
     6 bits & $4.2 \pm 0.6$ & $0.6 \pm 0.3$ \\
     8 bits & $4.2 \pm 0.2$ & $0.58 \pm 0.09$ \\
     16 bits & $5.0 \pm 0.2$ & $0.70 \pm 0.08$ \\
-    32 bits & $6.38 \pm 0.08$ & $0.62 \pm 0.02$ \\
+    32 bits & $6.39 \pm 0.08$ & $0.62 \pm 0.02$ \\
     \hline
     \end{tabular}
     \caption{Tableau de résolution et de contraste en fonction du nombre de bits conservé pour les échantillons.}
@@ -268,7 +268,7 @@ similaire, mais avec des pièces à moindres coûts.
 \subsection{Fréquence d'échantillonnage du signal}
 
 Pour tester différentes fréquences d'échantillonnage plus faibles que la 
-fréquence initiale, il suffit d'échantilloner l'échantillon déjà obtenu. En
+fréquence initiale, il suffit d'échantillonner l'échantillon déjà obtenu. En
 effet, en prenant un point sur deux dans un échantillon dont la fréquence
 d'échantillonnage est de 44 100 Hz, le nouvel échantillon a directement une
 fréquence d'échantillonnage de 22 050 Hz. 
@@ -283,7 +283,7 @@ qu'elles ont produits sont présentés au tableau \ref{fs_fig}.
     \label{fs_fig}
 \end{figure}
 
-26 valeurs de fréquences été testées, mais seules les valeurs non aberrantes sont
+26 valeurs de fréquences ont été testées, mais seules les valeurs non aberrantes sont
 présentes sur le graphique. La ligne pointillée verticale indique 
 la moitié des valeurs testées. On constate  que peu de valeurs sont affichées
 pour une fréquence en dessous de 400 Hz. Cela est dû à des aberrations dans
@@ -301,7 +301,7 @@ personnels.
 
 Pour stocker le signal, il est possible de le transformer dans le domaine 
 fréquentiel, puis d'en retirer une partie avant de l'enregistrer. De cette 
-façon, un moins grand nombre de bit est nécessaire pour conserver l'information.
+façon, un moins grand nombre de bits est nécessaire pour conserver l'information.
 
 Le processus pour retirer une partie du contenu fréquentiel du signal consiste
 à lui appliquer une FFT, puis à définir des filtres à appliquer, d'obtenir le
@@ -312,7 +312,7 @@ la résolution et le contraste obtenu à l'aide d'une corrélation avec un
 ensemble de vecteurs ayant été réduits de la même façon. 
 
 Le filtre dans le domaine fréquentiel est défini à l'aide de fonctions de 
-Heaviside, qui retourne zéro comme valeur jusqu'au paramètre et 1 pour des valeurs 
+Heaviside, qui retourne à zéro comme valeur jusqu'au paramètre et 1 pour des valeurs 
 strictement supérieures au paramètre.
 Le filtre passe-haut, qui détermine la fréquence minimale conservée, est directement
 une fonction de Heaviside, alors que le filtre passe-bas, qui détermine la fréquence 
@@ -341,7 +341,7 @@ On observe que dans la portion à droite de la ligne pointillée verticale, le
 contraste est relativement constant autour de 0,7 entre $0,50 \pm 0,02$ et $0,80 \pm 0,02$ et 
 la résolution est également relativement constante autour de 6cm entre $(8,3 \pm 0,1)$ cm et 
 $(4,0 \pm 0,1)$ cm. Dans la portion à gauche de la ligne pointillée, les valeurs 
-fluctuent beaucoup plus, avec des résolution qui dépassent 10 cm, des incertitudes 
+fluctuent beaucoup plus, avec des résolutions qui dépassent 10 cm, des incertitudes 
 supérieures aux valeurs et même des contrastes obtenus avec la régression gaussienne
 qui dépassent 1. Ces éléments correspondent à un échec de la régression gaussienne 
 et témoignent d'une trop grande dégradation du signal. La position de la ligne 
@@ -364,13 +364,13 @@ constantes pour la résolution et le contraste, soit respectivement autour de 6 
 entre ($4,4 \pm 0,1$) cm et ($9,5 \pm 0,8$) cm et autour de 0,5 entre 
 $0,41 \pm 0,1$ et $0,8 \pm 0,4$. À droite de la ligne pointillée, le même 
 comportement divergent peut être observé, avec des résolutions et des contrastes 
-qui sont plus du doubles des valeurs attendues et des incertitudes très grandes par 
+qui sont plus du double des valeurs attendues et des incertitudes très grandes par 
 endroit. À nouveau, la position de la ligne pointillée à environ 1500 Hz marque la 
 limite supérieure pour l'augmentation de la fréquence minimale conservée.
 
 En considérant ces deux résultats conjointement, il est clair qu'ils ne peuvent pas 
 être implémentés simultanément, puisque cela conduirait à un signal totalement nul. 
-En se rappelant l'objectif de ces tests, soit de voire à réduire au maximum la 
+En se rappelant l'objectif de ces tests, soit de voir à réduire au maximum la 
 quantité d'information à enregistrer, une préférence est développée pour les filtres
 limitant au maximum la bande de fréquences nécessaire pour obtenir un 
 résultat équivalent au piano réalisé au préalable. Comme la limitation imposée à la
@@ -449,7 +449,7 @@ d'acquisition de données ne doit jamais être inférieure à la fréquence de N
 connue, la fréquence d'acquisition peut dont être posée au double de celle-ci. 
 
 \subsection{Incertitudes}\label{inc}
-L'incertitude associée à l'amplitude du signal, ou l'axe-y, est celle qui provient de la résolution 
+L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
 de l'ADC. La résolution de l'ADC, $\delta$, dépend du nombre de bits des échantillons, et peut être décrite par:
 \[\delta=\frac{\Delta_{max}}{2^{n}},\]
 où $\Delta_{max}$ est l'éventail possible des mesures, et $n$ est le nombre de bits. L'incertitude correspond
@@ -1189,7 +1189,12 @@ with sd.InputStream(callback=audio_callback, samplerate=fs, channels=1):
 
 Cette capture d'écran prouve que le contenu de cette fiche technique a été vérifié par
 le logiciel Antidote pour la correction du français.
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[scale=0.25]{Screenshot 2024-10-20 230411.png}
+    \caption{Preuve de correction par Antidote.}
+    \label{antidote}
+\end{figure}
 
 \clearpage
 \printbibliography
