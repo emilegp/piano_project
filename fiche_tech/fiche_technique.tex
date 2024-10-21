@@ -183,6 +183,7 @@ des facteurs résultait en valeurs convenables de résolution et de contraste.
     8 & 44100 & - & $4.2 \ \pm\ 0.2$ & $0.58  \ \pm\ 0.09$ \\
     32 & 44100 & 300-5000 & $6.71\ \pm\ 0.08$ & $0.529\ \pm\ 0.004$ \\
     32 & 44100 & 300-1500 &	$6.27\ \pm\ 0.08$ &	$0.72\ \pm\ 0.01$ \\
+    32 & 1002 & 10-400 & $5.94\ \pm\ 0.08$ & $0.724\ \pm\ 0.007$  \\
     \hline
     \end{tabular}
     \caption{Tableau des spécifications de l'écran tactile acoustique avec modification de facteurs.\label{specs}}
@@ -337,7 +338,10 @@ $f/2=$ 2205 Hz deviennent constants. En dessous de la fréquence d'échantillonn
 Par conséquent, il est logique que les fréquences plus grandes que $f_{sample}/2$ ne soient pas détectées, et que 
 de les éliminer  à l'aide d'un filtre n'affecte d'aucune manière le résultat final. Ces tests supportent donc le fait que la fréquence 
 d'acquisition de données ne doit jamais être inférieure à la fréquence de Nyquist. Si la composante fréquentielle maximale est 
-connue, la fréquence d'acquisition peut dont être posée au double de celle-ci. 
+connue, la fréquence d'acquisition peut dont être posée au double de celle-ci. En fonction des résultats précédents, on peut considérer
+qu'une fréquence maximale de 400 Hz est suffisante, et donc que la fréquence de Nyquist d'acquisition serait de 800 Hz. Dans le tableau
+\ref{specs}, le cas évalué sur une plage de 10-400 Hz avec une fréquence d'échantillonnage de 1002 Hz présente effectivement des résultats similaires au piano
+initial.
 
 
 \subsection{Incertitudes}
