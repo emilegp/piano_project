@@ -176,7 +176,7 @@ des facteurs résultait en valeurs convenables de résolution et de contraste.
     \begin{tabular}{c c c | c c}
     \hline
     \multicolumn{3}{c|}{Facteurs} & \multirow{2}{*}{Résolution (cm)} & \multirow{2}{*}{Contraste} \\ 
-    Bits & Fréquence d'échantillonnage (Hz) & Contenu fréquentiel (Hz) & & \\
+    Bits & Fréq. d'échantillonnage (Hz) & Contenu fréquentiel (Hz) & & \\
     \hline
     32 & 44100 & - & $6.39\ \pm \ 0.08$ & $0.62 \ \pm\ 0.02$ \\
     16 & 44100 & - & $5.0\ \pm \ 0.2$ & $0.70 \ \pm\ 0.08$ \\
@@ -192,68 +192,78 @@ des facteurs résultait en valeurs convenables de résolution et de contraste.
 
 \section{Rapports de tests}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% description brève des tests et présentations de leurs résultats.
+La section qui suit détaille les tests effectués afin de produire le tableau des spécifications.
+Une attention particulière est portée à la modifications du nombre de bits des échantillons, de
+la fréquence d'échantillonage utilisée ainsi que du contenu fréquentiel sauvegardé, afin d'analyser
+si un dispositif ayant ces facteurs de dégradés peut tout de même présenter des performances adéquates.
+Si tel est le cas, le processeur et la mémoire requise pour opérer le piano pourrait être moins dispendieux
+et rester opérationnel.
 
-% si graphiques : plusieurs courbes et infos sur le même
-
-% Tests :
-
-% acquisition des résolutions et contrastes pour les 3 facteurs
-
-% *** écrire en qqpart l'indépendance du param de nb de bits vs les autres ***
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-Pour pouvoir réduire les coûts blabla... \textcolor{red}{TODO}
+Les tests mesurent tous la performance du dispositif en analysant la résolution et le contraste, tous les deux
+acquise par le processus suivant. Un dictionnaire de plusieurs impacts espacés de 5mm chacuns sur une ligne droite
+est enregistrée par le capteur piézoélectrique. Le signal de ces impacts est enregistré sous la forme d'un vecteur.
+Un de ces impacts est choisi, puis la corrélation entre ce dernier et tous les impacts est calculée. Afin d'accélérer
+le temps de calcul, réduisant ainsi le délai impact-note pour jouer le piano en temps réel, la corrélation est
+approximée par un produit scalaire des deux signaux normalisés. Une distribution gaussienne peut ensuite être
+ajustée sur les résultats des produits scalaires. Cette dernière permet d'obtenir la résolution par sa largeur à 
+mi-hauteur. Un paramètre constant est aussi additionné à la gaussienne afin d'ajuster son "plancher" en hauteur.
+La différence entre ce plancher et la valeur du produit scalaire la plus haute est ce qui donne le contraste. Enfin,
+ce processus de corrélation entre un signal et le reste du dictionnaire est répété pour différents signaux afin
+de faire une étude statistique.
+Ainsi, pour chaque tests, le dictionnaire est modifié, puis ce processus de calcul est appliqué. Les calculs
+d'incertitudes pour la résolution et le contraste sont détaillés à la section \ref{inc}.
 
 \subsection{Nombre de bits des échantillons du signal}
 
-Pour modifier le nombre de bits artificiellement de chaque signal, le processus est assez simple.
-Le nombre de bits disponibles doit être déterminé au début pour la précision. En effet, lorsque le nombre de bits est réduit,
-il n'est pas possible de tous les utiliser pour la précision. Dans les faits, un bit est toujours réservé pour la description du signe (positif ou négatif).
+L'un des tests effectués pour la caractérisation du dispositif est la modification du nombre de 
+bits pour les échantillons de chaque signal.
+C'est ce nombre qui dicte les grandeurs des sauts possibles entre les valeurs du signal acquis. 
+En effet, lorsque le nombre de bits est réduit, la notation en nombres flottants contient moins de décimales,
+ce qui fait que moins de nombres réels sont utilisables pour l'approximation de l'amplitude du signal sonore. 
+Dans les faits, un bit est toujours réservé pour la description du signe (positif ou négatif).
 Puisque la base 2 est utilisée dans ce prototype, le nombre de niveaux disponibles pour approximer
-les données est le suivant :
-$ 2^{nbr\_bit -1}$.
+les données est $2^{n -1}$, où $n$ est le nombre de bits alloué au stockage du nombre.
 Ainsi, pour diminuer la précision des valeurs du signal au nombre de bits souhaité,
-le signal sera multiplié par le facteur suivant, 
+le signal sera multiplié par le facteur $F$ suivant : 
 \begin{align}
-Facteur=\frac{ 2^{nbr\_bit -1}}{2} 
+F=\frac{ 2^{n -1}}{2}\text{.} 
 \end{align}
-Pour normaliser le signal, ensuite chaque
-valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par
- $Facteur$ 
- pour revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont 
- été obtenus et sont présentés dans le tableau \ref{nb_bit_tab}.
+Pour normaliser le signal, chaque
+valeur sera ensuite arrondie à son niveau le plus proche. Le signal sera alors divisé par
+$F$ 
+pour revenir à son échelle d'origine. Avec cette méthode, plusieurs réductions du nombre de bits ont été effectués
+sur le dictionnaire original à 32 bits, afin d'essayer de voir si les résultats restent concluants malgré cette
+déterioration. Les résultats suivants ont été obtenus et sont présentés dans le tableau \ref{nb_bit_tab}.
 \begin{table}[H]
     \centering
     \begin{tabular}{l c c}
     \hline
     Dictionnaire & Résolution (cm) & Contraste  \\ \hline
-    1bit & $0 \pm 8$ & $0 \pm 100$ \\
-    2bit & $0.0 \pm 0.2$ & $0 \pm 5$ \\
-    3bit & $0.04 \pm 0.06$ & $0 \pm 2$ \\
-    4bit & $0.04 \pm 0.03$ & $0 \pm 1$ \\
-    6bit & $0.042 \pm 0.006$ & $0.6 \pm 0.3$ \\
-    8bit & $0.042 \pm 0.002$ & $0.58 \pm 0.09$ \\
-    16bit & $0.050 \pm 0.002$ & $0.70 \pm 0.08$ \\
-    Original & $0.064 \pm 0.001$ & $0.62 \pm 0.02$ \\
+    1 bits & $0 \pm 8$ & $0 \pm 100$ \\
+    2 bits & $0.0 \pm 0.2$ & $0 \pm 5$ \\
+    3 bits & $0.04 \pm 0.06$ & $0 \pm 2$ \\
+    4 bits & $0.04 \pm 0.03$ & $0 \pm 1$ \\
+    6 bits & $0.042 \pm 0.006$ & $0.6 \pm 0.3$ \\
+    8 bits & $0.042 \pm 0.002$ & $0.58 \pm 0.09$ \\
+    16 bits & $0.050 \pm 0.002$ & $0.70 \pm 0.08$ \\
+    32 bits & $0.064 \pm 0.001$ & $0.62 \pm 0.02$ \\
     \hline
     \end{tabular}
-    \caption{Tableau des résultats }
+    \caption{Tableau de résolution et de contraste en fonction du nombre de bits conservé pour les échantillons.}
     \label{nb_bit_tab}
   \end{table}
-  
   
 En analysant les données présentes dans ce tableau, on constate qu'en dessous de 6 bits,  
 les valeurs de résolution et de contraste commencent à être nettement moins correctes.  
 Cette affirmation peut être démontrée par la nette augmentation des incertitudes, ce qui  
-rend les valeurs plus incertaines. Il est donc juste de déterminer qu'un signal traité  
+rend les valeurs plus incertaines. De plus, les valeurs de contraste chutent à 0, montrant que les
+notes ne sont pas distinctes entre elles. Il est donc juste de déterminer qu'un signal traité  
 avec moins de ressources que celles requises pour 6 bits aurait un impact néfaste sur  
 l'efficacité du fonctionnement du piano. Cependant, cela nous permet également de remarquer  
 qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.  
 Cela pourrait être bénéfique, car il permettrait de faire fonctionner correctement un prototype  
 utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
-similaire, mais à moindres coûts. 
+similaire, mais avec des pièces à moindres coûts. 
 
 \subsection{Fréquence d'échantillonnage du signal}
 
@@ -262,19 +272,18 @@ fréquence initiale, il suffit d'échantilloner l'échantillon déjà obtenu. En
 effet, en prenant un point sur deux dans un échantillon dont la fréquence
 d'échantillonnage est de 44 100 Hz, le nouvel échantillon a directement une
 fréquence d'échantillonnage de 22 050 Hz. 
-
 En procédant de cette façon, plusieurs fréquences d'échantillonnage ont été
 artificiellement enregistrées. Les résultats de résolution et contraste 
 qu'elles ont produits sont présentés au tableau \ref{fs_fig}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.65]{graphique_fs.png}
-    \caption{Contraste et résolution en fonction de la fréquence d'échantillonnage}
+    \includegraphics[scale=0.55]{graphique_fs.png}
+    \caption{Contraste et résolution en fonction de la fréquence d'échantillonnage.}
     \label{fs_fig}
 \end{figure}
 
-26 valeurs de fréquences testées. Seules les valeurs non aberrantes sont
+26 valeurs de fréquences été testées, mais seules les valeurs non aberrantes sont
 présentes sur le graphique. La ligne pointillée verticale indique 
 la moitié des valeurs testées. On constate  que peu de valeurs sont affichées
 pour une fréquence en dessous de 400 Hz. Cela est dû à des aberrations dans
@@ -284,7 +293,9 @@ piano.
 On remarque également que la fréquence et le contraste varient légèrement entre 
 400 Hz et 44,1 kHz, mais qu'il n'y a pas de tendance à la hausse ou à la baisse 
 générale. Cela indique qu'on peut diminuer la fréquence d'échantillonnage 
-jusqu'à 400 Hz sans trop d'impact sur la résolution et le contraste.
+jusqu'à 400 Hz sans trop d'impact sur la résolution et le contraste, permettant
+l'utilisation de processeurs nettement moins puissants et coûteux que ceux d'ordinateurs
+personnels.
 
 \subsection{Contenu fréquentiel du signal}
 
@@ -321,8 +332,8 @@ fréquence minimale conservée de 10 Hz et une fréquence d'échantillonnage de 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.65]{Freqmax_graph.png}
-    \caption{Contraste et résolution en fonction de la fréquence maximale conservée}
+    \includegraphics[scale=0.55]{Freqmax_graph.png}
+    \caption{Contraste et résolution en fonction de la fréquence maximale conservée.}
     \label{fmax_fig}
 \end{figure}
 
@@ -343,8 +354,8 @@ résultats de ce test sont présentés à la figure \ref{fmin_fig}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[scale=0.7]{Freqmin_graph.png}
-    \caption{Contraste et résolution en fonction de la fréquence minimale conservée}
+    \includegraphics[scale=0.55]{Freqmin_graph.png}
+    \caption{Contraste et résolution en fonction de la fréquence minimale conservée.}
     \label{fmin_fig}
 \end{figure}
 
@@ -362,11 +373,12 @@ En considérant ces deux résultats conjointement, il est clair qu'ils ne peuven
 En se rappelant l'objectif de ces tests, soit de voire à réduire au maximum la 
 quantité d'information à enregistrer, une préférence est développée pour les filtres
 limitant au maximum la bande de fréquences nécessaire pour obtenir un 
-résultat équivalent au piano réalisé en classe. Comme la limitation imposée à la
+résultat équivalent au piano réalisé au préalable. Comme la limitation imposée à la
 fréquence maximale est la plus grande des deux, réduisant à environ 400 Hz le 
 spectre de fréquences plutôt qu'à environ 20kHz ($20 550=22 050 - 1500$), c'est la 
 configuration de ce test qui est choisie. 
-Le contenu fréquentiel est donc restreint à l'intervalle [10,400] Hz.
+Le contenu fréquentiel peut donc être restreint à l'intervalle [10,400] Hz pour sauver de la
+mémoire.
 
 % \begin{table}[ht]
 %     \centering
@@ -397,7 +409,7 @@ minimale d'un signal doit nécessairement correspondre au double de la fréquenc
 
 Pour ce faire, certaines plages de contenu fréquentiel ont été choisies, pour ensuite évaluer l'impact de la réduction de la fréquence 
 d'échantillonnage. Des tests ont été effectués pour les bornes supérieures suivantes: 5000 Hz, 3000 Hz, 2250 Hz, 1750 Hz, 1500 Hz et 1000 Hz.
-La borne inférieure a été maintenue à 300 Hz, ce qui correspond à une limite satisfaisante, tel que déterminé lors des autres tests. Pour visualiser
+La borne inférieure a été maintenue à 300 Hz, ce qui correspond à une limite satisfaisante, tel que déterminé lors des tests précédents. Pour visualiser
 l'influence de la fréquence de Nyquist, les figures \ref{res_interdep} et \ref{contraste_interdep} illustrent les résultats pour la résolution et le contraste selon différents paramètres d'analyse.
 
 \begin{figure}[H]
@@ -436,8 +448,7 @@ de les éliminer  à l'aide d'un filtre n'affecte d'aucune manière le résultat
 d'acquisition de données ne doit jamais être inférieure à la fréquence de Nyquist. Si la composante fréquentielle maximale est 
 connue, la fréquence d'acquisition peut dont être posée au double de celle-ci. 
 
-
-\subsection{Incertitudes}
+\subsection{Incertitudes}\label{inc}
 L'incertitude associée à l'amplitude du signal, ou l'axe-y, est celle qui provient de la résolution 
 de l'ADC. La résolution de l'ADC, $\delta$, dépend du nombre de bits des échantillons, et peut être décrite par:
 \[\delta=\frac{\Delta_{max}}{2^{n}},\]
@@ -1170,6 +1181,14 @@ with sd.InputStream(callback=audio_callback, samplerate=fs, channels=1):
     while True:
         time.sleep(0.001)  # Keep the main loop running
 \end{lstlisting}
+
+\clearpage
+\section{Annexe}
+
+\subsection{Preuve de la correction par Antidote}
+
+Cette capture d'écran prouve que le contenu de cette fiche technique a été vérifié par
+le logiciel Antidote pour la correction du français.
 
 
 \clearpage
