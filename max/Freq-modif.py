@@ -12,11 +12,11 @@ input_filepath = 'Wav-Notes/notes_dict_1ligne.json'
 output_directory = os.path.dirname(input_filepath)
 
 # Paramètres à ajustés
-#filtre_bas = [100,100,150,150,200,200,250,250,300,300,350,350,400,400,500,500]
-#filtre_haut = [2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500,2000,1500]
-filtre_bas=[1]
-filtre_haut=[10000]
-redu=114 #facteur de Réduction de la fréquence d'échantillonnage
+#filtre_bas = [10]
+filtre_haut = [400]
+#filtre_haut=list(range(50, 226, 25))
+filtre_bas=liste = [10] * len(range(50, 226, 25))
+redu=44 #facteur de Réduction de la fréquence d'échantillonnage
 
 # Paramètres importants
 fs = int(44100//redu)  # sample rate

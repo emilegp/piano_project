@@ -6,8 +6,10 @@ from scipy.optimize import curve_fit
 import matplotlib.pyplot as plt
 print('Librairies importées')
 
-fichiers=['fs=386-fbas=1-fhaut=10000',
-          'fs=324-fbas=1-fhaut=10000']
+filtre_haut=list(range(50, 251, 25))
+fichiers=['fs=1002-fbas=10-fhaut=400']
+#for filtre in filtre_haut:
+#    fichiers.append(f'fs=1002-fbas=10-fhaut={filtre}')
 
 # Charger les fichiers JSON
 def lecteur():
@@ -174,6 +176,6 @@ for idx, current_data in enumerate(dictionaries_to_process):
 results_df = pd.DataFrame(results_list)
 
 # Exporter les résultats en fichier Excel
-results_df.to_excel('resultats_nouveaux_points_fs2.xlsx', index=False)
+results_df.to_excel('resultats_nouveaux_points_fhaut2.xlsx', index=False)
 
-print("Analyse terminée et résultats exportés vers 'resultats_nouveaux_points_fs.xlsx'.")
+print("Analyse terminée et résultats exportés vers 'resultats_nouveaux_points_fhaut2.xlsx'.")
