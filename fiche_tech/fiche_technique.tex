@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper]{article}
+﻿\documentclass[11pt,letterpaper]{article}
 \usepackage[top=3cm, bottom=2cm, left=2cm, right=2cm, columnsep=20pt]{geometry}
 \usepackage{pdfpages}
 \usepackage{graphicx}
@@ -146,7 +146,7 @@ Polytechnique Montréal\\}
 \section{Description générale et spécifications}
 
 Cette fiche technique présente les caractéristiques d'un piano construit avec un
-écran tactile acoustique. Un capteur piezoélectrique, sur une plaque de plexiglas 
+écran tactile acoustique. Un capteur piézoélectrique, sur une plaque de plexiglas 
 de 5 mm d'épaisseur, localise un impact par son onde sonore, pour permettre 
 de jouer la note appropriée en temps réel. Cette plaque 
 et ses dimensions sont présentées à la figure \ref{piano_fig}. Le piano peut jouer\
@@ -159,32 +159,30 @@ dépendant de la puissance de l'ordinateur qui lit les données du capteur.
    \centering
    \includegraphics[scale=0.25]{schema.png}
    \caption{Schéma avec dimensions du prototype de piano tactile. Le capteur
-   piezoélectrique a son centre de positionné à 176 mm du côté gauche et à 207 mm
+   piézoélectrique a son centre positionné à 176 mm du côté gauche et à 207 mm
    du bas de la plaque approximativement.}
    \label{piano_fig}
  \end{figure}
 
 Le tableau \ref{specs} résume les résultats pertinents des tests de caractérisations
-effectués sur le prototype. La première ligne du tableau illustre la résolution, grandeur qu'une note doit prende pour être distincte, et le 
-contraste, qui quantifie la différence entre les signaux obtenus, pour le piano présenté ci-dessus. De là, des bornes ont été posées sur le nombre de bits, la fréquence d'échantillonage et le contenu fréquentiel
+effectués sur le prototype. La première ligne du tableau illustre la résolution, la grandeur qu'une note doit prendre pour être distincte, et le 
+contraste, qui quantifie la différence entre les signaux obtenus, pour le piano présenté ci-dessus. De là, des bornes ont été posées sur le nombre de bits, la fréquence d'échantillonnage et le contenu fréquentiel
 pour évaluer l'influence de chacun sur la performance globale du dispositif. Ces tests ont été effectués dans l'optique d'amoindrir
 les coûts pour un deuxième prototype. Les tests choisis dans le tableau \ref{specs} sont ceux pour lesquels la dégradation 
-des facteurs résultaient en valeurs convenables de résolution et de contraste.
+des facteurs résultait en valeurs convenables de résolution et de contraste.
 
 \begin{table}[H]
     \centering
     \begin{tabular}{c c c | c c}
     \hline
     \multicolumn{3}{c|}{Facteurs} & \multirow{2}{*}{Résolution (cm)} & \multirow{2}{*}{Contraste} \\ 
-    Bits & Fréquence d'échantillonge (Hz) & Contenu fréquentiel (Hz) & & \\
+    Bits & Fréquence d'échantillonnage (Hz) & Contenu fréquentiel (Hz) & & \\
     \hline
     32 & 44100 & - & $6.39\ \pm \ 0.08$ & $0.62 \ \pm\ 0.02$ \\
     16 & 44100 & - & $5.0\ \pm \ 0.2$ & $0.70 \ \pm\ 0.08$ \\
     8 & 44100 & - & $4.2 \ \pm\ 0.2$ & $0.58  \ \pm\ 0.09$ \\
     32 & 44100 & 300-5000 & $6.71\ \pm\ 0.08$ & $0.529\ \pm\ 0.004$ \\
     32 & 44100 & 300-1500 &	$6.27\ \pm\ 0.08$ &	$0.72\ \pm\ 0.01$ \\
-    32 & 1764 & 300-1500 &	$4.2\ \pm\ 0.1$ & $0.577\ \pm\ 0.003$\\
-    32 & 1764 & 100-1500 & $5.05\ \pm\ 0.08$ & $0.57\ \pm\ 0.02$ \\
     \hline
     \end{tabular}
     \caption{Tableau des spécifications de l'écran tactile acoustique avec modification de facteurs.\label{specs}}
@@ -220,7 +218,7 @@ le signal sera multiplié par le facteur suivant,
 \begin{align}
 Facteur=\frac{ 2^{nbr\_bit -1}}{2} 
 \end{align}
-pour normaliser le signal, ensuite chaque
+Pour normaliser le signal, ensuite chaque
 valeur sera arrondie à son niveau le plus proche. Le signal sera alors divisé par
  $Facteur$ 
  pour revenir à son échelle d'origine. Avec cette méthode, les résultats suivants ont 
@@ -252,9 +250,9 @@ rend les valeurs plus incertaines. Il est donc juste de déterminer qu'un signal
 avec moins de ressources que celles requises pour 6 bits aurait un impact néfaste sur  
 l'efficacité du fonctionnement du piano. Cependant, cela nous permet également de remarquer  
 qu'un prototype pourrait fonctionner avec moins de bits que le prototype actuel.  
-Cela pourrait être bénéfique car il permettrait de faire fonctionner correctement un prototype  
+Cela pourrait être bénéfique, car il permettrait de faire fonctionner correctement un prototype  
 utilisant moins de mémoire et donc moins de ressources. Cela pourrait permettre de réaliser un projet 
-similaire mais a moindre couts. 
+similaire, mais à moindres coûts. 
 
 \subsection{Fréquence d'échantillonnage du signal}
 
@@ -266,7 +264,7 @@ fréquence d'échantillonnage de 22 050 Hz.
 
 En procédant de cette façon, plusieurs fréquences d'échantillonnage ont été
 artificiellement enregistrées. Les résultats de résolution et contraste 
-qu'elles ont produit est présenté au tableau \ref{fs_fig}.
+qu'elles ont produits sont présentés au tableau \ref{fs_fig}.
 
 \begin{figure}[ht]
     \centering
@@ -275,12 +273,12 @@ qu'elles ont produit est présenté au tableau \ref{fs_fig}.
     \label{fs_fig}
 \end{figure}
 
-26 valeurs de fréquences testées. Seules les valeurs non-aberrantes sont
+26 valeurs de fréquences testées. Seules les valeurs non aberrantes sont
 présentes sur le graphique. La ligne pointillée verticale indique 
-la moitié des valeurs testés. On constate que peut de valeurs sont affichées
+la moitié des valeurs testées. On constate  que peu de valeurs sont affichées
 pour une fréquence en dessous de 400 Hz. Cela est dû à des aberrations dans
-la convergeance du fit gaussien utilisé dans le code, ce qui témoigne de 
-données d'une qualité insuffisante pour être utilisées dans la conception d'un
+la convergence du fit gaussien utilisé dans le code, ce qui témoigne de 
+données d'une qualité insuffisante pour être utilisé dans la conception d'un
 piano. 
 On remarque également que la fréquence et le contraste varient légèrement entre 
 400 Hz et 44,1 kHz, mais qu'il n'y a pas de tendance à la hausse ou à la baisse 
@@ -291,7 +289,7 @@ jusqu'à 400 Hz sans trop d'impact sur la résolution et le contraste.
 
 Pour stocker le signal, il est possible de le transformer dans le domaine 
 fréquentiel, puis d'en retirer une partie avant de l'enregistrer. De cette 
-façon, un moins grand nombre de bit est nécessaire l'information.
+façon, un moins grand nombre de bit est nécessaire pour conserver l'information.
 
 Le processus pour retirer une partie du contenu fréquentiel du signal consiste
 à lui appliquer une FFT, puis à définir des filtres à appliquer, d'obtenir le
@@ -299,8 +297,22 @@ signal fréquentiel filtré et enfin appliquer la FFT inverse pour retrouver
 un signal dans le domaine temporel ayant un contenu fréquentiel réduit. 
 Il est alors possible de tester la qualité de ce nouveau signal en calculant
 la résolution et le contraste obtenu à l'aide d'une corrélation avec un 
-ensemble de vecteurs ayant été réduits de la même façon.
+ensemble de vecteurs ayant été réduits de la même façon. 
 
+Le filtre dans le domaine fréquentiel est défini à l'aide de fonctions de 
+Heaviside, qui retourne zéro comme valeur jusqu'au paramètre et 1 pour des valeurs 
+strictement supérieures au paramètre.
+Le filtre passe-haut, qui détermine la fréquence minimale conservée, est directement
+une fonction de Heaviside, alors que le filtre passe-bas, qui détermine la fréquence 
+maximale conservée, est une fonction de Heaviside inversée en x, c'est-à-dire que ce 
+sont les valeurs supérieures ou égales au paramètre du filtre qui sont nulles et les
+valeurs strictement inférieures qui sont égales à 1. Le filtre final est la somme des
+deux filtres, ce qui forme une fonction fenêtre.
+En multipliant terme à terme le filtre et le vecteur dans le domaine fréquentiel, on 
+obtient le vecteur filtré dont les composantes sont conservées lorsqu'elles sont dans 
+à l'intérieur de l'intervalle et nulles sinon.
+
+En modifiant la valeur des filtres, on 
 
 
 \begin{figure}[ht]
@@ -339,23 +351,22 @@ ensemble de vecteurs ayant été réduits de la même façon.
 
 
 \subsection{Interdépendance des facteurs}
-L'interdépendance des facteurs a dûe être prise en compte lors de la caractérisation du prototype. Sachant que le nombre
+L'interdépendance des facteurs a dû être prise en compte lors de la caractérisation du prototype. Sachant que le nombre
 de bits des échantillons affecte principalement l'analyse des signaux, il a été convenu que son influence pouvait être analysée
-de manière indépendante aux deux autres facteurs. Cependant, la fréquence d'échantillonage et le contenu fréquentiel étaient soupçonnés
-d'avoir une interdépendance non négligeable sur les valeurs de contraste et de résolution obtenues. Effectivement, l'impact de la fréquence
-de Nyquist du signal pouvait potentiellement faire en sorte qu'un signal ayant une fréquence d'échantillonage plus basse fonctionne tout de même 
-correctement en diminuant la borne supérieure du contenu fréquentiel. La théorème de Nyquist stipule que la fréquence d'échantillonage
+de manière indépendante aux deux autres facteurs. Cependant, la fréquence d'échantillonnage et le contenu fréquentiel étaient soupçonnés
+de posséder une interdépendance non négligeable sur les valeurs de contraste et de résolution obtenus. Effectivement, l'impact de la fréquence
+de Nyquist peut faire en sorte que des signaux ayant une fréquence d'échantillonnage plus basse résultent tout de même  en valeurs de contraste et de résolution acceptables en diminuant la borne supérieure du contenu fréquentiel. Le théorème de Nyquist stipule que la fréquence d'échantillonnage
 minimale d'un signal doit nécessairement correspondre au double de la fréquence maximale du signal évalué \cite{nyquist}. 
 
-Pour ce faire, certaines plages de contenu fréquentiel on été choisies, pour ensuite évaluer l'impact de la réduction de la fréquence 
-d'échantillonage. Des tests ont été effectués pour les bornes supérieures suivantes: 5000 Hz, 3000 Hz, 2250 Hz, 1750 Hz, 1500 Hz et 1000 Hz.
-La borne inférieure a été maintenue à 300 Hz, ce qui correspond à une limite satisfaisante, tel que déterminé dans les autres tests. Pour essayer de visualiser
-l'influence de la fréquence de Nyquist, les figures \ref{res_interdep} et \ref{contraste_interdep} illustrent les résultats pour la résolution et le contraste.
+Pour ce faire, certaines plages de contenu fréquentiel ont été choisies, pour ensuite évaluer l'impact de la réduction de la fréquence 
+d'échantillonnage. Des tests ont été effectués pour les bornes supérieures suivantes: 5000 Hz, 3000 Hz, 2250 Hz, 1750 Hz, 1500 Hz et 1000 Hz.
+La borne inférieure a été maintenue à 300 Hz, ce qui correspond à une limite satisfaisante, tel que déterminé lors des autres tests. Pour visualiser
+l'influence de la fréquence de Nyquist, les figures \ref{res_interdep} et \ref{contraste_interdep} illustrent les résultats pour la résolution et le contraste selon différents paramètres d'analyse.
 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.8]{resolution_interdependance.png}
-    \caption{Résolution en fonction de la fréquence d'échantillonage
+    \caption{Résolution en fonction de la fréquence d'échantillonnage
     (1002, 2004, 4410 et 44100 Hz) et de la fréquence de la borne supérieure du contenu fréquentiel.
     Ici, la borne inférieure est maintenue à 300 Hz.}
     \label{res_interdep}
@@ -370,12 +381,12 @@ l'influence de la fréquence de Nyquist, les figures \ref{res_interdep} et \ref{
 \end{figure}
 
 En observant les tendances, on voit clairement que pour les fréquences d'échantillonnage inférieures au double
-de la fréquence maximale ($f<f_{nyquist}$), les variations de résolution et de contraste disparaissent. Par exemple,
+de la fréquence maximale ($f<f_{nyquist}$), les variations des valeurs de résolution et de contraste disparaissent. Par exemple,
 les résultats obtenus pour une fréquence d'échantillonnage de 1002 Hz sont constants pour toutes les bornes (résolution $=7.17\ \pm \ 0.09\ cm$,
 contraste $=0.551\ \pm\ 0.009$). En augmentant la fréquence d'échantillonnage, le même phénomène est observé; pour une fréquence d'échantillonnage de 
-2004 Hz, tous les résultats au dessus de $f/2=$ 1002 Hz deviennent constants et pour une fréquence d'échantillonage de 4410 Hz, tous les résultats au dessus de
-$f/2=$ 2205 Hz deviennent constants. En dessous de la fréquence d'échantillonnage de Nyquist, les "vraies" fréquences ne sont pas détectées, mais une version "repliée"
-(\textit{aliasing}) d'elles-mêmes, à plus basses fréquences, peuvent l'être. Le phénomène est illustré dans la figure \ref{aliasing}. 
+2004 Hz, tous les résultats au-dessus de $f/2=$ 1002 Hz deviennent constants et pour une fréquence d'échantillonnage de 4410 Hz, tous les résultats au-dessus de
+$f/2=$ 2205 Hz deviennent constants. En dessous de la fréquence d'échantillonnage de Nyquist, les "vraies" fréquences ne sont pas détectées, mais des versions "repliée"
+(\textit{aliasing}) d'elles-mêmes, à plus basse fréquence, peuvent l'être. Le phénomène est illustré dans la figure \ref{aliasing}. 
 \begin{figure}[H]
     \centering
     \includegraphics[scale=0.5]{Aliasing-plot.png}
@@ -383,14 +394,14 @@ $f/2=$ 2205 Hz deviennent constants. En dessous de la fréquence d'échantillonn
     \label{aliasing}
 \end{figure}
 
-Par conséquent, il est loqique que les fréquences plus grandes que $f_{sample}/2$ ne soient pas détectées, et que 
-de les éliminer suite au filtre n'affecte d'aucune manière le résultat final. Ces tests supportent donc le fait que la fréquence 
-d'acquisition de données ne doit donc jamais être inférieure à la fréquence de Nyquist. Si la composante fréquencielle maximale est 
+Par conséquent, il est logique que les fréquences plus grandes que $f_{sample}/2$ ne soient pas détectées, et que 
+de les éliminer  à l'aide d'un filtre n'affecte d'aucune manière le résultat final. Ces tests supportent donc le fait que la fréquence 
+d'acquisition de données ne doit jamais être inférieure à la fréquence de Nyquist. Si la composante fréquentielle maximale est 
 connue, la fréquence d'acquisition peut dont être posée au double de celle-ci. 
 
 
 \subsection{Incertitudes}
-L'incertitude associée à l'amplitude du signal, ou l'axe y, est celle qui provient de la résolution 
+L'incertitude associée à l'amplitude du signal, ou l'axe-y, est celle qui provient de la résolution 
 de l'ADC. La résolution de l'ADC, $\delta$, dépend du nombre de bits des échantillons, et peut être décrite par:
 \[\delta=\frac{\Delta_{max}}{2^{n}},\]
 où $\Delta_{max}$ est l'éventail possible des mesures, et $n$ est le nombre de bits. L'incertitude correspond
@@ -422,7 +433,7 @@ Les codes présentés ci-dessous ont été utilisés pour faire fonctionner le p
 multiples tests. Ces derniers peuvent nécessiter d'être adaptés pour pouvoir faire des tests
 spécifiques, ou encore pour décider quelles notes peuvent être jouées par le piano.
 
-\subsection{Programme pour modifier le contenu fréquentiel et la fréquence d'échantillonage}
+\subsection{Programme pour modifier le contenu fréquentiel et la fréquence d'échantillonnage}
 
 \begin{lstlisting}[language=python]
 import numpy as np
