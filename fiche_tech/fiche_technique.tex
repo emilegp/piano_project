@@ -327,15 +327,15 @@ fréquence minimale conservée de 10 Hz et une fréquence d'échantillonnage de 
 \end{figure}
 
 On observe que dans la portion à droite de la ligne pointillée verticale, le 
-contraste est relativement constant entre $0,50 \pm 0,02$ et $0,80 \pm 0,02$ et 
-la résolution est également relativement constante entre $(8,3 \pm 0,1)$ cm et 
+contraste est relativement constant autour de 0,7 entre $0,50 \pm 0,02$ et $0,80 \pm 0,02$ et 
+la résolution est également relativement constante autour de 6cm entre $(8,3 \pm 0,1)$ cm et 
 $(4,0 \pm 0,1)$ cm. Dans la portion à gauche de la ligne pointillée, les valeurs 
 fluctuent beaucoup plus, avec des résolution qui dépassent 10 cm, des incertitudes 
 supérieures aux valeurs et même des contrastes obtenus avec la régression gaussienne
 qui dépassent 1. Ces éléments correspondent à un échec de la régression gaussienne 
 et témoignent d'une trop grande dégradation du signal. La position de la ligne 
 pointillée, à environ 300 Hz, marque une limite inférieure pour la réduction de 
-la fréquence maximale.
+la fréquence maximale conservée.
 
 De la même façon, on peut tester la fréquence minimale conservée en fixant la 
 fréquence maximale à 5000 Hz et la fréquence d'échantillonnage à 44,1 kHz. Les 
@@ -348,10 +348,25 @@ résultats de ce test sont présentés à la figure \ref{fmin_fig}.
     \label{fmin_fig}
 \end{figure}
 
-À nouveau, on observe des valeurs relativement constantes pour la résolution et le 
-contraste, soit entre $4,4 \pm 0,1$ cm et $9,5 \pm 0,8$ cm et entre $0,41 \pm 0,1$ 
-et $ $ respectivement.
+À gauche de la ligne pointillée verticale, on observe des valeurs relativement 
+constantes pour la résolution et le contraste, soit respectivement autour de 6 cm,
+entre ($4,4 \pm 0,1$) cm et ($9,5 \pm 0,8$) cm et autour de 0,5 entre 
+$0,41 \pm 0,1$ et $0,8 \pm 0,4$. À droite de la ligne pointillée, le même 
+comportement divergent peut être observé, avec des résolutions et des contrastes 
+qui sont plus du doubles des valeurs attendues et des incertitudes très grandes par 
+endroit. À nouveau, la position de la ligne pointillée à environ 1500 Hz marque la 
+limite supérieure pour l'augmentation de la fréquence minimale conservée.
 
+En considérant ces deux résultats conjointement, il est clair qu'ils ne peuvent pas 
+être implémentés simultanément, puisque cela conduirait à un signal totalement nul. 
+En se rappelant l'objectif de ces tests, soit de voire à réduire au maximum la 
+quantité d'information à enregistrer, une préférence est développée pour les filtres
+limitant au maximum la bande de fréquences nécessaire pour obtenir un 
+résultat équivalent au piano réalisé en classe. Comme la limitation imposée à la
+fréquence maximale est la plus grande des deux, réduisant à environ 400 Hz le 
+spectre de fréquences plutôt qu'à environ 20kHz ($20 550=22 050 - 1500$), c'est la 
+configuration de ce test qui est choisie. 
+Le contenu fréquentiel est donc restreint à l'intervalle [10,400] Hz.
 
 % \begin{table}[ht]
 %     \centering
